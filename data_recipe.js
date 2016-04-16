@@ -7,7 +7,7 @@ var exports = module.exports = {};
 
 MongoClient.connect(fullMongoUrl)
     .then(function(db) {
-        var myCollection = db.collection("users");
+        var myCollection = db.collection("recipe");
         
         // setup your exports!
     });
