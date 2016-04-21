@@ -1,0 +1,46 @@
+.image-wrapper{
+	position: absolute;
+    width: 94px;
+    height: 94px;
+    margin-right: 0;
+
+    left: 20px;
+    top: 15px;
+    overflow: hidden;
+    float: left;
+}
+
+.product-image{
+	transition: opacity 500ms ease-in-out;
+    opacity: 1;
+        width: 94px;
+    height: 94px;
+    margin-right: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    background-color: #fff;
+    vertical-align: top;
+}
+
+.product-info{
+    padding-left: 110px;
+    font-size: 13px;
+    line-height: 20px;
+    vertical-align: top;
+}
+
+.textual-information{
+    display: block;
+    padding-right: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.footer{
+    min-height: 20px;
+    color: #666;
+    position: relative;
+}
