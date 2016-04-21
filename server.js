@@ -24,6 +24,10 @@ app.get("/home", function (request, response) {
     response.render("pages/home", { pageTitle: "Welcome Home" });
 });
 
+app.get("/cart", function (request, response) {
+    response.render("pages/cart", { pageTitle: "Shopping Cart" });
+});
+
 app.get("/", function (request, response) { 
     // We have to pass a second parameter to specify the root directory
     // __dirname is a global variable representing the file directory you are currently in

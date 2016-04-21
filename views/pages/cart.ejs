@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body class="bg-primary">
+    <div class="container">
+        <header>
+            <% var inputText; %>
+        </header>
+        <main class="row">
+            <h1 class="center">Your Shopping Cart</h1>
+            <h2>Items:</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Recipe</th>
+                        <th>Price</th>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>Breakfast</h3>
+                            <ul>
+                                <li>
+                                    <div class="form-inline">
+                                        <label>Eggs</label>
+                                        <input style="width:50px" class="form-control" type="number" step="1" maxlength="2" value="1" />
+                                        x $2.00
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-inline">
+                                        <label>Butter</label>
+                                        <input style="width:50px" class="form-control" type="number" step="1" maxlength="2" value="1" />
+                                        x $2.00
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-inline">
+                                        <label>Toast</label>
+                                        <input style="width:50px" class="form-control" type="number" step="1" maxlength="2" value="1" />
+                                        x $1.00
+                                    </div>
+                                </li>
+                                <li>
+                                    <span style="text-decoration: line-through">Orange juice</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>$5.00</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Lunch
+                            <ul>
+                                <li>Bread</li>
+                                <li>Ham</li>
+                                <li>Mayo</li>
+                                <li>Cheese</li>
+                            </ul>
+                        </td>
+                        <td>$4.00</li>
+                    </tr>
+                    <tr>
+                        <td>
+                            Dinner
+                            <ul>
+                                <li>Chicken <span class="price">$1.00</span> x <span class="qty">2</span> = $2.00</li>
+                                <li>Beets</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total Price</td>
+                        <td>$10</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </main>
+    </div>
+
+    <% include ../partials/scripts %>
+</body>
+
+</html>
