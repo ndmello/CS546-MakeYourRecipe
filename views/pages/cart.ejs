@@ -9,6 +9,10 @@
     <div class="container">
         <header>
             <% var inputText; %>
+            <% var ingredientName; %>
+            <% var recipePrice; %>
+            <% var price; %>
+            <% var quantity; %>
         </header>
         <main class="row">
             <h1 class="center">Your Shopping Cart</h1>
@@ -21,59 +25,33 @@
                     </th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <h3>Breakfast</h3>
-                            <ul>
-                                <li>
-                                    <div class="form-inline">
-                                        <label>Eggs</label>
-                                        <input style="width:50px" class="form-control" type="number" step="1" maxlength="2" value="1" />
-                                        x $2.00
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-inline">
-                                        <label>Butter</label>
-                                        <input style="width:50px" class="form-control" type="number" step="1" maxlength="2" value="1" />
-                                        x $2.00
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-inline">
-                                        <label>Toast</label>
-                                        <input style="width:50px" class="form-control" type="number" step="1" maxlength="2" value="1" />
-                                        x $1.00
-                                    </div>
-                                </li>
-                                <li>
-                                    <span style="text-decoration: line-through">Orange juice</span>
-                                </li>
-                            </ul>
-                        </td>
-                        <td>$5.00</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Lunch
-                            <ul>
-                                <li>Bread</li>
-                                <li>Ham</li>
-                                <li>Mayo</li>
-                                <li>Cheese</li>
-                            </ul>
-                        </td>
-                        <td>$4.00</li>
-                    </tr>
-                    <tr>
-                        <td>
-                            Dinner
-                            <ul>
-                                <li>Chicken <span class="price">$1.00</span> x <span class="qty">2</span> = $2.00</li>
-                                <li>Beets</li>
-                            </ul>
-                        </td>
-                    </tr>
+                    <% var recipes = cart["recipes"]; %>
+                    <% recipes.forEach(function(recipe) { %>
+                        <tr>
+                            <td>
+                                <h3><%- recipe["recipeName"] %></h3>
+                                <ul>
+                                    <% recipePrice = 0; %>
+                                    <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
+                                        <% ingredientName = ingredient["ingredientName"]; %>
+                                        <% price = ingredient["price"]; %>
+                                        <% quantity = ingredient["quantity"]; %>
+                                        <li>
+                                            <div class="form-inline">
+                                                <label><%- ingredientName %></label>
+                                                <input style="width:60px" class="form-control" type="number" step="1" maxlength="3" value="<%- quantity %>" />
+                                                x $<%- parseFloat(price).toFixed(2); %>
+                                            </div>
+                                            <% recipePrice += (quantity * price); %>
+                                        </li>
+                                    <% }); %>
+                                </ul>
+                            </td>
+                            <td>
+                                $<%- parseFloat(recipePrice).toFixed(2) %>
+                            </td>
+                        </tr>
+                    <% }) %>
                 </tbody>
                 <tfoot>
                     <tr>

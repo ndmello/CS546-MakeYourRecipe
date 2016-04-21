@@ -2,6 +2,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var myData = require('./data.js');
+var recipeData = require('./data_recipe.js');
+var userData = require('./data_users.js');
+var cartData = require('./data_cart.js');
 
 // This package exports the function to create an express instance:
 var app = express();
@@ -25,7 +28,60 @@ app.get("/home", function (request, response) {
 });
 
 app.get("/cart", function (request, response) {
-    response.render("pages/cart", { pageTitle: "Shopping Cart" });
+    // user id should be provided in request/response
+        
+    //var cart = cartData.getCart(userId);
+    
+    // sample cart before DB is implemented
+    var exampleCart = {
+        "_id": 50,
+        "userId": 10,
+        "recipes": [
+            {
+                "recipeId": 20,
+                "recipeName": "Breakfast",
+                "listOfIngredients": [
+                    {
+                        "ingredientName": "Eggs",
+                        "price": 2.50,
+                        "minQuantity": 1,
+                        "quantity": 2
+                    },
+                    {
+                        "ingredientName": "Butter",
+                        "price": 1.50,
+                        "minQuantity": 1,
+                        "quantity": 1
+                    },
+                    {
+                        "ingredientName": "Toast",
+                        "price": 1.00,
+                        "minQuantity": 1,
+                        "quantity": 2
+                    },
+                    {
+                        "ingredientName": "Orange Juice",
+                        "price": 2.00,
+                        "minQuantity": 1,
+                        "quantity": 0
+                    }
+                ]
+            },
+            {
+                "recipeId": 21,
+                "recipeName": "Snack",
+                "listOfIngredients": [
+                    {
+                        "ingredientName": "Chips",
+                        "price": 3.00,
+                        "minQuantity": 2,
+                        "quantity": 10
+                    }
+                ]
+            }
+        ]
+    }
+    response.render("pages/cart", { pageTitle: "Shopping Cart", cart: exampleCart });
 });
 
 app.get("/", function (request, response) { 
