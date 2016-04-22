@@ -9,8 +9,9 @@
     <div class="container">
         <header>
             <% var inputText; %>
+            <% var recipeId; %>
+            <% var ingredientId; %>
             <% var ingredientName; %>
-            <% var recipePrice; %>
             <% var price; %>
             <% var quantity; %>
         </header>
@@ -27,11 +28,11 @@
                 <tbody>
                     <% var recipes = cart["recipes"]; %>
                     <% recipes.forEach(function(recipe) { %>
+                        <% recipeId = recipe["recipeId"] %>
                         <tr>
                             <td>
                                 <h3><%- recipe["recipeName"] %></h3>
-                                <ul>
-                                    <% recipePrice = 0; %>
+                                <ul class="<%- recipeId %>list">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>
                                         <% price = ingredient["price"]; %>
@@ -39,24 +40,22 @@
                                         <li>
                                             <div class="form-inline">
                                                 <label><%- ingredientName %></label>
-                                                <input style="width:60px" class="form-control" type="number" step="1" maxlength="3" value="<%- quantity %>" />
-                                                x $<%- parseFloat(price).toFixed(2); %>
+                                                <input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" />
+                                                x $<span class="price"><%- parseFloat(price).toFixed(2); %></span>
                                             </div>
-                                            <% recipePrice += (quantity * price); %>
                                         </li>
                                     <% }); %>
                                 </ul>
                             </td>
-                            <td>
-                                $<%- parseFloat(recipePrice).toFixed(2) %>
+                            <td class="recipe-price">
                             </td>
                         </tr>
                     <% }) %>
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>Total Price</td>
-                        <td>$10</td>
+                        <td>Total Cart Price</td>
+                        <td class="cart-price"></td>
                     </tr>
                 </tfoot>
             </table>
@@ -64,6 +63,7 @@
     </div>
 
     <% include ../partials/scripts %>
+    <script src="/assets/js/cart.js"></script>
 </body>
 
 </html>

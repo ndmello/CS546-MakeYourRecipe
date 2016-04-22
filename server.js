@@ -42,24 +42,28 @@ app.get("/cart", function (request, response) {
                 "recipeName": "Breakfast",
                 "listOfIngredients": [
                     {
+                        "ingredientId": 30,
                         "ingredientName": "Eggs",
                         "price": 2.50,
                         "minQuantity": 1,
                         "quantity": 2
                     },
                     {
+                        "ingredientId": 31,
                         "ingredientName": "Butter",
                         "price": 1.50,
                         "minQuantity": 1,
                         "quantity": 1
                     },
                     {
+                        "ingredientId": 32,
                         "ingredientName": "Toast",
                         "price": 1.00,
                         "minQuantity": 1,
                         "quantity": 2
                     },
                     {
+                        "ingredientId": 33,
                         "ingredientName": "Orange Juice",
                         "price": 2.00,
                         "minQuantity": 1,
@@ -72,6 +76,7 @@ app.get("/cart", function (request, response) {
                 "recipeName": "Snack",
                 "listOfIngredients": [
                     {
+                        "ingredientId": 34,
                         "ingredientName": "Chips",
                         "price": 3.00,
                         "minQuantity": 2,
