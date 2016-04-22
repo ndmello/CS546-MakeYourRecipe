@@ -1,46 +1,77 @@
-.image-wrapper{
-	position: absolute;
-    width: 94px;
-    height: 94px;
-    margin-right: 0;
-
-    left: 20px;
-    top: 15px;
-    overflow: hidden;
-    float: left;
-}
-
-.product-image{
-	transition: opacity 500ms ease-in-out;
-    opacity: 1;
-        width: 94px;
-    height: 94px;
-    margin-right: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-    background-color: #fff;
-    vertical-align: top;
-}
-
-.product-info{
-    padding-left: 110px;
-    font-size: 13px;
-    line-height: 20px;
-    vertical-align: top;
-}
-
-.textual-information{
-    display: block;
-    padding-right: 110px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 .footer{
     min-height: 20px;
     color: #666;
     position: relative;
 }
+
+
+
+
+.result-top-label{
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 16px;
+    padding: 10px;
+    text-align: center;
+    color: #333;
+}
+
+
+.footer-info{
+    color: #666;
+}
+.search-result .title h3 {
+    margin: 0 0 15px;
+    color: #333;
+}
+.search-result .title p {
+    font-size: 12px;
+    color: #333;
+}
+
+.search-result-bar{
+    background: #ecf0f1 !important;
+}
+
+
+.img-responsive{
+    width: 94px;
+    height: 94px;
+}
+
+.well {
+    border: 0;
+    padding: 20px;
+    min-height: 63px;
+    background: #fff;
+    box-shadow: none;
+    border-radius: 3px;
+    position: relative;
+    max-height: 100000px;
+    border-bottom: 2px solid #ccc;
+    transition: max-height 0.5s ease;
+    -o-transition: max-height 0.5s ease;
+    -ms-transition: max-height 0.5s ease;
+    -moz-transition: max-height 0.5s ease;
+    -webkit-transition: max-height 0.5s ease;
+}
+
+.search-result{
+    background: #ecf0f1;
+}
+
+.search-result:hover{
+    background: #DEE5E6;
+}
+
+.form-control {
+    height: 45px;
+    padding: 10px;
+    font-size: 16px;
+    box-shadow: none;
+    border-radius: 0;
+    position: relative;
+}    
+
+
