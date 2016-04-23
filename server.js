@@ -1,8 +1,9 @@
 // We first require our express package
 var express = require('express');
 var bodyParser = require('body-parser');
-var myData = require('./data_users.js');
 var recipeData = require('./data_recipe.js');
+var myData = require('./data_users.js');
+
 
 // This package exports the function to create an express instance:
 var app = express();
@@ -31,8 +32,18 @@ app.get("/", function (request, response) {
     response.sendFile("./pages/index.html", { root: __dirname });
 });
 
-app.get("/search_results",function (request, response){
 
+
+app.post("/search",function (request, response){
+	var keyword = request.body.keyword;
+	recipeData.searchDB(keyword).then(function(result) {
+       
+        for(var i=0; i<result.length; i++)
+        {
+            result[i] = recipeData.totalPrice(result[i]);
+        }
+        response.render("pages/search_results",{resultData : result, keyword : keyword})
+    });
 });
 
 

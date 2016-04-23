@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<% include ../partials/head %>
+</head>
+
+<body>
+	<div class="container">
+		<header>
+		</header>
+		<main>
+
+			<div class="row">
+				<div class="col-md-9 col-md-push-3"></div>
+				<div class="col-md-3 col-md-pull-9"></div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-9 col-md-push-3">
+
+					<div class="well search-result-bar">
+						<form role="search" method="POST" action="/search">
+						<div class="input-group">
+							
+								<input type="text" name="keyword" class="form-control" />
+								<span class="input-group-btn">
+
+									<button class="btn btn-info btn-lg" type="submit">
+										<i class="glyphicon glyphicon-search"></i>
+										Search
+									</button>
+
+								</span>
+						</div>
+					</form>
+					</div>
+
+
+					<% if (locals.resultData){ %>
+					<div class="well search-result-bar">
+						<div class="row">
+							<div class="col-xs-6 col-md-4"></div>
+							<div class="col-xs-6 col-md-4 result-top-label">There are <%= resultData.length %> results for "<%= locals.keyword %>"</div>
+							<div class="col-xs-6 col-md-4"></div>
+								
+							
+						</div>
+					</div>
+					<% resultData.forEach(function(product){ %>
+							<div class="well search-result">
+								<div class="row">
+									<a href="http://localhost:3000/product/<%= product._id %>">
+										<div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+											<img class="img-responsive" src="http://localhost:3000/assets/images/<%= product.image_url %>" alt="">
+										</div>
+										<div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
+											<h3><%= product.name %></h3>
+											<p class="lead">$ <%= product.totalPrice %></p>
+											<span class="footer-info">Cuisine: <%= product.cuisine %></span></br>
+											<span class="footer-info">Preparation Time: <%= product.prep_time %> mins | Cooking Time: <%= product.cook_time %> mins | Servings: <%= product.servings %></span>
+										</div>
+									</a>
+								</div>
+							</div>
+					<%  }) %>
+					<%}else{%>
+					<strong>There are no results for your search</strong>
+					<%}%>
+		</main>
+</div>
+
+<% include ../partials/scripts %>
+</body>
+
+</html>
