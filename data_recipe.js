@@ -22,4 +22,16 @@ MongoClient.connect(fullMongoUrl)
 
         	});	
         }
+        
+        exports.getRecipe = function(id){
+        	if (!id) return Promise.reject("This is broken link");
+
+            // by calling .toArray() on the function, we convert the Mongo Cursor to a promise where you can 
+            // easily iterate like a normal array
+            return myCollection.find({ _id: id }).limit(1).toArray().then(function(listOfRecipes) {
+                if (listOfRecipes.length === 0) throw "Recipe no longer exists";
+
+                return listOfRecipes[0];
+        });
+    }
     });
