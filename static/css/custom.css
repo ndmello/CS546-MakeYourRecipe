@@ -57,6 +57,13 @@
     -webkit-transition: max-height 0.5s ease;
 }
 
+.lead{
+    
+    font-size: 21px !important;
+    font-weight: 200;
+    line-height: 30px;
+}
+
 .search-result{
     background: #ecf0f1;
 }

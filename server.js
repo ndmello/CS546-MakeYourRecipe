@@ -37,6 +37,11 @@ app.get("/", function (request, response) {
 app.post("/search",function (request, response){
 	var keyword = request.body.keyword;
 	recipeData.searchDB(keyword).then(function(result) {
+       
+        for(var i=0; i<result.length; i++)
+        {
+            result[i] = recipeData.totalPrice(result[i]);
+        }
         response.render("pages/search_results",{resultData : result, keyword : keyword})
     });
 });
