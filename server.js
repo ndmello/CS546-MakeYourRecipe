@@ -35,6 +35,16 @@ app.get("/search_results",function (request, response){
 
 });
 
+
+app.get("/products/:id", function(request,response){
+	console.log(request.params.id);
+	recipeData.getRecipe(request.params.id).then(function(recipe){
+		response.json(recipe);
+	},function(errorMessage) {
+        response.status(500).json({ error: errorMessage });
+	})
+});
+
 // We can now navigate to localhost:3000
 app.listen(3000, function () {
     console.log('Your server is now listening on port 3000! Navigate to http://localhost:3000 to access it');
