@@ -2,7 +2,7 @@
     $("input").on("change paste keyup", function() {
         updateCartPrice();
     });
-    
+
     updateCartPrice();
         
     function updateCartPrice() {
@@ -24,5 +24,5 @@
 
         cartTotal = parseFloat(cartTotal).toFixed(2);
         $(".cart-price").text("$" + cartTotal);
-    };
+    }
 })(jQuery);
