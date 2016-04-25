@@ -32,15 +32,19 @@
                         <tr>
                             <td>
                                 <h3><%- recipe["recipeName"] %></h3>
-                                <ul class="<%- recipeId %>list">
+                                <!--<ul class="<%- recipeId %>list">-->
+                                <ul id="<%- recipeId %>">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>
+                                        <% ingredientId = ingredient["ingredientId"]; %>
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
-                                        <li>
+                                        <li class="in">
                                             <div class="form-inline">
-                                                <label><%- ingredientName %></label>
-                                                <input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" />
+                                                <button type="button" class="btn btn-danger btn-remove">X</button>
+                                                <button type="button" class="btn btn-success btn-add hide">+</button>
+                                                <label for="<%- ingredientId %>"><%- ingredientName %></label>
+                                                <input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" />
                                                 x $<span class="price"><%- parseFloat(price).toFixed(2); %></span>
                                             </div>
                                         </li>

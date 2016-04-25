@@ -1,0 +1,31 @@
+.btn-remove, .btn-add {
+    width: 30px;
+    height: 30px;
+    font-size: 80%;
+    font-style: normal;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.btn-add {
+    font-size: 125%;
+    font-style: normal;
+    padding: 0 0 2px 0;
+}
+
+.hide {
+    display: none;
+}
+
+.removed {
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+label {
+    text-decoration: inherit;
+}
+
+.help-block {
+    font-weight: bolder;
+}
