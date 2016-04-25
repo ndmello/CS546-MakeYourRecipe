@@ -1,4 +1,8 @@
-.btn-remove, .btn-add {
+.name-header {
+    display: inline;
+}
+
+.btn {
     width: 30px;
     height: 30px;
     font-size: 80%;
@@ -7,7 +11,7 @@
     padding: 3px;
 }
 
-.btn-add {
+.btn-add-ingredient, .btn-add-recipe {
     font-size: 125%;
     font-style: normal;
     padding: 0 0 2px 0;
@@ -24,6 +28,7 @@
 
 label {
     text-decoration: inherit;
+    font-style: inherit;
 }
 
 .help-block {

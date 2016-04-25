@@ -7,36 +7,44 @@
         updateCartPrice();
     });
     
-    $(".btn-remove").on("click", function() {
-        var parent = $(this).parent();
-        parent.addClass("removed");
-        $(this).addClass("hide");
-        
-        var input = $(this).parent().find("input");
-        input.addClass("hide");
-        
-        parent.find(".btn-add").removeClass("hide");
-        
-        $(this).closest("li").addClass("removed");
-        orderList($(this).closest("ul"));
-        
-        updateCartPrice();
+    $(".btn-remove-ingredient").on("click", function() {
+        removeIngredient($(this).closest("li"), $(this).parent().find(".btn-add-ingredient"), $(this));
     });
     
-    $(".btn-add").on("click", function() {
+    $(".btn-add-ingredient").on("click", function () {
+        addIngredient($(this).closest("li"), $(this), $(this).parent().find(".btn-remove-ingredient"));
+    });
+    
+    $(".btn-remove-recipe").on("click", function () {
         var parent = $(this).parent();
-        parent.removeClass("removed");
+        parent.find("h3").addClass("removed");
+        parent.find("ul").addClass("removed");
+        
         $(this).addClass("hide");
+        parent.find(".btn-add-recipe").removeClass("hide");
         
-        var input = $(this).parent().find("input");
-        input.removeClass("hide");
+        parent.find("li").each(function () {
+            removeIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
+        });
         
-        parent.find(".btn-remove").removeClass("hide");
+        parent.find("ul").addClass("hide");
+        orderAllLists();
+    });
+    
+    $(".btn-add-recipe").on("click", function () {
+        var parent = $(this).parent();
+        parent.find("h3").removeClass("removed");
+        parent.find("ul").removeClass("removed");
         
-        $(this).closest("li").removeClass("removed");
-        orderList($(this).closest("ul"));
+        $(this).addClass("hide");
+        parent.find(".btn-remove-recipe").removeClass("hide");
         
-        updateCartPrice();
+        parent.find("li").each(function () {
+            addIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
+        });
+        
+        parent.find("ul").removeClass("hide");
+        orderAllLists();
     });
         
     function updateCartPrice() {
@@ -91,7 +99,10 @@
     
     function orderAllLists() {
         $("ul").each(function () {
-            orderList($(this));
+            if (!$(this).hasClass("removed")) {
+                orderList($(this));
+                $(this).closest("tbody").prepend($(this).closest("tr"));
+            }
         });
     }
     
@@ -101,6 +112,28 @@
                 list.prepend($(this));
             }
         });
+    }
+        
+    function removeIngredient (listItem, addBtn, removeBtn) {
+        listItem.addClass("removed");
+        removeBtn.addClass("hide");
+
+        listItem.find("input").addClass("hide");
+        addBtn.removeClass("hide");
+        
+        orderList(listItem.closest("ul"));
+        updateCartPrice();
+    }
+    
+    function addIngredient (listItem, addBtn, removeBtn) {
+        listItem.removeClass("removed");
+        addBtn.addClass("hide");
+
+        listItem.find("input").removeClass("hide");
+        removeBtn.removeClass("hide");
+        
+        orderList(listItem.closest("ul"));
+        updateCartPrice();
     }
     
 })(jQuery);
