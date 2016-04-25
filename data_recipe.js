@@ -16,12 +16,28 @@ MongoClient.connect(fullMongoUrl)
     .then(function(db) {
         var myCollection = db.collection("recipe");
         
-        // setup your exports!
+         // setup your exports!
         exports.searchDB = function(keyword){
-        	myCollection.find( { $text: { $search: keyword } } ).toArray().then(function(searchResults){
+                   return db.collection('recipe').find({
+                    "$text": {
+                      "$search": keyword
+                    }}).toArray().then(function(results){
+                        return results;
+                    })
+        };
 
-        	});	
-        }
+        exports.totalPrice = function(result){
+            var ingredientsArray = result.ingredients;
+
+            var totalPrice = 0;
+            for(var i=0; i<ingredientsArray.length; i++)
+            {
+
+                totalPrice = totalPrice + ingredientsArray[i].price;
+            }
+            result.totalPrice = Math.round(totalPrice * 100) / 100;
+            return result;
+        };
         
         exports.getRecipe = function(id){
         	if (!id) return Promise.reject("This is broken link");
