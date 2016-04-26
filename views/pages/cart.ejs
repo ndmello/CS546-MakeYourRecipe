@@ -9,16 +9,18 @@
     <div class="container">
         <header>
             <% var inputText; %>
+            <% var cartId = cart["_id"]; %>
+            <% var userId = cart["userId"]; %>
             <% var recipeId; %>
             <% var ingredientId; %>
             <% var ingredientName; %>
             <% var price; %>
             <% var quantity; %>
         </header>
-        <main>
+        <main id="<%- cartId %>">
             <h1 class="center">Your Shopping Cart</h1>
             <h2>Items:</h2>
-            <table class="table table-bordered">
+            <table id="<%- userId %>" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Recipe</th>
@@ -49,6 +51,7 @@
                                             <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient">remove</button>
                                             <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hide">add</button>
                                         </li>
+                                        <p class="col-sm-12 hide">error should go here</p>
                                     <% }); %>
                                 </ul>
                             </td>
@@ -64,6 +67,9 @@
                     </tr>
                 </tfoot>
             </table>
+            <form id="save-form">
+                <button type="button" class="btn btn-success" id="btn-save-cart">Save cart</button>
+            </form>
         </main>
     </div>
 

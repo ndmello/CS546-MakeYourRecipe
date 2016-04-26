@@ -3,7 +3,7 @@
     orderAllLists();
     
     //$("input").on("change paste keyup", function() {
-    $("input").on("change paste", function() {
+    $("input").on("change paste keyup", function() {
         updateCartPrice();
     });
     
@@ -48,6 +48,11 @@
         updateCartPrice();
         orderAllLists();
     });
+    
+    $("#btn-save-cart").on("click", function() {
+        var cart = getCart();
+        console.log(JSON.stringify(cart))
+    });
         
     function updateCartPrice() {
         var cartTotal = 0;
@@ -76,6 +81,16 @@
         $(".cart-price").text("$" + cartTotal);
     }
     
+    function validateAllInput() {
+        var errors = false;
+        $("li").each(function () {
+            if (!validateInput($(this), $(this).find("input").val())) {
+                errors = true;
+            }
+        });
+        return !errors;
+    }
+    
     function validateInput(form, value) {
         if (value == null | value == undefined || isNaN(value) || value === "") {
             addError(form, "Invalid: not a number");
@@ -91,7 +106,7 @@
     function addError(element, error) {
         removeError(element); // remove previous error
         element.addClass("has-error");
-        var error = $("<span class=\"help-block\"></span>").text(error);
+        var error = $("<span class=\"col-sm-12 help-block\"><br /></span>").text(error);
         element.append(error);
     }
     
@@ -139,4 +154,55 @@
         updateCartPrice();
     }
     
+    function getCart() {
+        var save = $("#save-form");
+        if (!validateAllInput()) {
+            addError(save, "Please fix errors in cart before saving");
+            return;
+        }
+        removeError(save);
+        
+        var cartId = $("main").attr("id");
+        var userId = $("table").attr("id");
+        var recipes = [];
+        
+        $("ul").each(function () {
+            if (!$(this).hasClass("removed")) {
+                var recipeId = $(this).attr("id");
+                var ingredients = [];
+                
+                $(this).find("li").each(function () {
+                    if (!$(this).hasClass("removed")) {
+                        var input = $(this).find("input");
+                        var ingredientId = input.attr("id");
+                        var quantity = input.val();
+                        
+                        if (quantity > 0) {
+                            var ingredient = {
+                                "ingredientId": ingredientId,
+                                "quantity": quantity
+                            };
+                            ingredients.push(ingredient);
+                        }
+                    }
+                });
+               if (ingredients.length > 0) {
+                   var recipe = {
+                       "recipeId": recipeId,
+                       "ingredients": ingredients
+                   };
+                   recipes.push(recipe);
+               }
+            }
+        });
+        if (recipes.length > 0) {
+            var cart = {
+                "_id": cartId,
+                "userId": userId,
+                "recipes": recipes
+            };
+            return cart;
+        }
+        return null;
+    }
 })(jQuery);
