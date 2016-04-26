@@ -23,7 +23,7 @@ app.use('/assets', express.static('static'));
 // Setup your routes here!
 
 app.get("/home", function (request, response) {
-    response.render("pages/product_category", { pageTitle: "Welcome Home" });
+    response.render("pages/search_results", { pageTitle: "Welcome Home" });
 
 });
 
