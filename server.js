@@ -23,7 +23,8 @@ app.use('/assets', express.static('static'));
 // Setup your routes here!
 
 app.get("/home", function (request, response) {
-    response.render("pages/search_results", { pageTitle: "Welcome Home" });
+    response.render("pages/product_category", { pageTitle: "Welcome Home" });
+
 });
 
 app.get("/", function (request, response) { 
@@ -33,10 +34,23 @@ app.get("/", function (request, response) {
 });
 
 
+app.get("/product/category/:category",function (request, response){
+    var category = request.params.category;
+    recipeData.getCategory(category).then(function(result){
+        for(var i=0; i<result.length; i++)
+        {
+            result[i] = recipeData.totalPrice(result[i]);
+        }
+        console.log(result);
+        response.render("pages/product_category", {resultData : result})
+    });
+});
 
 app.post("/search",function (request, response){
-	var keyword = request.body.keyword;
-	recipeData.searchDB(keyword).then(function(result) {  
+    var keyword = request.body.keyword;
+    
+    recipeData.searchDB(keyword).then(function(result) {  
+        
         for(var i=0; i<result.length; i++)
         {
             result[i] = recipeData.totalPrice(result[i]);
@@ -47,12 +61,12 @@ app.post("/search",function (request, response){
 
 
 app.get("/products/:id", function(request,response){
-	console.log(request.params.id);
-	recipeData.getRecipe(request.params.id).then(function(recipe){
-		response.render("pages/product",{resultData: recipe});
-	},function(errorMessage) {
+    console.log(request.params.id);
+    recipeData.getRecipe(request.params.id).then(function(recipe){
+        response.render("pages/product",{resultData: recipe});
+    },function(errorMessage) {
         response.status(500).json({ error: errorMessage });
-	});
+    });
 });
 
 // We can now navigate to localhost:3000

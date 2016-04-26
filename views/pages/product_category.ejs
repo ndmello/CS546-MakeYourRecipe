@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<% include ../partials/head %>
+</head>
+
+<body>
+	<div class="container">
+		<header>
+		</header>
+		<main>
+
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-md-3">
+						<p class="lead">Make Your Recipe</p>
+						<div class="list-group">
+							<a href="http://localhost:3000/product/category/Indian" class="list-group-item">Indian</a>
+							<a href="http://localhost:3000/product/category/Mexican" class="list-group-item">Mexican</a>
+							<a href="http://localhost:3000/product/category/American" class="list-group-item">American</a>
+						</div>
+					</div>
+
+					<div class="col-md-9">
+
+						<div class="row">
+							<% if (locals.resultData.length != 0){ %>
+							<% resultData.forEach(function(product){ %>
+							<div class="col-sm-4 col-lg-4 col-md-4 product-box">
+								<a class="product-cat-links" href="http://localhost:3000/products/<%= product._id %>">
+									
+										<div class="wrapper">
+											<img class="img-responsive-category" src="http://localhost:3000/assets/images/<%= product.image_url %>" alt="">
+										</div>
+										<div class="caption">
+											<h4 class="pull-right">$ <%= product.totalPrice %></h4>
+											<h4><%= product.name %></h4>
+											<p><%= product.description %></p>
+										</div>
+										</a>
+										<a href=#><i class="fa fa-heart" aria-hidden="true"></i></a>
+									
+								
+							</div>
+							<%})%>
+							<%}else{%>	
+							<strong>There are no products in this category.</strong>
+							<%}%>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+			
+		</main>
+	</div>
+
+	<% include ../partials/scripts %>
+</body>
+
+</html>
