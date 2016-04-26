@@ -15,7 +15,7 @@
             <% var price; %>
             <% var quantity; %>
         </header>
-        <main class="row">
+        <main>
             <h1 class="center">Your Shopping Cart</h1>
             <h2>Items:</h2>
             <table class="table table-bordered">
@@ -32,8 +32,8 @@
                         <tr>
                             <td>
                                 <h3 class="name-header"><%- recipe["recipeName"] %></h3>
-                                <button type="button" class="btn btn-danger btn-remove-recipe">X</button>
-                                <button type="button" class="btn btn-success btn-add-recipe hide">+</button>
+                                <button type="button" class="btn btn-info btn-remove-recipe">remove recipe</button>
+                                <button type="button" class="btn btn-info btn-add-recipe hide">add recipe</button>
                                 <ul id="<%- recipeId %>">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>
@@ -41,11 +41,11 @@
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
                                         <li class="form-inline">
-                                            <button type="button" class="btn btn-danger btn-remove-ingredient">X</button>
-                                            <button type="button" class="btn btn-success btn-add-ingredient hide">+</button>
-                                            <label for="<%- ingredientId %>"><%- ingredientName %></label>
-                                            <input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" />
-                                            x $<span class="price"><%- parseFloat(price).toFixed(2); %></span>
+                                            <label class="col-sm-3" for="<%- ingredientId %>"><%- ingredientName %></label>
+                                            <span class="col-sm-3"><input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
+                                            <span class="col-sm-3">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
+                                            <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient">remove</button>
+                                            <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hide">add</button>
                                         </li>
                                     <% }); %>
                                 </ul>

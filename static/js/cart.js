@@ -55,12 +55,12 @@
             var ingredientList = $(this).find("ul");
 
             ingredientList.children("li").each(function () {
-                var form = $(this).find(".form-inline");
+                //ar form = $(this).find(".form-inline");
                 var count = $(this).hasClass("removed") ? 0 : $(this).find("input").val();
                 var price = $(this).find(".price").text();
                 
-                if (validateInput(form, count)) {
-                    removeError(form);
+                if (validateInput($(this), count)) {
+                    removeError($(this));
                     recipeTotal += count * price;
                 }
             });
@@ -107,9 +107,10 @@
     }
     
     function orderList(list) {
-        list.children("li").each(function () {
+        list.find("li").each(function () {
             if (!$(this).hasClass("removed")) {
-                list.prepend($(this));
+                $(this).parent().prepend($(this));
+                //list.prepend($(this));
             }
         });
     }
@@ -131,7 +132,7 @@
 
         listItem.find("input").removeClass("hide");
         removeBtn.removeClass("hide");
-        
+              
         orderList(listItem.closest("ul"));
         updateCartPrice();
     }
