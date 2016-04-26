@@ -2,7 +2,6 @@
     updateCartPrice();
     orderAllLists();
     
-    //$("input").on("change paste keyup", function() {
     $("input").on("change paste keyup", function() {
         updateCartPrice();
     });
@@ -20,14 +19,14 @@
         data.find("h3").addClass("removed");
         data.find("ul").addClass("removed");
         
-        $(this).addClass("hide");
-        data.find(".btn-add-recipe").removeClass("hide");
+        $(this).addClass("hidden");
+        data.find(".btn-add-recipe").removeClass("hidden");
         
         /*data.find("li").each(function () {
             removeIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
         });*/
         
-        data.find("ul").addClass("hide");
+        data.find("ul").addClass("hidden");
         updateCartPrice();
         orderAllLists();
     });
@@ -37,14 +36,14 @@
         data.find("h3").removeClass("removed");
         data.find("ul").removeClass("removed");
         
-        $(this).addClass("hide");
-        data.find(".btn-remove-recipe").removeClass("hide");
+        $(this).addClass("hidden");
+        data.find(".btn-remove-recipe").removeClass("hidden");
         
         /*data.find("li").each(function () {
             addIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
         });*/
         
-        data.find("ul").removeClass("hide");
+        data.find("ul").removeClass("hidden");
         updateCartPrice();
         orderAllLists();
     });
@@ -134,10 +133,10 @@
         
     function removeIngredient (listItem, addBtn, removeBtn) {
         listItem.addClass("removed");
-        removeBtn.addClass("hide");
+        removeBtn.addClass("hidden");
 
-        listItem.find("input").addClass("hide");
-        addBtn.removeClass("hide");
+        listItem.find("input").addClass("hidden");
+        addBtn.removeClass("hidden");
         
         orderList(listItem.closest("ul"));
         updateCartPrice();
@@ -145,10 +144,10 @@
     
     function addIngredient (listItem, addBtn, removeBtn) {
         listItem.removeClass("removed");
-        addBtn.addClass("hide");
+        addBtn.addClass("hidden");
 
-        listItem.find("input").removeClass("hide");
-        removeBtn.removeClass("hide");
+        listItem.find("input").removeClass("hidden");
+        removeBtn.removeClass("hidden");
               
         orderList(listItem.closest("ul"));
         updateCartPrice();

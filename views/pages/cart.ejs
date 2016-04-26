@@ -36,7 +36,7 @@
                                 <div class="row">
                                     <h3 class="col-sm-3 col-sm-offset-2 name-header"><%- recipe["recipeName"] %></h3>
                                     <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-remove-recipe">remove recipe</button>
-                                    <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe hide">add recipe</button>
+                                    <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe hidden">add recipe</button>
                                 </div>
                                 <ul id="<%- recipeId %>">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
@@ -49,9 +49,9 @@
                                             <span class="col-sm-3"><input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
                                             <span class="col-sm-3">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
                                             <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient">remove</button>
-                                            <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hide">add</button>
+                                            <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden">add</button>
                                         </li>
-                                        <p class="col-sm-12 hide">error should go here</p>
+                                        <p class="col-sm-12 hidden">error should go here</p>
                                     <% }); %>
                                 </ul>
                             </td>
