@@ -82,7 +82,7 @@ function runSetup() {
         	ingredients(omlet, "Parsley", "0.25 Oz", 1);
         	ingredients(omlet, "cheese", "5 Oz", 3.99);
 
-        	var salmonBurger= newDoc("Salmon Burger with Spinach and Ginger", "Salmon Burger is a American breakfast delicacy.", "salmon-burger.png", 20, 40, 4, "American", salmonProcedure);
+        	var salmonBurger= newDoc("Salmon Burger with Spinach and Ginger", "Salmon Burger is a American breakfast delicacy.", "salmon-burger.jpg", 20, 40, 4, "American", salmonProcedure);
         	ingredients(salmonBurger, "Salmon Fillet", "8-10 ounces", 21);
         	ingredients(salmonBurger, "Spinach", "5 ounces", 3.99);
         	ingredients(salmonBurger, "Scallions", "5.5 ounces", 1.99);

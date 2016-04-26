@@ -2,7 +2,8 @@ var MongoClient = require('mongodb').MongoClient,
  settings = require('./config.js'),
  runStartupForRecipe = require("./startup_recipe.js"),
  runStartupForUsers = require("./startup_users.js"),
- Guid = require('Guid');
+ Guid = require('Guid'),
+ assert = require('assert');
 
 var fullMongoUrl = settings.mongoConfig.serverUrl + settings.mongoConfig.database;
 runStartupForRecipe(); // Creating db and recipe collections
@@ -15,7 +16,11 @@ var exports = module.exports = {};
 MongoClient.connect(fullMongoUrl)
     .then(function(db) {
         var myCollection = db.collection("recipe");
-        
+         db.ensureIndex("recipe", {
+          "$**": "text"
+        }, function(err, indexname) {
+          assert.equal(null, err);
+        });
          // setup your exports!
         exports.searchDB = function(keyword){
                    return db.collection('recipe').find({
@@ -38,9 +43,16 @@ MongoClient.connect(fullMongoUrl)
             result.totalPrice = Math.round(totalPrice * 100) / 100;
             return result;
         };
+
+        exports.getCategory = function(category){
+            return myCollection.find({cuisine: category}).toArray().then(function(resultSet){
+
+                return resultSet;
+            });
+        };
         
         exports.getRecipe = function(id){
-        	if (!id) return Promise.reject("This is broken link");
+            if (!id) return Promise.reject("This is broken link");
 
             // by calling .toArray() on the function, we convert the Mongo Cursor to a promise where you can 
             // easily iterate like a normal array
