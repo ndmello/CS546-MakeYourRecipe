@@ -4,27 +4,18 @@
 
 .btn {
     color: black;
-    width: 110px;
+    width: 115px;
+}
+
+.btn-remove-recipe, .btn-add-recipe {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 li {
     list-style-type: none;
     margin: 15px;
 }
-/*.btn {
-    width: 30px;
-    height: 30px;
-    font-size: 80%;
-    font-style: normal;
-    font-weight: bold;
-    padding: 3px;
-}
-
-.btn-add-ingredient, .btn-add-recipe {
-    font-size: 125%;
-    font-style: normal;
-    padding: 0 0 2px 0;
-}*/
 
 .hide {
     display: none;

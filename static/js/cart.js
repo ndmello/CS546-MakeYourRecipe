@@ -16,34 +16,36 @@
     });
     
     $(".btn-remove-recipe").on("click", function () {
-        var parent = $(this).parent();
-        parent.find("h3").addClass("removed");
-        parent.find("ul").addClass("removed");
+        var data = $(this).closest("td");
+        data.find("h3").addClass("removed");
+        data.find("ul").addClass("removed");
         
         $(this).addClass("hide");
-        parent.find(".btn-add-recipe").removeClass("hide");
+        data.find(".btn-add-recipe").removeClass("hide");
         
-        parent.find("li").each(function () {
+        /*data.find("li").each(function () {
             removeIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
-        });
+        });*/
         
-        parent.find("ul").addClass("hide");
+        data.find("ul").addClass("hide");
+        updateCartPrice();
         orderAllLists();
     });
     
     $(".btn-add-recipe").on("click", function () {
-        var parent = $(this).parent();
-        parent.find("h3").removeClass("removed");
-        parent.find("ul").removeClass("removed");
+        var data = $(this).closest("td");
+        data.find("h3").removeClass("removed");
+        data.find("ul").removeClass("removed");
         
         $(this).addClass("hide");
-        parent.find(".btn-remove-recipe").removeClass("hide");
+        data.find(".btn-remove-recipe").removeClass("hide");
         
-        parent.find("li").each(function () {
+        /*data.find("li").each(function () {
             addIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
-        });
+        });*/
         
-        parent.find("ul").removeClass("hide");
+        data.find("ul").removeClass("hide");
+        updateCartPrice();
         orderAllLists();
     });
         
@@ -54,16 +56,17 @@
             var recipeTotal = 0.0;
             var ingredientList = $(this).find("ul");
 
-            ingredientList.children("li").each(function () {
-                //ar form = $(this).find(".form-inline");
-                var count = $(this).hasClass("removed") ? 0 : $(this).find("input").val();
-                var price = $(this).find(".price").text();
-                
-                if (validateInput($(this), count)) {
-                    removeError($(this));
-                    recipeTotal += count * price;
-                }
-            });
+            if (!ingredientList.hasClass("removed")) {
+                ingredientList.children("li").each(function () {
+                    var count = $(this).hasClass("removed") ? 0 : $(this).find("input").val();
+                    var price = $(this).find(".price").text();
+                    
+                    if (validateInput($(this), count)) {
+                        removeError($(this));
+                        recipeTotal += count * price;
+                    }
+                });
+            }
             cartTotal += recipeTotal;
             recipeTotal = parseFloat(recipeTotal).toFixed(2);
             $(this).find(".recipe-price").text("$" + recipeTotal);
@@ -99,18 +102,17 @@
     
     function orderAllLists() {
         $("ul").each(function () {
-            if (!$(this).hasClass("removed")) {
+            if ($(this).hasClass("removed")) {
                 orderList($(this));
-                $(this).closest("tbody").prepend($(this).closest("tr"));
+                $(this).closest("tbody").append($(this).closest("tr"));
             }
         });
     }
     
     function orderList(list) {
         list.find("li").each(function () {
-            if (!$(this).hasClass("removed")) {
-                $(this).parent().prepend($(this));
-                //list.prepend($(this));
+            if ($(this).hasClass("removed")) {
+                $(this).parent().append($(this));
             }
         });
     }

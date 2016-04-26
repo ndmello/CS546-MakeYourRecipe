@@ -31,9 +31,11 @@
                         <% recipeId = recipe["recipeId"] %>
                         <tr>
                             <td>
-                                <h3 class="name-header"><%- recipe["recipeName"] %></h3>
-                                <button type="button" class="btn btn-info btn-remove-recipe">remove recipe</button>
-                                <button type="button" class="btn btn-info btn-add-recipe hide">add recipe</button>
+                                <div class="row">
+                                    <h3 class="col-sm-3 col-sm-offset-2 name-header"><%- recipe["recipeName"] %></h3>
+                                    <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-remove-recipe">remove recipe</button>
+                                    <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe hide">add recipe</button>
+                                </div>
                                 <ul id="<%- recipeId %>">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>
