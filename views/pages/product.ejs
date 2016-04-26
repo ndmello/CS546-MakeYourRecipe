@@ -30,17 +30,32 @@
                     </div>
                 </div>
                 <div class ="row">
+                   <div id="popup1" class="overlay">
+                    <div class="popup">
+                        <div class="popup_head">
+                        <h3 ><%=resultData.name%></h3>
+                        <a class="close" href="#">&times;</a></div>
+                        <div class="content">
+                            
+                                 <% resultData.ingredients.forEach(function(r){ %>
+                                 <div class ="inRow">
+                                <label> <%= r.name %></label>
+                                </div>
+                                <% }); %> 
+                            
+                        </div>
+                    </div>
+                </div>
                     <div class ="col-xs-12 col-md-2">
                          <h3>Ingredients</h3>
                             <% resultData.ingredients.forEach(function(r){ %>
-                                <label><!-- <button type="button" class ="transparent_button glyphicon glyphicon-plus text-danger" onClick=""> </button> -->
+                                <label>
                                 <%=r.min_q%> <%= r.name %></label>
                                 <% }); %> 
-
-                            <button type="button" class="btn btn-primary" onclick="buyIngredients()">Buy Ingredients</button>
-                            <%var buyIngredients = function(){
-                                alert("Hi");
-                            }%>
+                                <br>
+                                   <a class="button fa fa-shopping-cart" href="#popup1"> Buy Ingredients</a>
+<!-- 
+                            <button type="button" class="btn btn-primary" onclick="pop('popup1')">Buy Ingredients</button> -->
                     </div>
                     <div class="col-xs-6 col-md-4">
                         <h3>Procedure</h3>
