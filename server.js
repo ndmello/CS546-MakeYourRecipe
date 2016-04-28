@@ -52,14 +52,18 @@ app.get("/", function (request, response) {
 
 console.log("cookie in get / ::"+cookie);
 if(cookie == undefined)
-response.render("pages/index", { pageTitle: "Welcome Home", loginFlag: true});
+response.render("pages/homepage");
 
    
 });
 
 app.get("/home", function (request, response) {
-    response.render("pages/search_results", { pageTitle: "Welcome Home" });
+    response.render("pages/homepage");
 
+});
+
+app.get("/login",function (request, response){
+    response.render("pages/index");
 });
 
 /*
@@ -81,7 +85,7 @@ app.post("/createUser", function(request, response) {
 			var expiresAt = new Date();
 			expiresAt.setHours(expiresAt.getHours() + 1);
 			response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
-			response.render("pages/success");
+			response.redirect("/");
 		}else {
 			response.render("pages/index", {signup_error: "User already exists"});
 		}
@@ -103,7 +107,7 @@ app.post("/login", function(request, response) {
 			 response.cookie('currentSessionId', newSessionId, { expires: expiresAt });
 			 usersData.updateSessionId(user._id, newSessionId).then(function(user) {
 		 });
-        response.render("pages/success");
+        response.render("pages/homepage");
     }, function(errorMessage) {
         response.render("pages/index", {login_error: errorMessage});
     });
