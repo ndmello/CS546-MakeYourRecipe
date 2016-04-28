@@ -1,4 +1,6 @@
-
+body.home{
+  background-image: url("http://localhost:3000/assets/images/background_image.jpg");
+}
 .footer{
     min-height: 20px;
     color: #666;
@@ -30,9 +32,9 @@
     color: #333;
 }
 
-.search-result-bar{
+/*.search-result-bar{
     background: #ecf0f1 !important;
-}
+}*/
 
 
 .img-responsive{
@@ -58,7 +60,7 @@
     border-radius: 3px;
     position: relative;
     max-height: 100000px;
-    border-bottom: 2px solid #ccc;
+    /*border-bottom: 2px solid #ccc;*/
     transition: max-height 0.5s ease;
     -o-transition: max-height 0.5s ease;
     -ms-transition: max-height 0.5s ease;
@@ -74,11 +76,11 @@
 }
 
 .search-result{
-    background: #ecf0f1;
+    /*background: #ecf0f1;*/
 }
 
 .search-result:hover{
-    background: #DEE5E6;
+    border-color: 1px solid #ecf0f1;
 }
 
 .form-control {
@@ -110,6 +112,11 @@
     cursor: pointer;
     position: absolute;
     transition: all 0.3s ease-out;
+}
+
+.search-btn{
+  border-color: #CCCCCC;
+  background: rgba(0,0,0,0);
 }
 
 
@@ -145,7 +152,7 @@
   transition: all 5s ease-in-out;
 }
 
-<<<<<<< HEAD
+
 .popup h2 {
   margin-top: 0;
   color: #333;
@@ -178,7 +185,7 @@
 .popup_head{
     padding-left: 10px;
 }
-=======
+
 /*Product page*/
 .slide-image {
     width: 100%;
@@ -226,4 +233,83 @@
     color: #333;
 }
 
->>>>>>> refs/remotes/origin/master
+.fa-heart-active{
+  color: red;
+}
+.fa-heart-inactive{
+  color: gray;
+}
+
+/*Login Page*/
+
+table.normal{
+       table-layout:fixed;
+       border:solid 1px #000000;
+       width : 80%;
+       padding:5;
+       border-collapse:collapse;
+       border-spacing:0;
+      }
+      table.normal th{
+       border:solid 1px #000000;
+       padding:1px;
+       word-wrap:break-word;
+      }
+      table.normal td{
+       border:solid 1px #000000;
+       padding:1px;
+       vertical-align:top;
+       word-wrap:break-word;
+    }
+
+    /*Logo*/
+.brand-logo:hover{
+  text-decoration: none;
+  color: #fff;
+}
+.brand-logo{
+  text-decoration: none;
+  color:#fff !important;
+font-family: 'Dancing Script', cursive;
+  font-size: 35px !important;
+    
+}
+
+/*replacing bootstrap style*/
+.navbar-nav>li>a{
+  color:#fff !important;
+
+}
+.navigation-bar{
+  height:80px;
+  background: rgba(0,0,0,0.5) !important;
+  border-radius: none !important;
+  border: none !important;
+  margin-bottom: 1%;
+}
+
+.navigation-bar-active{
+  color: #3b598a !important;
+}
+
+.header-other{
+  height: 80px;
+  background-image: url("http://localhost:3000/assets/images/header-background.jpg");
+}
+.header-wrapper{
+  margin-top: 1% !important;
+}
+
+/*Dropdown Custom*/
+.dropdown-menu{
+  color: #fff !important;
+  background: rgba(0,0,0,0.5);
+}
+.dropdown-menu>li>a{
+color: #fff !important;
+}
+
+.dropdown-menu>li>a:hover{
+  background: rgba(0,0,0,0.5);
+}
+
