@@ -52,7 +52,7 @@ app.get("/", function (request, response) {
 
 console.log("cookie in get / ::"+cookie);
 if(cookie == undefined)
-response.render("pages/index", { pageTitle: "Welcome Home" });
+response.render("pages/index", { pageTitle: "Welcome Home", loginFlag: true});
 
    
 });
@@ -136,6 +136,47 @@ app.get("/product/category/:category",function (request, response){
         console.log(result);
         response.render("pages/product_category", {resultData : result})
     });
+});
+
+app.get("/add-product",function (request, response){
+    response.render("pages/add-product");
+});
+
+app.post("/add-product",function (request, response){
+    var recipe_name = request.body.recipe_name;
+    var description = request.body.description;
+    var image_url = request.body.image_url;
+    var prep_time = request.body.prep_time;
+    var cook_time = request.body.cook_time;
+    var servings = request.body.servings;
+    var cuisine = request.body.cuisine;
+    var procedure = request.body.procedure;
+    var ing_arr = request.body.i_name;
+    var min_q = request.body.min_q;
+    var price = request.body.price;
+    var unit = request.body.unit;
+    var ingredientArray = [];
+    for(var i=0; i<ing_arr.length; i++)
+    {
+        var newIngredient = {
+                    _id: Guid.create().toString(),
+                    name: ing_arr[i],
+                    min_q: min_q[i],
+                    price: price[i],
+                    unit: unit[i]
+                }
+
+        ingredientArray.push(newIngredient);
+    }
+
+    recipeData.addProduct(recipe_name, description, image_url, prep_time, cook_time, servings, cuisine, ingredientArray, procedure).then(function(result){
+        if(result == true){
+            response.send("ok");
+        }
+    });
+
+    //console.log(recipe_name, description, image_url, prep_time, cook_time, servings, cuisine, procedure, ing_arr, min_q, price, unit);
+    
 });
 
 app.post("/search",function (request, response){

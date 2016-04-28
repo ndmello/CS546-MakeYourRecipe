@@ -44,6 +44,13 @@ MongoClient.connect(fullMongoUrl)
             return result;
         };
 
+        exports.addProduct = function(recipe_name, description, image_url, prep_time, cook_time, servings, cuisine, ingredients, procedure){
+            return myCollection.insertOne({_id: Guid.create().toString(), name: recipe_name, description: description, 
+                image_url: image_url, prep_time: prep_time, cook_time: cook_time, servings: servings, cuisine: cuisine, ingredients: ingredients, procedure: procedure}).then(function(newRecipe){
+                return true;
+            });
+        };
+
         exports.getCategory = function(category){
             return myCollection.find({cuisine: category}).toArray().then(function(resultSet){
 
