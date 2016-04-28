@@ -310,6 +310,18 @@ ul.no-bullet{
     padding-left: 10px;
 }
 
+<<<<<<< HEAD
+.incr_decr_button{
+      width: 40px;
+    height: 35px;
+    border: 0px;
+    background-color: white;
+    text-align: center;
+}
+.li_popup{
+  height:7px;
+}
+=======
 .search-btn{
       background-color: rgba(0,0,0,0);
     border: 1px solid #c0c0c0;
@@ -335,3 +347,4 @@ ul.no-bullet{
   padding-left: 20%;
   padding-right: 20%;
 }
+>>>>>>> master
