@@ -89,96 +89,7 @@
     border-radius: 0;
     position: relative;
 }    
-.box {
-  width: 40%;
-  margin: 0 auto;
-  background: rgba(255,255,255,0.2);
-  padding: 35px;
-  border: 2px solid #fff;
-  border-radius: 20px/50px;
-  background-clip: padding-box;
-  text-align: center;
-}
-.button {
-    font-size: 1em;
-    padding: 10px;
-    color: #337ab7;
-    background-color: #fff;
-    border: 2px solid #337ab7;
-    border-radius: 20px/50px;
-    text-decoration: none;
-    cursor: pointer;
-    position: absolute;
-    transition: all 0.3s ease-out;
-}
 
-
-.button:hover {
-  background: #337ab7;
-  color:#fff;
-  text-decoration: none;
-}
-.overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: hidden;
-  opacity: 0;
-}
-.overlay:target {
-  visibility: visible;
-  opacity: 1;
-}
-
-.popup {
-  margin: 70px auto;
-  padding-top:10px;
-  background: #337ab7;
-  color:#fff;
-  border-radius: 5px;
-  width: 40%;
-  position: relative;
-  transition: all 5s ease-in-out;
-}
-
-<<<<<<< HEAD
-.popup h2 {
-  margin-top: 0;
-  color: #333;
-  font-family: Tahoma, Arial, sans-serif;
-}
-.popup .close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  transition: all 200ms;
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff
-}
-.popup .close:hover {
-  color: #fff;
-}
-.popup .content {
-  max-height: 30%;
-  overflow: auto;
-  background-color: #fff;
-  color:black;
-}
-
-.inRow{
-    padding: 10px;
-    
-}
-.popup_head{
-    padding-left: 10px;
-}
-=======
 /*Product page*/
 .slide-image {
     width: 100%;
@@ -226,4 +137,81 @@
     color: #333;
 }
 
->>>>>>> refs/remotes/origin/master
+.content-padding {
+    padding: 3rem 0;
+}
+.columns{
+      position: relative;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    float: left;
+
+}
+.text-center {
+    text-align: center !important;
+}
+.head.align-center {
+    background: url(http://localhost:3000/assets/images/line.jpg) no-repeat bottom center;
+    text-align: center;
+}
+.head {
+    padding: 0 0 0.45rem 0;
+    margin: 0 0 2rem 0;
+}
+.fontsans {
+    font-family: 'Alegreya Sans', sans-serif;
+    font-weight: 400;
+   
+}
+.margin0 {
+    margin: 0!important;
+}
+
+.ingredients {
+    background: #f9f9f9;
+    padding: 30px;
+}
+
+.h3{
+   font-size: 3.1em;
+}
+
+.h5{
+  font-size: 1.9em;
+}
+
+ul.no-bullet{
+  list-style: none;
+  margin-left:0;
+  margin-bottom: 1.25rem;
+  padding-left: 0px;
+}
+.row1{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 73.75em;
+}
+
+.blog-text,.li{
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+}
+.button{
+    margin-top: 15px;
+    background-color: #fff;
+    color: #008CBA;
+    border: 2px solid #008CBA;
+}
+.button:hover {
+    background-color: #008CBA;
+    color: white;
+}
+.popup_head{
+    background-color: #008CBA;
+    color: white;
+    padding-left: 10px;
+}
