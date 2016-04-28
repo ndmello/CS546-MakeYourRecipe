@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<% include ../partials/head %>
+</head>
+
+<body class="home">
+	<header>
+		<% include ../partials/header %>
+	</header>
+
+
+	<div class="container">
+
+		<main>
+			<br/>
+			<br/>
+			<section>
+
+				<div class="row" style="padding-top:100px">
+					<div class="col-md-4 col-md-offset-4">
+						<form action="/createUser" method="post" class="form-signin">
+							<input type="email" class="form-control" placeholder="Email" id="register_email" name="register_email" required>
+							<input type="password" class="form-control" placeholder="Password" id="register_passwd" name="register_passwd" required>
+							<div>
+								<a class="pull-right" style="margin-bottom:10px" href="/">Forgot password?</a>
+							</div>
+							<button class="btn btn-md btn-primary btn-block" type="submit">Sign up</button>
+						</form>
+						<div class="text-center">
+							<span>Already have an account?<a href="/"> Login </a></span>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="alert alert-danger hidden" id="error-message-login"> </div>
+				<% var login_error; %>
+				<% if(login_error) {  %>
+				<div class="alert alert-danger" role="alert" id="login_error"> <%= login_error %> </div>
+				<% } %>
+
+			</section>
+		</main>
+		<br/>
+
+
+	</div>
+	<% include ../partials/scripts.ejs %>
+
+</body>
+
+</html>

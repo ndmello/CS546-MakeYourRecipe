@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2>Header section</h2>
+        </header>
+        <main>
+            <!-- Let's start writing content! -->  
+            <section class="content-padding">
+                <div class="row1">
+                    <div class="col-lg-12 col-md-12 col-sm-12 columns text-center">
+                        <div class="head align-center">
+                            <h3 class="margin0 fontsans h3"><%=resultData.name%></h3><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row1">
+                  <div class="col-lg-12 col-md-12 col-sm-12 columns text-center">
+                        <img src="http://localhost:3000/assets/images/<%=resultData.image_url%>" alt="Salmon-burger" width = "1000px" height="500px"/>
+                  </div>  
+                </div>
+                <div class="row1">
+                    <div class="columns">
+                      <p><%=resultData.description%></p> 
+                     <p>Prep Time:<%=resultData.prep_time%> min|
+                        Cook Time:<%=resultData.cook_time%> min|
+                        Number of Servings:<%=resultData.servings%>|
+                        Cuisine : <%=resultData.cuisine%></p>  
+                    </div>
+                    </div>
+                    
+                </div>
+                <div class="row1">
+                    <div class="col-lg-4 col-md-4 col-sm-12 blog-text columns">
+                        <div class="ingredients">
+                            <h5 class="fontsans h5">Ingredients:</h5>
+                            <ul class="no-bullet">
+                                <% resultData.ingredients.forEach(function(r){ %>
+                                <li class="li">
+                                <%=r.min_q%> <%= r.name %></li>
+                                <% }); %> 
+                                <button class="btn btn-info fa fa-shopping-cart button" data-toggle="modal" data-target="#myModal"> Buy Ingredients</button>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 blog-text columns">
+                         <h5 class="fontsans h5">Preparation:</h5>
+                         <p><%=resultData.procedure%></p>
+                    </div>
+
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header popup_head">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title"><%=resultData.name%></h4>                                  
+                                </div>
+                                <% resultData.ingredients.forEach(function(r){ %>
+                                <div class="modal-body">
+                                    <ul class="no-bullet">
+                                        <li class="li">
+                                            <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <%= r.name %></div>
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <input type="text" class="form-control bfh-number" value="1">
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                            $<%= r.price %></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <% }); %> 
+                                <div class="modal-footer">
+                                     <button type="Submit" class="btn btn-danger" data-dismiss="modal">BUY NOW</button>
+                                </div>
+                            </div> <!-- content -->
+                        </div> <!-- dialog -->
+                    </div> <!-- modal fade -->
+                </div>
+            </section>      
+        </main>
+    </div>
+
+    <% include ../partials/scripts %>
+</body>
+
+</html>

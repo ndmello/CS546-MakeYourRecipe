@@ -1,0 +1,33 @@
+<nav class="navbar navbar-inverse  navigation-bar" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header header-wrapper">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					
+				</button>
+				<a class="brand-logo" id="homeIcon" href="/">MakeMyRecipe.com</a>
+			</div>
+			
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right header-wrapper">
+					<li id="home"><a href="/">Home</a></li>
+					<li class="Cuisine">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuisine <span class="caret"></span></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="http://localhost:3000/product/category/Indian">Indian</a></li>
+			            <li><a href="http://localhost:3000/product/category/Mexican">Mexican</a></li>
+			            <li><a href="http://localhost:3000/product/category/American">American</a></li>
+			          </ul>
+			        </li>
+			        <li id="about"><a href="http://localhost:3000/about">About</a></li>
+			           <li id="contact"><a href="http://localhost:3000/contact">Contact</a></li>
+					<% if(!locals.loginFlag) {%>
+					<li id="logon"><a href="/">Login</a></li>
+					<li id="register"><a href="/register">Sign Up</a></li>
+					<%}%>
+				</ul>
+			</div>
+
+		</div>
+	</nav>
