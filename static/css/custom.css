@@ -215,3 +215,14 @@ ul.no-bullet{
     color: white;
     padding-left: 10px;
 }
+
+.incr_decr_button{
+      width: 40px;
+    height: 35px;
+    border: 0px;
+    background-color: white;
+    text-align: center;
+}
+.li_popup{
+  height:7px;
+}
