@@ -1,17 +1,11 @@
 // We first require our express package
 var express = require('express');
 var bodyParser = require('body-parser');
-<<<<<<< HEAD
-var myData = require('./data.js');
-var recipeData = require('./data_recipe.js');
-var userData = require('./data_users.js');
 var cartData = require('./data_cart.js');
-=======
 var recipeData = require('./data_recipe.js');
 var usersData = require('./data_users.js');
 var cookieParser = require('cookie-parser');
 Guid = require('Guid');
->>>>>>> a965e3cfeefe47293c2c668ac0c3698fe4b9cab4
 
 // This package exports the function to create an express instance:
 var app = express();
