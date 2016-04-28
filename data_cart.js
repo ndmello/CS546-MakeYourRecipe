@@ -1,6 +1,7 @@
 var MongoClient = require('mongodb').MongoClient,
  settings = require('./config.js'),
  Guid = require('Guid');
+ recipeData = require('./data_recipe.js');
 
 var fullMongoUrl = settings.mongoConfig.serverUrl + settings.mongoConfig.database;
 var exports = module.exports = {};
@@ -32,13 +33,60 @@ MongoClient.connect(fullMongoUrl)
             if (!cartId) {
                 return Promise.reject("Cart ID not provided");
             }
-            
+
             return cartCollection.find({_id: cartId}).limit(1).toArray().then(function(listOfCarts) {
                 if (listOfCarts.length === 0) {
-                    throw "Could not find cart with id of " + id;
+                    return Promise.reject("Could not find cart with id of " + cartId);
                 }
-                
+
                 return listOfCarts[0];
+            });
+        };
+        
+        // return object with all cart data to display on cart page
+        exports.buildDisplayCart = function(cart, userId) {            
+            var listOfRecipes = [];
+            var count = 0;
+            
+            var prom = new Promise(function(resolve, reject) {
+                cart["recipeIds"].forEach(function(recipeId) {
+                    return recipeData.getRecipe(recipeId).then(function(recipe) {
+                        var ingredients = [];
+                        recipe["ingredients"].forEach(function(ingredient) {
+                            var ingredientObject = {
+                                "ingredientId": ingredient["_id"],
+                                "ingredientName": ingredient["name"],
+                                "price": ingredient["price"],
+                                "minQuantity": ingredient["min_q"],
+                                "quantity": 0
+                            };
+                            ingredients.push(ingredientObject);
+                        });
+                        var recipeObject = {
+                            "recipeId": recipe["_id"],
+                            "recipeName": recipe["name"],
+                            "listOfIngredients": ingredients
+                        };
+                        listOfRecipes.push(recipeObject);
+                        count++;
+                        if (count === cart["recipeIds"].length) {
+                            var displayCart = {
+                                "_id": cart["_id"],
+                                "userId": userId,
+                                "recipes": listOfRecipes
+                            };
+                            resolve(displayCart);
+                        }
+                    }, function(error) {
+                        return Promise.reject(error);
+                    });
+                });
+            });
+            
+            return prom.then(function(cart) {
+                return Promise.resolve(cart);
+            }).catch(function() {
+                return Promise.reject("something went wrong");
             });
         };
         
@@ -64,7 +112,7 @@ MongoClient.connect(fullMongoUrl)
             
             return cartCollection.deleteOne({_id: cartId}).then(function(deletionInfo) {
                 if (deletionInfo.deletedCount === 0) {
-                    throw "Could not find cart with id " + cartId + " to delete";
+                    Promise.reject("Could not find cart with id " + cartId + " to delete");
                 }
                 
                 return true;

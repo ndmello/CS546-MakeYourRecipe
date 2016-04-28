@@ -3,6 +3,7 @@
 
 <head>
     <% include ../partials/head %>
+    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-primary">
@@ -39,20 +40,23 @@
                                     <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe hidden">add recipe</button>
                                 </div>
                                 <ul id="<%- recipeId %>">
+                                    <div class="row">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>
                                         <% ingredientId = ingredient["ingredientId"]; %>
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
-                                        <li class="form-inline">
-                                            <label class="col-sm-3" for="<%- ingredientId %>"><%- ingredientName %></label>
-                                            <span class="col-sm-3"><input style="width:60px" class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
-                                            <span class="col-sm-3">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
-                                            <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient">remove</button>
-                                            <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden">add</button>
-                                        </li>
-                                        <p class="col-sm-12 hidden">error should go here</p>
+
+                                            <li class="col-sm-12 row form-inline">
+                                                <label class="col-sm-3" for="<%- ingredientId %>"><%- ingredientName %></label>
+                                                <span class="col-sm-3"><input class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
+                                                <span class="col-sm-3">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
+                                                <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient">remove</button>
+                                                <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden">add</button>
+                                            </li>
+                                            <p class="col-sm-12 hidden">error should go here</p>
                                     <% }); %>
+                                    </div>
                                 </ul>
                             </td>
                             <td class="recipe-price">

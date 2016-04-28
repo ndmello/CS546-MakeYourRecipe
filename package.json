@@ -23,6 +23,8 @@
     "express": "^4.13.4",
     "guid": "0.0.12",
     "mongodb": "^2.1.16",
-    "request-promise": "^2.0.0"
+    "request-promise": "^2.0.0",
+    "bcrypt-nodejs": "0.0.3",
+    "cookie-parser": "~1.4.1"
   }
 }
