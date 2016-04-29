@@ -165,12 +165,6 @@
     }
     
     function getCart() {
-        /*var save = $("#checkout-row");
-        if (!validateAllInput()) {
-            addError(save, "Please fix errors in cart before proceeding");
-            return;
-        }
-        removeError(save);*/
         
         var cartId = $("main").attr("id");
         var userId = $("table").attr("id");
