@@ -62,6 +62,7 @@ MongoClient.connect(fullMongoUrl)
             }).catch(function (err) {
 				return usersCollection.insertOne({_id : Guid.create().toString(),
                 username: username,
+                cartId: Guid.create().toString(),
                 encryptedPassword: bcrypt.hashSync(passwd),
                 currentSessionId: Guid.create().toString(),
 				profile:{ name: '', address: '', phone: '', credit_card_no: '', favorites: '' }}).then(function(newDoc) {

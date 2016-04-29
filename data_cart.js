@@ -13,7 +13,7 @@ MongoClient.connect(fullMongoUrl)
         // setup your exports!
         
         // create cart for user with userId with a list of recipeIds
-        exports.createCart = function(userId, listOfRecipeIds) {
+        /*exports.createCart = function(userId, listOfRecipeIds) {
             if (!userId) {
                 return Promise.reject("User ID not provided");
             }
@@ -26,7 +26,7 @@ MongoClient.connect(fullMongoUrl)
             }).then(function(newId) {
                 return exports.getCart(newId);
             });
-        };
+        };*/
         
         // return cart with id of cartId
         exports.getCart = function(cartId) {
@@ -36,9 +36,13 @@ MongoClient.connect(fullMongoUrl)
 
             return cartCollection.find({_id: cartId}).limit(1).toArray().then(function(listOfCarts) {
                 if (listOfCarts.length === 0) {
-                    return Promise.reject("Could not find cart with id of " + cartId);
+                    // cart doesn't exist, make a default cart
+                    createDefaultCart(cartId).then(function(cart) {
+                        return cart;
+                    });
+                    //return Promise.reject("Could not find cart with id of " + cartId);
                 }
-
+                
                 return listOfCarts[0];
             });
         };
@@ -81,6 +85,14 @@ MongoClient.connect(fullMongoUrl)
                         return Promise.reject(error);
                     });
                 });
+                
+                // there were no recipe IDs (empty cart)
+                var emptyCart = {
+                    "_id": cart["_id"],
+                    "userId": userId,
+                    "recipes": []
+                }
+                resolve(emptyCart);
             });
             
             return prom.then(function(cart) {
@@ -118,4 +130,12 @@ MongoClient.connect(fullMongoUrl)
                 return true;
             });
         };
+        
+        function createDefaultCart(cartId) {
+            return cartCollection.insertOne({_id: cartId, recipeIds: []}).then(function(newCart) {
+                return newCart.insertedId;
+            }).then(function(newId) {
+                return exports.getCart(newId);
+            });
+        }
     });
