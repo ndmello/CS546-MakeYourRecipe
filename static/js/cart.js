@@ -22,10 +22,6 @@
         $(this).addClass("hidden");
         data.find(".btn-add-recipe").removeClass("hidden");
         
-        /*data.find("li").each(function () {
-            removeIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
-        });*/
-        
         data.find("ul").addClass("hidden");
         updateCartPrice();
         orderAllLists();
@@ -39,10 +35,6 @@
         $(this).addClass("hidden");
         data.find(".btn-remove-recipe").removeClass("hidden");
         
-        /*data.find("li").each(function () {
-            addIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
-        });*/
-        
         data.find("ul").removeClass("hidden");
         updateCartPrice();
         orderAllLists();
@@ -54,6 +46,7 @@
     });
         
     function updateCartPrice() {
+        validateAllInput();
         var cartTotal = 0;
         
         $("tbody > tr").each(function () {
@@ -83,19 +76,34 @@
     function validateAllInput() {
         var errors = false;
         $("li").each(function () {
-            if (!validateInput($(this), $(this).find("input").val())) {
+            var inputItem = $(this).find(".cart-input");
+            if (inputItem.is("input") && !validateInput($(this), inputItem.val())) {
+                console.log("found an error");
                 errors = true;
             }
         });
+        
+        var save = $("#checkout-row");
+        if (errors) {
+            addError(save, "Please fix errors in cart before proceeding");
+            save.find("button").each(function () {
+                $(this).prop("disabled", true);
+            });
+        } else {
+            removeError(save);
+            save.find("button").each(function () {
+                $(this).prop("disabled", false);
+            });
+        }
         return !errors;
     }
     
     function validateInput(form, value) {
-        if (value == null | value == undefined || isNaN(value) || value === "") {
+        if (/*value == null | value == undefined || */isNaN(value) || value === "") {
             addError(form, "Invalid: not a number");
             return false;
         } else if (value < 0) {
-            addError(form, "Invalid: number below zero");
+            addError(form, "Invalid: quantity below zero");
             return false;
         }
         
@@ -103,14 +111,17 @@
     }
     
     function addError(element, error) {
-        removeError(element); // remove previous error
+        //removeError(element); // remove previous error
         element.addClass("has-error");
-        var error = $("<span class=\"col-sm-12 help-block\"><br /></span>").text(error);
-        element.append(error);
+        //var error = $("<span class=\"col-sm-offset-3 col-sm-9 help-block\"><br /></span>").text(error);
+        var help = element.find($(".help-block"));
+        help.text(error);
+        help.removeClass("hidden");
+        //element.append(error);
     }
     
     function removeError(element) {
-        element.find($(".help-block")).remove();
+        element.find($(".help-block")).addClass("hidden");
         element.removeClass("has-error");
     }
     
@@ -154,12 +165,12 @@
     }
     
     function getCart() {
-        var save = $("#save-form");
+        /*var save = $("#checkout-row");
         if (!validateAllInput()) {
-            addError(save, "Please fix errors in cart before saving");
+            addError(save, "Please fix errors in cart before proceeding");
             return;
         }
-        removeError(save);
+        removeError(save);*/
         
         var cartId = $("main").attr("id");
         var userId = $("table").attr("id");

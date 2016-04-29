@@ -3,80 +3,83 @@
 
 <head>
     <% include ../partials/head %>
-    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 
-<body class="bg-primary">
-    <div class="container">
-        <header>
-            <% var inputText; %>
-            <% var cartId = cart["_id"]; %>
-            <% var userId = cart["userId"]; %>
-            <% var recipeId; %>
-            <% var ingredientId; %>
-            <% var ingredientName; %>
-            <% var price; %>
-            <% var quantity; %>
-        </header>
-        <main id="<%- cartId %>">
-            <h1 class="center">Your Shopping Cart</h1>
-            <h2>Items:</h2>
-            <table id="<%- userId %>" class="table table-bordered">
-                <thead>
+<body class="cart-body">
+    <header class="header-other">
+        <% include ../partials/header %>
+        <% var inputText; %>
+        <% var cartId = cart["_id"]; %>
+        <% var userId = cart["userId"]; %>
+        <% var recipeId; %>
+        <% var ingredientId; %>
+        <% var ingredientName; %>
+        <% var price; %>
+        <% var quantity; %>
+    </header>
+    <main id="<%- cartId %>" class="container">
+        <h1 class="center">Your Shopping Cart</h1>
+        <h2>Items:</h2>
+        <table id="<%- userId %>" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Recipe</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% var recipes = cart["recipes"]; %>
+                <% recipes.forEach(function(recipe) { %>
+                    <% recipeId = recipe["recipeId"] %>
                     <tr>
-                        <th>Recipe</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% var recipes = cart["recipes"]; %>
-                    <% recipes.forEach(function(recipe) { %>
-                        <% recipeId = recipe["recipeId"] %>
-                        <tr>
-                            <td>
+                        <td>
+                            <div class="row">
+                                <h3 class="col-sm-3 col-sm-offset-2 name-header"><%- recipe["recipeName"] %></h3>
+                                <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-remove-recipe btn-cart">remove recipe</button>
+                                <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe btn-cart hidden">add recipe</button>
+                            </div>
+                            <ul id="<%- recipeId %>">
                                 <div class="row">
-                                    <h3 class="col-sm-3 col-sm-offset-2 name-header"><%- recipe["recipeName"] %></h3>
-                                    <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-remove-recipe">remove recipe</button>
-                                    <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe hidden">add recipe</button>
-                                </div>
-                                <ul id="<%- recipeId %>">
-                                    <div class="row">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>
                                         <% ingredientId = ingredient["ingredientId"]; %>
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
 
-                                            <li class="col-sm-12 row form-inline">
-                                                <label class="col-sm-3" for="<%- ingredientId %>"><%- ingredientName %></label>
-                                                <span class="col-sm-3"><input class="form-control" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
-                                                <span class="col-sm-3">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
-                                                <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient">remove</button>
-                                                <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden">add</button>
+                                            <li class="col-sm-12 row form-inline cart-li">
+                                                <label class="col-sm-3 top-padding" for="<%- ingredientId %>"><%- ingredientName %></label>
+                                                <span class="col-sm-3"><input class="form-control cart-input" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
+                                                <span class="col-sm-3 top-padding">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
+                                                <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient btn-cart">remove</button>
+                                                <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden btn-cart">add</button>
+                                                <span class="col-sm-offset-3 col-sm-9 hidden help-block"></span>
                                             </li>
-                                            <p class="col-sm-12 hidden">error should go here</p>
                                     <% }); %>
-                                    </div>
-                                </ul>
-                            </td>
-                            <td class="recipe-price">
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Total Cart Price</td>
-                        <td class="cart-price"></td>
+                                </div>
+                            </ul>
+                        </td>
+                        <td class="recipe-price">
+                        </td>
                     </tr>
-                </tfoot>
-            </table>
+                <% }) %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total Cart Price</td>
+                    <td class="cart-price"></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="row" id="checkout-row">
+            <span class="col-sm-offset-7 col-sm-5 hidden help-block"></span>
             <form id="save-form">
-                <button type="button" class="btn btn-success" id="btn-save-cart">Save cart</button>
+                <button type="button" class="btn btn-info btn-cart col-sm-offset-7 col-sm-1" id="btn-save-cart">Save cart</button>
             </form>
-        </main>
-    </div>
-
+            <form id="checkout-form">
+                <button type="button" class="btn btn-success btn-cart col-sm-offset-1 col-sm-1" id="btn-checkout">Save &amp; Checkout</button>
+            </form>
+        </div>
+    </main>
     <% include ../partials/scripts %>
     <script src="/assets/js/cart.js"></script>
 </body>

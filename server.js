@@ -204,107 +204,17 @@ app.get("/products/:id", function(request,response){
 });
 
 app.get("/cart", function(request, response) {
-
-    // user id should be provided in request/response
-        
-    //var cart = cartData.getCart(userId);
-    
-    // sample cart before DB is implemented
-    /*var exampleCart = {
-        "_id": 50,
-        "userId": 10,
-        "recipes": [
-            {
-                "recipeId": 20,
-                "recipeName": "Breakfast",
-                "listOfIngredients": [
-                    {
-                        "ingredientId": 30,
-                        "ingredientName": "Eggs",
-                        "price": 2.50,
-                        "minQuantity": 1,
-                        "quantity": 2
-                    },
-                    {
-                        "ingredientId": 31,
-                        "ingredientName": "Butter",
-                        "price": 1.50,
-                        "minQuantity": 1,
-                        "quantity": 1
-                    },
-                    {
-                        "ingredientId": 32,
-                        "ingredientName": "Toast",
-                        "price": 1.00,
-                        "minQuantity": 1,
-                        "quantity": 2
-                    },
-                    {
-                        "ingredientId": 33,
-                        "ingredientName": "Orange Juice",
-                        "price": 2.00,
-                        "minQuantity": 1,
-                        "quantity": 0
-                    }
-                ]
-            },
-            {
-                "recipeId": 21,
-                "recipeName": "Snack",
-                "listOfIngredients": [
-                    {
-                        "ingredientId": 34,
-                        "ingredientName": "Chips",
-                        "price": 3.00,
-                        "minQuantity": 2,
-                        "quantity": 10
-                    }
-                ]
-            }
-        ]
-    }*/
-    /*var listOfRecipeIds = ["51d74880-aba3-3162-3ddb-cfae207fc935", "8cf83b56-475e-052f-ba7e-470d338c04cd"];
-    cartData.createCart("6c33462d-083c-d64d-9af2-cb2835fadeb0", listOfRecipeIds).then(function() {
-        console.log("cart created");
-        response.render("pages/cart", { pageTitle: "Shopping Cart", cart: exampleCart });
-    }, function(errorMessage) {
-        response.status(500).json({error: errorMessage});
-    });*/
-    
-    /*cartData.deleteCart("4ea68e3c-7e10-d45a-d56c-3b4a861a60d9").then(function() {console.log("cart deleted");}, function(error) {
-        console.log(error);
-    });*/
-    
-    //response.render("pages/cart", { pageTitle: "Shopping Cart", cart: exampleCart });
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.getCart("f92f66eb-498b-dc4b-8815-91a0da57566c").then(function (cart) {
             cartData.buildDisplayCart(cart, user["_id"]).then(function(displayCart) {
                 response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart });
             });
-            //console.log(JSON.stringify(cart, null, "    "));
         }, function(errorMessage) {
             Promise.reject(errorMessage);
         });
     }, function (errorMessage) {
         response.status(500).json({error: errorMessage});
     });
-    /*cartData.getCart("f92f66eb-498b-dc4b-8815-91a0da57566c").then(function (cart) {
-        usersData.getUserBySessionId(response.locals.user).then(function(user) {
-            console.log("about to buildDisplayCart");
-            cartData.buildDisplayCart(cart, user["_id"]).then(function (displayCart) {
-                console.log(displayCart);
-                response.render("pages/cart", { pageTitle: "Shopping Cart", cart: exampleCart });
-            }, function() {
-                Promise.reject("something went wrong");
-            });
-        });
-
-        //response.render("pages/cart", { pageTitle: "Shopping Cart", cart: exampleCart });
-    }, function(errorMessage) {
-        response.status(500).json({error: errorMessage});
-    });*/
-    
-    //response.render("pages/cart", { pageTitle: "Shopping Cart", cart: exampleCart });
 });
 
 // We can now navigate to localhost:3000
