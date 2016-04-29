@@ -33,7 +33,7 @@ app.use(function(request, response, next) {
 		usersData.getUserBySessionId(cookie).then(function(user) {
 			  response.locals.user = user.currentSessionId;
 			  if(response.locals.user){
-				response.render("pages/success");
+                ;//response.render("pages/success");
 				
 			} else{
 				cookie = undefined;
@@ -52,8 +52,13 @@ app.use(function(request, response, next) {
 app.get("/", function (request, response) { 
 
 console.log("cookie in get / ::"+cookie);
-if(cookie == undefined)
-response.render("pages/homepage");
+//if(cookie == undefined)
+usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        response.render("pages/homepage");
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+
 
    
 });
@@ -218,7 +223,7 @@ app.get("/cart", function(request, response) {
             Promise.reject(errorMessage);
         });
     }, function (errorMessage) {
-        response.status(500).json({error: errorMessage});
+        response.redirect("/login");
     });
 });
 
