@@ -27,18 +27,20 @@
                   </div>  
                 </div>
                 <div class="row1">
-                    <div class="columns">
-                      <p><%=resultData.description%></p> 
-                     <p>Prep Time:<%=resultData.prep_time%> min|
-                        Cook Time:<%=resultData.cook_time%> min|
-                        Number of Servings:<%=resultData.servings%>|
-                        Cuisine : <%=resultData.cuisine%></p>  
-                    </div>
-                    </div>
-                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 columns text-center">
+                        <div class="description fontsans">
+                        <p><%=resultData.description%></p>
+                        <p>Cuisine : <%=resultData.cuisine%></p>
+                        <p class="details">Servings : <%=resultData.servings%> | Prep Time : <%=resultData.prep_time%> min | Cook Time : <%=resultData.cook_time%> min</p>
+                        </div>  
+                  </div>
                 </div>
+                    
                 <div class="row1">
                     <div class="col-lg-4 col-md-4 col-sm-12 blog-text columns">
+                        <div class="">
+
+                        </div>
                         <div class="ingredients">
                             <h5 class="fontsans h5">Ingredients:</h5>
                             <ul class="no-bullet">
@@ -67,19 +69,23 @@
                                     <ul class="no-bullet">
                                         <li class="li li_popup">
                                             <div class="col-xs-6 col-sm-6 col-md-6">
-                                            <%= r.name %></div>
+                                            <%= r.name %> (<%=r.min_q%>)</div>
                                             <div class="col-xs-4 col-sm-4 col-md-4">
-                                                <input type="number" class="incr_decr_button" value="1" max=100 min=0 buttons="true" autofocus="true">
+                                            <input type="number" id="quantity[]" class="numericField" value="1" max=100 min= 0 buttons="true" autofocus="true" onChange="">
                                             </div>
-                                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                            $<%= r.price %></div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2">$
+                                            <input class="numericField" type="text" id="price[]" value="<%= r.price %>" disabled></div>
                                         </li>
                                     </ul>
                                 </div>
                                 <% }); %> 
                                 <div class="modal-footer">
-                                    Total:
-                                     <button type="Submit" class="btn btn-danger" data-dismiss="modal">BUY NOW</button>
+                                    <span class="li">Total: $</span>
+                                        <input class="numericField li total" type="text" id="total" value="" disabled><br>
+
+                                    <button type="Submit" id="buy" class="btn btn-danger li" data-dismiss="modal">BUY NOW</button>
+                                        
+                        
                                 </div>
                             </div> <!-- content -->
                         </div> <!-- dialog -->
