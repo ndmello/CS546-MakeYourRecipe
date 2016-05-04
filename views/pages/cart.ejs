@@ -10,7 +10,6 @@
         <% include ../partials/header %>
         <% var inputText; %>
         <% var cartId = cart["_id"]; %>
-        <% var userId = cart["userId"]; %>
         <% var recipeId; %>
         <% var ingredientId; %>
         <% var ingredientName; %>
@@ -20,11 +19,11 @@
     <main id="<%- cartId %>" class="container">
         <h1 class="center">Your Shopping Cart</h1>
         <h2>Items:</h2>
-        <table id="<%- userId %>" class="table table-bordered">
+        <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Recipe</th>
-                    <th>Price</th>
+                    <th class="text-center">Recipe</th>
+                    <th class="text-center">Price</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,15 +44,15 @@
                                         <% ingredientId = ingredient["ingredientId"]; %>
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
-
-                                            <li class="col-sm-12 row form-inline cart-li">
-                                                <label class="col-sm-3 top-padding" for="<%- ingredientId %>"><%- ingredientName %></label>
-                                                <span class="col-sm-3"><input class="form-control cart-input" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
-                                                <span class="col-sm-3 top-padding">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
-                                                <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient btn-cart">remove</button>
-                                                <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden btn-cart">add</button>
-                                                <span class="col-sm-offset-3 col-sm-9 hidden help-block"></span>
-                                            </li>
+                                        <% if (quantity == undefined) {quantity = 0;} %>
+                                        <li class="col-sm-12 row form-inline cart-li">
+                                            <label class="col-sm-3 top-padding" for="<%- ingredientId %>"><%- ingredientName %></label>
+                                            <span class="col-sm-3"><input class="form-control cart-input" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
+                                            <span class="col-sm-3 top-padding">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
+                                            <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient btn-cart">remove</button>
+                                            <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden btn-cart">add</button>
+                                            <span class="col-sm-offset-3 col-sm-9 hidden help-block"></span>
+                                        </li>
                                     <% }); %>
                                 </div>
                             </ul>

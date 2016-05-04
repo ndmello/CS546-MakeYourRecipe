@@ -212,13 +212,36 @@ app.get("/products/:id", function(request,response){
     });
 });
 
+app.post("/cart/save", function(request, response) {
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        cartData.updateCart(user["cartId"], request.body.recipes).then(function() {
+            response.status(200).json({message: "everything went okay"});
+        }, function(errorMessage) {
+            response.status(500).json({message: errorMessage});
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+});
+
+app.post("/cart/add", function(request, response) {
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        cartData.addRecipeToCart(user["cartId"], request.body).then(function() {
+            response.status(200).json({message: "everything went okay"});
+        }, function(errorMessage) {
+            response.status(500).json({message: errorMessage});
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+});
+
 app.get("/cart", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
-        //"f92f66eb-498b-dc4b-8815-91a0da57566c"
         cartData.getCart(user["cartId"]).then(function (cart) {
-            cartData.buildDisplayCart(cart, user["_id"]).then(function(displayCart) {
+            cartData.displayCart(cart).then(function(displayCart) {
                 response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart });
-            });
+            }, function(errorMessage){console.log("failure", errorMessage)});
         }, function(errorMessage) {
             Promise.reject(errorMessage);
         });

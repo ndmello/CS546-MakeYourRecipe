@@ -1,6 +1,7 @@
 var MongoClient = require('mongodb').MongoClient,
  settings = require('./config.js'),
- Guid = require('Guid');
+ Guid = require('Guid'),
+ cartData = require('./data_cart.js');
 var bcrypt = require("bcrypt-nodejs");
 
 var fullMongoUrl = settings.mongoConfig.serverUrl + settings.mongoConfig.database;
@@ -60,9 +61,13 @@ MongoClient.connect(fullMongoUrl)
 
                 return Promise.resolve("User already exists");
             }).catch(function (err) {
+                var cartGuid = Guid.create().toString();
+                cartData.createCart(cartGuid).then(function () {
+                    ;
+                });
 				return usersCollection.insertOne({_id : Guid.create().toString(),
                 username: username,
-                cartId: Guid.create().toString(),
+                cartId: cartGuid,
                 encryptedPassword: bcrypt.hashSync(passwd),
                 currentSessionId: Guid.create().toString(),
 				profile:{ name: '', address: '', phone: '', credit_card_no: '', favorites: '' }}).then(function(newDoc) {

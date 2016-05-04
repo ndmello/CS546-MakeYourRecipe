@@ -10,9 +10,9 @@
              <% include ../partials/header %>
         </header>
     <div class="container">
-        
+
         <main>
-            <!-- Let's start writing content! -->  
+            <!-- Let's start writing content! -->
             <section class="content-padding">
                 <div class="row1">
                     <div class="col-lg-12 col-md-12 col-sm-12 columns text-center">
@@ -24,18 +24,18 @@
                 <div class="row1">
                   <div class="col-lg-12 col-md-12 col-sm-12 columns text-center">
                         <img src="http://localhost:3000/assets/images/<%=resultData.image_url%>" alt="Salmon-burger" width = "1000px" height="500px"/>
-                  </div>  
+                  </div>
                 </div>
                 <div class="row1">
                     <div class="columns">
-                      <p><%=resultData.description%></p> 
+                      <p><%=resultData.description%></p>
                      <p>Prep Time:<%=resultData.prep_time%> min|
                         Cook Time:<%=resultData.cook_time%> min|
                         Number of Servings:<%=resultData.servings%>|
-                        Cuisine : <%=resultData.cuisine%></p>  
+                        Cuisine : <%=resultData.cuisine%></p>
                     </div>
                     </div>
-                    
+
                 </div>
                 <div class="row1">
                     <div class="col-lg-4 col-md-4 col-sm-12 blog-text columns">
@@ -45,7 +45,7 @@
                                 <% resultData.ingredients.forEach(function(r){ %>
                                 <li class="li">
                                 <%=r.min_q%> <%= r.name %></li>
-                                <% }); %> 
+                                <% }); %>
                                 <button class="btn btn-info fa fa-shopping-cart button" data-toggle="modal" data-target="#myModal"> Buy Ingredients</button>
                             </ul>
                         </div>
@@ -60,8 +60,9 @@
                             <div class="modal-content">
                                 <div class="modal-header popup_head">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title"><%=resultData.name%></h4>                                  
+                                    <h4 class="modal-title"><%=resultData.name%></h4>
                                 </div>
+                                <span id="recipe-guid" data-guid="<%- resultData._id %>" class="hidden"></span>
                                 <% resultData.ingredients.forEach(function(r){ %>
                                 <div class="modal-body">
                                     <ul class="no-bullet">
@@ -69,27 +70,28 @@
                                             <div class="col-xs-6 col-sm-6 col-md-6">
                                             <%= r.name %></div>
                                             <div class="col-xs-4 col-sm-4 col-md-4">
-                                                <input type="number" class="incr_decr_button" value="1" max=100 min=0 buttons="true" autofocus="true">
+                                                <span class="ingredient-info hidden" data-guid="<%- r._id %>"></span>
+                                                <input type="number" class="incr_decr_button input-quantity" value="1" max=100 min=0 buttons="true" autofocus="true">
                                             </div>
                                             <div class="col-xs-2 col-sm-2 col-md-2">
                                             $<%= r.price %></div>
                                         </li>
                                     </ul>
                                 </div>
-                                <% }); %> 
+                                <% }); %>
                                 <div class="modal-footer">
                                     Total:
-                                     <button type="Submit" class="btn btn-danger" data-dismiss="modal">BUY NOW</button>
+                                     <button type="Submit" class="btn btn-danger" id="button-buy" data-dismiss="modal">BUY NOW</button>
                                 </div>
                             </div> <!-- content -->
                         </div> <!-- dialog -->
                     </div> <!-- modal fade -->
                 </div>
-            </section>      
+            </section>
         </main>
     </div>
-
     <% include ../partials/scripts %>
+    <script src="/assets/js/add_product.js"></script>
 </body>
 
 </html>

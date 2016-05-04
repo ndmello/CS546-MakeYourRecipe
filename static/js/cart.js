@@ -1,6 +1,7 @@
 (function ($) {
     updateCartPrice();
     orderAllLists();
+    hideNoQuantity();
     
     $("input").on("change paste keyup", function() {
         updateCartPrice();
@@ -41,8 +42,7 @@
     });
     
     $("#btn-save-cart").on("click", function() {
-        var cart = getCart();
-        console.log(JSON.stringify(cart))
+        saveCart();
     });
         
     function updateCartPrice() {
@@ -78,7 +78,6 @@
         $("li").each(function () {
             var inputItem = $(this).find(".cart-input");
             if (inputItem.is("input") && !validateInput($(this), inputItem.val())) {
-                console.log("found an error");
                 errors = true;
             }
         });
@@ -111,13 +110,10 @@
     }
     
     function addError(element, error) {
-        //removeError(element); // remove previous error
         element.addClass("has-error");
-        //var error = $("<span class=\"col-sm-offset-3 col-sm-9 help-block\"><br /></span>").text(error);
         var help = element.find($(".help-block"));
         help.text(error);
         help.removeClass("hidden");
-        //element.append(error);
     }
     
     function removeError(element) {
@@ -164,49 +160,52 @@
         updateCartPrice();
     }
     
+    function hideNoQuantity() {
+        $("li").each(function() {
+            if ($(this).find("input").val() == 0) {
+                removeIngredient($(this), $(this).find(".btn-add-ingredient"), $(this).find(".btn-remove-ingredient"));
+            }
+        });
+    }
+    
     function getCart() {
         
         var cartId = $("main").attr("id");
-        var userId = $("table").attr("id");
         var recipes = [];
         
         $("ul").each(function () {
             if (!$(this).hasClass("removed")) {
-                var recipeId = $(this).attr("id");
-                var ingredients = [];
+                var recipe = {};
+                var empty = true;
+                recipe["recipeId"] = $(this).attr("id");
                 
                 $(this).find("li").each(function () {
-                    if (!$(this).hasClass("removed")) {
-                        var input = $(this).find("input");
-                        var ingredientId = input.attr("id");
-                        var quantity = input.val();
-                        
-                        if (quantity > 0) {
-                            var ingredient = {
-                                "ingredientId": ingredientId,
-                                "quantity": quantity
-                            };
-                            ingredients.push(ingredient);
-                        }
+                    var input = $(this).find("input");
+                    var ingredientId = input.attr("id");
+                    var quantity = $(this).hasClass("removed") ? 0 : input.val();
+                    
+                    if (quantity > 0) {
+                        recipe[ingredientId] = quantity;
+                        empty = false;
                     }
                 });
-               if (ingredients.length > 0) {
-                   var recipe = {
-                       "recipeId": recipeId,
-                       "ingredients": ingredients
-                   };
+               if (!empty) {
                    recipes.push(recipe);
                }
             }
         });
-        if (recipes.length > 0) {
-            var cart = {
-                "_id": cartId,
-                "userId": userId,
-                "recipes": recipes
-            };
-            return cart;
-        }
-        return null;
+        return {
+            "_id": cartId,
+            "recipes": recipes
+        };
+    }
+    
+    function saveCart() {
+        $.ajax({
+            url: "/cart/save",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(getCart())
+        });
     }
 })(jQuery);

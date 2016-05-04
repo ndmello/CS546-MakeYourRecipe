@@ -27,12 +27,12 @@ Serve each burger topped with 1 1/2 teaspoons pickled ginger.";
 function runSetup() {
     return MongoClient.connect(fullMongoUrl)
         .then(function(db) {
-            return db.collection("recipe").drop().then(function() {
+            /*return db.collection("recipe").drop().then(function() {
                 return db;
             }, function() {
                 return db;
             });
-        }).then(function(db) {
+        }).then(function(db) {*/
             return db.createCollection("recipe");
         }).then(function(recipeCollection){
         	var newDoc = function(name, description, image_url, prep_time, cook_time, servings, cuisine, procedure){
