@@ -73,7 +73,7 @@ body.homepage{
 }
 
 .lead{
-    
+
     font-size: 21px !important;
     font-weight: 200;
     line-height: 30px;
@@ -94,7 +94,7 @@ body.homepage{
     box-shadow: none;
     border-radius: 0;
     position: relative;
-}    
+}
 
 
 /*Product page*/
@@ -190,7 +190,7 @@ table.normal{
   color:#fff !important;
 font-family: 'Dancing Script', cursive;
   font-size: 35px !important;
-    
+
 }
 
 /*replacing bootstrap style*/
@@ -255,7 +255,7 @@ color: #fff !important;
 .fontsans {
     font-family: 'Alegreya Sans', sans-serif;
     font-weight: 400;
-   
+
 }
 .margin0 {
     margin: 0!important;
@@ -324,8 +324,60 @@ ul.no-bullet{
     padding-left: 10px;
 }
 
+
 .numericField{
     width: 40px;
+
+
+
+.removed {
+    color: red;
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+label {
+    text-decoration: inherit;
+    font-style: inherit;
+}
+
+.cart-li {
+    list-style-type: none;
+}
+
+.btn-cart {
+    color: black;
+    width: 135px;
+}
+
+.btn-remove-recipe, .btn-add-recipe {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.cart-input.cart-input {
+    width: 75px;
+    text-align: center;
+}
+
+.top-padding {
+    padding-top: 10px;
+}
+
+.cart-body {
+    color: #fff;
+    background-color: #333;
+    padding-bottom: 150px;
+}
+
+.help-block.help-block {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.incr_decr_button{
+      width: 40px;
+
     height: 35px;
     border: 0px;
     background-color: white;
@@ -351,7 +403,7 @@ ul.no-bullet{
 }
 
 .search-home-center{
-  
+
       margin-top: 20%;
   align-items: center;
 }
@@ -360,4 +412,3 @@ ul.no-bullet{
   padding-left: 20%;
   padding-right: 20%;
 }
->>>>>>> master
