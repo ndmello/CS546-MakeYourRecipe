@@ -14,11 +14,12 @@ MongoClient.connect(fullMongoUrl)
                 
         // return cart with id of cartId
         exports.getCart = function(cartId) {
-            if (!cartId) {
+           if (!cartId) {
                 return Promise.reject("Cart ID not provided");
             }
 
             return cartCollection.find({_id: cartId}).limit(1).toArray().then(function(listOfCarts) {
+
                 if (listOfCarts.length === 0) {
                     return Promise.reject("Could not find cart with id of " + cartId);
                 }
