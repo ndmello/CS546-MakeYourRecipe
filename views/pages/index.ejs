@@ -38,9 +38,9 @@
 
 
 				<div class="alert alert-danger hidden" id="error-message-login"> </div>
-				<% var login_error; %>
-				<% if(login_error) {  %>
-				<div class="alert alert-danger" role="alert" id="login_error"> <%= login_error %> </div>
+				
+				<% if(locals.error) {  %>
+				<div class="alert alert-danger" role="alert" id="login_error"> <%= error %> </div>
 				<% } %>
 
 			</section>

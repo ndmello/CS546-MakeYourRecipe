@@ -404,11 +404,12 @@ label {
 
 .search-home-center{
 
-      margin-top: 20%;
+  
   align-items: center;
 }
 
-.search-home-center-row{
-  padding-left: 20%;
-  padding-right: 20%;
+.search-home-center-make{
+  margin-top: 20% !important;
+  padding-left: 20% !important;
+  padding-right: 20% !important;
 }
