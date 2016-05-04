@@ -24,23 +24,29 @@ app.use('/assets', express.static('static'));
 
 
 var cookie;
+var loginFlag = false;
 
 app.use(function(request, response, next) {
-	cookie = request.cookies.currentSessionId;
-	console.log("Cookie in middleware::"+cookie);
-	if (cookie != undefined) {
-		usersData.getUserBySessionId(cookie).then(function(user) {
-			  response.locals.user = user.currentSessionId;
-			  if(response.locals.user){
-				response.render("pages/success");
-				
-			} else{
-				cookie = undefined;
-			}
-	   });
-	  
-	}
-	
+    cookie = request.cookies.currentSessionId;
+    console.log("Cookie in middleware::"+cookie);
+    if (cookie) {
+        usersData.getUserBySessionId(cookie).then(function(user) {
+              if(user){
+                    next();
+
+                }
+                else
+                {
+                    var anHourAgo = new Date();
+                    anHourAgo.setHours(anHourAgo.getHours() -1);
+
+                    response.cookie("sessionID", "", {expires : anHourAgo});
+                    response.clearCookie("sessionID");
+                    
+                }
+        });
+        return;
+    }
     next();
 });
 
@@ -49,21 +55,14 @@ app.use(function(request, response, next) {
 // Setup your routes here!
 
 app.get("/", function (request, response) { 
-
-console.log("cookie in get / ::"+cookie);
-if(cookie == undefined)
-response.render("pages/homepage");
-
-   
-});
-
-app.get("/home", function (request, response) {
-    response.render("pages/homepage");
-
+    
+    response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId});
+    
 });
 
 app.get("/login",function (request, response){
-    response.render("pages/index");
+    response.render("pages/index", {loginFlag: request.cookies.currentSessionId});
+    
 });
 
 /*
@@ -75,20 +74,21 @@ app.get("/", function (request, response) {
 */
 
 app.get("/register", function (request, response) {
-    response.render("pages/register", { pageTitle: "Welcome Home" });
+    response.render("pages/register", {loginFlag: request.cookies.currentSessionId});
+    
 });
 
 // Create a user
 app.post("/createUser", function(request, response) {
     usersData.createUser(request.body.register_email, request.body.register_passwd).then(function(user) {
-		if(user != "User already exists") {
-			var expiresAt = new Date();
-			expiresAt.setHours(expiresAt.getHours() + 1);
-			response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
-			response.redirect("/");
-		}else {
-			response.render("pages/index", {signup_error: "User already exists"});
-		}
+        if(user != "User already exists") {
+            var expiresAt = new Date();
+            expiresAt.setHours(expiresAt.getHours() + 1);
+            response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
+            response.redirect("/");
+        }else {
+            response.render("pages/index", {signup_error: "User already exists"});
+        }
     }, function(errorMessage) {
         response.status(500).json({ error: errorMessage });
     });
@@ -96,33 +96,33 @@ app.post("/createUser", function(request, response) {
 
 // Login
 app.post("/login", function(request, response) {
-	var uname,pwd;
-	uname = request.body.login_email;
-	pwd = request.body.login_passwd;
-	if(uname && pwd){
+    var uname,pwd;
+    uname = request.body.login_email;
+    pwd = request.body.login_passwd;
+    if(uname && pwd){
     usersData.validateUser(uname, pwd).then(function(user) {
-		var newSessionId = Guid.create().toString();
-		var expiresAt = new Date();
-			expiresAt.setHours(expiresAt.getHours() + 1);
-			 response.cookie('currentSessionId', newSessionId, { expires: expiresAt });
-			 usersData.updateSessionId(user._id, newSessionId).then(function(user) {
-		 });
-        response.render("pages/homepage");
+        var newSessionId = Guid.create().toString();
+        var expiresAt = new Date();
+            expiresAt.setHours(expiresAt.getHours() + 1);
+             response.cookie('currentSessionId', newSessionId, { expires: expiresAt });
+             usersData.updateSessionId(user._id, newSessionId).then(function(user) {
+         });
+        response.redirect("/");
     }, function(errorMessage) {
         response.render("pages/index", {login_error: errorMessage});
     });
-	}
+    }
 });
 
 //Logout
 app.post("/logout", function(request, response) {
-		var anHourAgo = new Date();
+        var anHourAgo = new Date();
         anHourAgo.setHours(anHourAgo.getHours() -1);
-		var sessionId = null;
+        var sessionId = null;
         // invalidate, then clear so that lastAccessed no longer shows up on the
         // cookie object
-		//remove session id from DB
-		usersData.removeSessionId(cookie);
+        //remove session id from DB
+        usersData.removeSessionId(cookie);
         response.cookie("currentSessionId", "", { expires: anHourAgo });
         response.clearCookie("currentSessionId");
         response.redirect('/'); //Inside a callback… bulletproof!
@@ -138,12 +138,14 @@ app.get("/product/category/:category",function (request, response){
             result[i] = recipeData.totalPrice(result[i]);
         }
         console.log(result);
-        response.render("pages/product_category", {resultData : result})
+        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId})
+        
+        
     });
 });
 
 app.get("/add-product",function (request, response){
-    response.render("pages/add-product");
+    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId});
 });
 
 app.post("/add-product",function (request, response){
@@ -192,7 +194,7 @@ app.post("/search",function (request, response){
         {
             result[i] = recipeData.totalPrice(result[i]);
         }
-        response.render("pages/search_results",{resultData : result, keyword : keyword})
+        response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId})
     });
 });
 
@@ -200,7 +202,7 @@ app.post("/search",function (request, response){
 app.get("/products/:id", function(request,response){
     console.log(request.params.id);
     recipeData.getRecipe(request.params.id).then(function(recipe){
-        response.render("pages/product",{resultData: recipe});
+        response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId});
     },function(errorMessage) {
         response.status(500).json({ error: errorMessage });
     });
