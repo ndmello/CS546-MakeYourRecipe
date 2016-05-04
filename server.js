@@ -1,6 +1,7 @@
 // We first require our express package
 var express = require('express');
 var bodyParser = require('body-parser');
+var cartData = require('./data_cart.js');
 var recipeData = require('./data_recipe.js');
 var usersData = require('./data_users.js');
 var cookieParser = require('cookie-parser');
@@ -27,6 +28,7 @@ var cookie;
 var loginFlag = false;
 
 app.use(function(request, response, next) {
+
     cookie = request.cookies.currentSessionId;
     console.log("Cookie in middleware::"+cookie);
     if (cookie) {
@@ -47,6 +49,7 @@ app.use(function(request, response, next) {
         });
         return;
     }
+
     next();
 });
 
@@ -55,10 +58,25 @@ app.use(function(request, response, next) {
 // Setup your routes here!
 
 app.get("/", function (request, response) { 
+
     
     response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId});
     
+
+
+console.log("cookie in get / ::"+cookie);
+//if(cookie == undefined)
+usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        response.render("pages/homepage");
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+
+
+   
 });
+
+
 
 app.get("/login",function (request, response){
     response.render("pages/index", {loginFlag: request.cookies.currentSessionId});
@@ -205,6 +223,44 @@ app.get("/products/:id", function(request,response){
         response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId});
     },function(errorMessage) {
         response.status(500).json({ error: errorMessage });
+    });
+});
+
+app.post("/cart/save", function(request, response) {
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        cartData.updateCart(user["cartId"], request.body.recipes).then(function() {
+            response.status(200).json({message: "everything went okay"});
+        }, function(errorMessage) {
+            response.status(500).json({message: errorMessage});
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+});
+
+app.post("/cart/add", function(request, response) {
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        cartData.addRecipeToCart(user["cartId"], request.body).then(function() {
+            response.status(200).json({message: "everything went okay"});
+        }, function(errorMessage) {
+            response.status(500).json({message: errorMessage});
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+});
+
+app.get("/cart", function(request, response) {
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        cartData.getCart(user["cartId"]).then(function (cart) {
+            cartData.displayCart(cart).then(function(displayCart) {
+                response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart });
+            }, function(errorMessage){console.log("failure", errorMessage)});
+        }, function(errorMessage) {
+            Promise.reject(errorMessage);
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
     });
 });
 
