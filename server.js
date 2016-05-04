@@ -54,7 +54,7 @@ app.get("/", function (request, response) {
 console.log("cookie in get / ::"+cookie);
 //if(cookie == undefined)
 usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
-        response.render("pages/homepage");
+        response.render("pages/homepage", {pageTitle: "Make My Recipe"});
     }, function (errorMessage) {
         response.redirect("/login");
     });
@@ -64,12 +64,12 @@ usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (us
 });
 
 app.get("/home", function (request, response) {
-    response.render("pages/homepage");
+    response.render("pages/homepage", {pageTitle: "Make My Recipe"});
 
 });
 
 app.get("/login",function (request, response){
-    response.render("pages/index");
+    response.render("pages/index", {pageTitle: "Login"});
 });
 
 /*
@@ -93,7 +93,7 @@ app.post("/createUser", function(request, response) {
 			response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
 			response.redirect("/");
 		}else {
-			response.render("pages/index", {signup_error: "User already exists"});
+			response.render("pages/index", {login_error: "User already exists", pageTitle: "Registration Error"});
 		}
     }, function(errorMessage) {
         response.status(500).json({ error: errorMessage });
@@ -113,9 +113,9 @@ app.post("/login", function(request, response) {
 			 response.cookie('currentSessionId', newSessionId, { expires: expiresAt });
 			 usersData.updateSessionId(user._id, newSessionId).then(function(user) {
 		 });
-        response.render("pages/homepage");
+        response.render("pages/homepage", {pageTitle: "Make My Recipe"});
     }, function(errorMessage) {
-        response.render("pages/index", {login_error: errorMessage});
+        response.render("pages/index", {login_error: errorMessage, pageTitle: "Login Error"});
     });
 	}
 });
@@ -144,12 +144,12 @@ app.get("/product/category/:category",function (request, response){
             result[i] = recipeData.totalPrice(result[i]);
         }
         console.log(result);
-        response.render("pages/product_category", {resultData : result})
+        response.render("pages/product_category", {resultData : result, pageTitle: "Categories"})
     });
 });
 
 app.get("/add-product",function (request, response){
-    response.render("pages/add-product");
+    response.render("pages/add-product", {pageTitle: "Add Recipe"});
 });
 
 app.post("/add-product",function (request, response){
@@ -198,7 +198,7 @@ app.post("/search",function (request, response){
         {
             result[i] = recipeData.totalPrice(result[i]);
         }
-        response.render("pages/search_results",{resultData : result, keyword : keyword})
+        response.render("pages/search_results",{resultData : result, keyword : keyword, pageTitle : "Search Results"})
     });
 });
 
@@ -206,7 +206,7 @@ app.post("/search",function (request, response){
 app.get("/products/:id", function(request,response){
     console.log(request.params.id);
     recipeData.getRecipe(request.params.id).then(function(recipe){
-        response.render("pages/product",{resultData: recipe});
+        response.render("pages/product",{resultData: recipe, pageTitle: "Recipe"});
     },function(errorMessage) {
         response.status(500).json({ error: errorMessage });
     });

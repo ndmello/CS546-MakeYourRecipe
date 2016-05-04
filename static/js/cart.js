@@ -70,7 +70,7 @@
         });
 
         cartTotal = parseFloat(cartTotal).toFixed(2);
-        $(".cart-price").text("$" + cartTotal);
+        $("#cart-price").text("$" + cartTotal);
     }
     
     function validateAllInput() {
@@ -98,7 +98,7 @@
     }
     
     function validateInput(form, value) {
-        if (/*value == null | value == undefined || */isNaN(value) || value === "") {
+        if (isNaN(value) || value === "") {
             addError(form, "Invalid: not a number");
             return false;
         } else if (value < 0) {
@@ -143,6 +143,7 @@
         removeBtn.addClass("hidden");
 
         listItem.find("input").addClass("hidden");
+        listItem.find(".units").addClass("hidden");
         addBtn.removeClass("hidden");
         
         orderList(listItem.closest("ul"));
@@ -154,6 +155,7 @@
         addBtn.addClass("hidden");
 
         listItem.find("input").removeClass("hidden");
+        listItem.find(".units").removeClass("hidden");
         removeBtn.removeClass("hidden");
               
         orderList(listItem.closest("ul"));
@@ -208,4 +210,44 @@
             data: JSON.stringify(getCart())
         });
     }
+    
+    
+    // stripe checkout
+    var handler = StripeCheckout.configure({
+        key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
+        //image: '/static/images/background_image.jpg',
+        locale: 'auto',
+        token: function(token) {
+            // successfully checkout out
+            // empty cart and save
+            $("table").remove();
+            $("#checkout-row").remove();
+            $("h1").text("Thank you for shopping with us");
+            $("h1").addClass("text-center");
+            $("h2").remove();
+            updateCartPrice();
+            saveCart();
+        }
+    });
+
+    $('#btn-checkout').on('click', function(e) {
+        saveCart();
+        var total = $("#cart-price").text().replace(/\$|\./g, "");
+        if (total == 0) {
+            addError($("#checkout-row"), "Add something to your cart before checking out");
+        } else {
+        // Open Checkout with further options:
+            handler.open({
+                name: 'Make My Recipe',
+                description: 'Checkout',
+                amount: total
+            });
+            e.preventDefault();
+        }
+    });
+
+    // Close Checkout on page navigation:
+    $(window).on('popstate', function() {
+        handler.close();
+    });
 })(jQuery);
