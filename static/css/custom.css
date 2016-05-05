@@ -266,12 +266,26 @@ color: #fff !important;
     padding: 30px;
 }
 
+
 .h3{
    font-size: 3.1em;
 }
 
 .h5{
   font-size: 1.9em;
+}
+.description{
+  font-size: 1.7em;
+    margin: 3.25rem auto 3rem;
+    width: 88%;
+    /*border-bottom: 1px solid #9d9d9d;*/
+}
+.details{
+    color:#008CBA ;
+}
+.total{
+  padding-right: 10px;
+  width:64px!important;
 }
 
 ul.no-bullet{
@@ -309,6 +323,13 @@ ul.no-bullet{
     color: white;
     padding-left: 10px;
 }
+
+
+.numericField{
+    width: 40px;
+    border :none!important;
+    background-color: white;
+  }
 
 
 
@@ -359,6 +380,7 @@ label {
 
 .incr_decr_button{
       width: 40px;
+
     height: 35px;
     border: 0px;
     background-color: white;
@@ -383,13 +405,3 @@ label {
     padding-bottom: 48px;
 }
 
-.search-home-center{
-
-      margin-top: 20%;
-  align-items: center;
-}
-
-.search-home-center-row{
-  padding-left: 20%;
-  padding-right: 20%;
-}
