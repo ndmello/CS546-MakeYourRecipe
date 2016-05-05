@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Make My Recipe</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><strong>Home</strong></a></li>
+                <li><a class="dropdown-toggle" data-toggle="dropdown" href="#"><strong>Cuisine</strong><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Indian</a></li>
+                        <li><a href="#">Chinese</a></li>
+                        <li><a href="#">Mexican</a></li>
+                    </ul>
+
+                </li>
+                <li><a href="#"><strong>About Us</strong></a></li>
+                <li><a href="#"><strong>Cart</strong></a></li>
+                <li><a href="#"><strong>Logout</strong></a></li>
+            </ul>
+        </div>
+    </nav>
+
+        <h2>Your Order :</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ORDER ID</th>
+                <th>PRODUCT</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><%=recipeid%></td>
+                
+            </tr>
+            </tbody>
+        </table>
+</div>
+
+</body>
+</html>

@@ -327,6 +327,9 @@ ul.no-bullet{
 
 .numericField{
     width: 40px;
+    border :none!important;
+    background-color: white;
+  }
 
 
 
@@ -402,14 +405,3 @@ label {
     padding-bottom: 48px;
 }
 
-.search-home-center{
-
-  
-  align-items: center;
-}
-
-.search-home-center-make{
-  margin-top: 20% !important;
-  padding-left: 20% !important;
-  padding-right: 20% !important;
-}

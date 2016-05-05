@@ -228,8 +228,9 @@ app.post("/cart/save", function(request, response) {
 
 app.post("/cart/add", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
-        cartData.addRecipeToCart(user["cartId"], request.body).then(function() {
-            response.status(200).json({message: "everything went okay"});
+        cartData.addRecipeToCart(user[0].cartId, request.body).then(function() {
+            response.status(200).json({message: "Product added to Cart"});
+            response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart, loginFlag: request.cookies.currentSessionId });
         }, function(errorMessage) {
             response.status(500).json({message: errorMessage});
         });
@@ -253,6 +254,13 @@ app.get("/cart", function(request, response) {
     }).catch(function(errorMessage){
         response.redirect("/login");
     });
+});
+
+app.get("/checkout",function(request,response){
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
+
+    });
+
 });
 
 // We can now navigate to localhost:3000
