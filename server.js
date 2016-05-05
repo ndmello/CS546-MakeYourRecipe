@@ -227,6 +227,7 @@ app.post("/cart/save", function(request, response) {
 });
 
 app.post("/cart/add", function(request, response) {
+    // console.log("hi");
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.addRecipeToCart(user["cartId"], request.body).then(function() {
             response.status(200).json({message: "everything went okay"});

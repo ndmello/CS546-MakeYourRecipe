@@ -327,6 +327,9 @@ ul.no-bullet{
 
 .numericField{
     width: 40px;
+    border :none!important;
+    background-color: white;
+  }
 
 
 

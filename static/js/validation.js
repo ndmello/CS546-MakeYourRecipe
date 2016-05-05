@@ -15,15 +15,10 @@ $(document).ready(function() {
 // product page validation
 
 var quantity = $('input[id^="quantity"]');
-var buy_btn = $("#buy"); 
 var price = $('input[id^="price"]');
 var total_price = $("#total");
 
-// $(buy_btn).click(function(e){
-// 	if(quantity.val() < 0 && quantity.val() > 100){
-// 		e.preventDefault();
-// 	}
-// });
+
 
 var i=0;
 var arr_price = [];
@@ -46,8 +41,9 @@ $(quantity).change(function(index,value){
    $(price).each(function(index,value) {
    total = total + Number(value.value);
    });
-   console.log(total.toFixed(2));
    total_price.val(total.toFixed(2));
 });
+
+
 
 });
