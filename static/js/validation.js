@@ -12,7 +12,8 @@ $(document).ready(function() {
    		e.preventDefault();
    	}
    });
-// product page validation
+
+// product page
 
 var quantity = $('input[id^="quantity"]');
 var price = $('input[id^="price"]');
@@ -43,6 +44,8 @@ $(quantity).change(function(index,value){
    });
    total_price.val(total.toFixed(2));
 });
+
+//checkout page
 
 
 

@@ -16,6 +16,7 @@
             data: JSON.stringify(recipe)
         }
 
-        $.ajax(recipeConfig);
+        $.ajax(recipeConfig).then(function(responseMsg){
+         });
     });
 })(window.jQuery);
