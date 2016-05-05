@@ -79,7 +79,7 @@ app.use(function(request, response, next) {
 
 app.get("/", function (request, response) { 
 
-    response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId});
+    response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, pageTitle: "Home"});
 });
 
 app.post("/logout", function (request, response) { 
@@ -87,13 +87,13 @@ app.post("/logout", function (request, response) {
 });
 
 app.get("/login",function (request, response){
-    response.render("pages/index", {loginFlag: request.cookies.currentSessionId});
+    response.render("pages/index", {loginFlag: request.cookies.currentSessionId, pageTitle: "Login"});
 });
 
 
 
 app.get("/register", function (request, response) {
-    response.render("pages/register", {loginFlag: request.cookies.currentSessionId});
+    response.render("pages/register", {loginFlag: request.cookies.currentSessionId, pageTitle: "Register"});
     
 });
 
@@ -107,7 +107,7 @@ app.post("/createUser", function(request, response) {
             response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
             response.redirect("/");
         }else {
-            response.render("pages/index", {error: "User already exists. Try Logging in."});
+            response.render("pages/index", {error: "User already exists. Try Logging in.", pageTitle: "Registration Error"});
         }
     }, function(errorMessage) {
         response.status(500).json({ error: errorMessage });
@@ -127,7 +127,7 @@ app.post("/login", function(request, response) {
         
         response.redirect("/");
     }, function(errorMessage) {
-        response.render("pages/index", {error: errorMessage});
+        response.render("pages/index", {error: errorMessage, pageTitle: "Login Error"});
     });
     }
 });
@@ -142,12 +142,12 @@ app.get("/product/category/:category",function (request, response){
         {
             result[i] = recipeData.totalPrice(result[i]);
         }
-        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId})
+        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"});
     });
 });
 
 app.get("/add-product",function (request, response){
-    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId});
+    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId, pageTitle: "Add Product"});
 });
 
 app.post("/add-product",function (request, response){
@@ -196,14 +196,14 @@ app.post("/search",function (request, response){
         {
             result[i] = recipeData.totalPrice(result[i]);
         }
-        response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId})
+        response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, pageTitle: "Search Results"});
     });
 });
 
 
 app.get("/products/:id", function(request,response){
     recipeData.getRecipe(request.params.id).then(function(recipe){
-        response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId});
+        response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, pageTitle: "Recipe"});
     },function(errorMessage) {
         response.status(500).json({ error: errorMessage });
     });
