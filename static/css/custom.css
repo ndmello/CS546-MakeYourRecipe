@@ -372,7 +372,7 @@ label {
 }
 
 .cart-body {
-    padding-bottom: 150px;
+    padding-bottom: 75px;
 }
 
 .help-block.help-block {
@@ -414,7 +414,7 @@ label {
 }
 
 .show-badge[data-count]:after{
- 
+
         position: absolute;
     height: 30%;
     content: attr(data-count);
@@ -450,7 +450,7 @@ label {
     margin: 60px auto;
    background-color:  #f8f8f8;
    border-radius: 6px;
-    
+
   font-family: inherit;
 }
 
@@ -468,8 +468,8 @@ label {
 .login-button{
   background-color: #3b598a;
   color: #fff;
- 
-    
+
+
     line-height: 22px;
 }
 .login-button:hover{
@@ -491,3 +491,51 @@ label {
 }
 /*Login Style End*/
 
+/* print recipe styles */
+@media print {
+    body, html {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    .hide-print {
+        display: none !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, p {
+        text-align: center !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+    }
+
+    ul, li {
+        /* centers on firefox but not chrome? */
+        margin: 0 auto !important;
+        float: none !important;
+    }
+}
+
+/* footer rules */
+body {
+    margin-bottom: 30px !important;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+.footer {
+    width: 100%;
+    height: 30px !important;
+    position: absolute;
+    text-align: center;
+    background: rgba(0,0,0,0.5) !important;
+    bottom: 0;
+}
+
+.footer p {
+    height: 100%;
+    padding: 5px 0;
+    color: #fff;
+    margin-top: auto;
+    margin-bottom: auto;
+}
