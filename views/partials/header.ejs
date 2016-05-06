@@ -15,13 +15,14 @@
 					<li id="home"><a href="/">Home</a></li>
 					<li class="Cuisine">
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuisine <span class="caret"></span></a>
-			          
+
 			          <ul class="dropdown-menu">
 			            <li><a href="http://localhost:3000/product/category/Indian">Indian</a></li>
 			            <li><a href="http://localhost:3000/product/category/Mexican">Mexican</a></li>
 			            <li><a href="http://localhost:3000/product/category/American">American</a></li>
 			          </ul>
 			        </li>
+
 					<li id="cart"><a href="/cart">
 					<%if(locals.cartCount) {%>
 					<span class="fa fa-shopping-cart fa-stack fa-2x show-badge" data-count="<%= cartCount%>">
@@ -31,17 +32,16 @@
 					</span>
 					<%}%>
 					</a></li>
-			        
-					<% if(locals.loginFlag) {%>
+			        <% if(locals.loginFlag) {%>
 					<li id="logout"><a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Log Out</a></li>
-					
+
 					<%}else{%>
 						<li id="logon"><a href="/login">Login</a></li>
 						<li id="register"><a href="/register">Sign Up</a></li>
 					<%}%>
 
 				</ul>
-				
+
 			</div>
 
 		</div>

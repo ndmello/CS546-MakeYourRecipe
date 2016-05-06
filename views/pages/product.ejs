@@ -23,7 +23,7 @@
                 </div>
                 <div class="row1">
                   <div class="col-lg-12 col-md-12 col-sm-12 columns text-center">
-                        <img src="http://localhost:3000/assets/images/<%=resultData.image_url%>" alt="Salmon-burger" width = "1000px" height="500px"/>
+                        <img src="http://localhost:3000/assets/images/<%=resultData.image_url%>" alt="Salmon-burger" width = "1000px" height="500px" class="hide-print" />
                   </div>
                 </div>
                 <div class="row1">
@@ -32,7 +32,7 @@
                             <p><%=resultData.description%></p>
                             <p>Cuisine : <%=resultData.cuisine%></p>
                             <p class="details">Servings : <%=resultData.servings%> | Prep Time : <%=resultData.prep_time%> min | Cook Time : <%=resultData.cook_time%> min</p>
-                        </div>  
+                        </div>
                   </div>
                 </div>
                 <div class="row1">
@@ -44,7 +44,7 @@
                                     <li class="li">
                                     <%=r.min_q%> <%= r.name %></li>
                                     <% }); %>
-                                    <button class="btn btn-info fa fa-shopping-cart button" data-toggle="modal" data-target="#myModal"> Buy Ingredients</button>
+                                    <button class="btn btn-info fa fa-shopping-cart button hide-print" data-toggle="modal" data-target="#myModal"> Buy Ingredients</button>
                                 </ul>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                                 <div class="modal-body">
                                     <ul class="no-bullet">
                                         <li class="li li_popup">
-                                            
+
                                             <div class="col-xs-6 col-sm-6 col-md-6">
                                                 <%= r.name %> (<%=r.min_q%>)
                                             </div>
@@ -100,6 +100,9 @@
             </section>
         </main>
     </div>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
     <% include ../partials/scripts %>
     <script src="/assets/js/add_product.js"></script>
 </body>

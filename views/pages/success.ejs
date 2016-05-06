@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
 crossorigin="anonymous">
-	
+
 	<style type="text/css">
 		  table.normal{
 		   table-layout:fixed;
@@ -35,8 +35,8 @@ crossorigin="anonymous">
 		   word-wrap:break-word;
 		}
 	</style>
-	
-	
+
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -60,7 +60,7 @@ crossorigin="anonymous">
                 </button>
                 <a class="brand" id="homeIcon" href="/"><img src="/assets/images/logo.jpg"></a>
             </div>
-			
+
 			 <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
 				<form method="POST" action="/logout">
@@ -71,32 +71,35 @@ crossorigin="anonymous">
 
 </div>
 </nav>
-			
+
     <div class="container">
-      
+
         <main>
            <br/>
 		   <br/>
 			<section>
-			
+
 			<div class="row" style="padding-top:100px">
 			<div class="col-md-4 col-md-offset-4">
 				<p> Welcome to the site </p>
 			</div>
 			</div>
-		
+
 		<div class="alert alert-danger hidden" id="error-message-login"> </div>
 				<% var login_error; %>
 				<% if(login_error) {  %>
 					<div class="alert alert-danger" role="alert" id="login_error"> <%= login_error %> </div>
 				<% } %>
-	
+
 			</section>
         </main>
 		<br/>
 
-			
+
     </div>
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
   <% include ../partials/scripts.ejs %>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-
 0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"

@@ -44,6 +44,24 @@
     $("#btn-save-cart").on("click", function() {
         saveCart();
     });
+    
+    $("#btn-checkout").on("click", function() {
+        saveCart();
+        var priceInfo = {};
+        $("tr").each(function() {
+            if ($(this).find(".name-header").text() != "") {
+                priceInfo[$(this).find(".name-header").text()] = $(this).find(".recipe-price").text();
+            }
+        });
+        priceInfo["totalPrice"] = $("#cart-price").text();
+        
+        $.ajax({
+            url: "/checkout",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(priceInfo)
+        });
+    });
         
     function updateCartPrice() {
         validateAllInput();
@@ -70,7 +88,7 @@
         });
 
         cartTotal = parseFloat(cartTotal).toFixed(2);
-        $(".cart-price").text("$" + cartTotal);
+        $("#cart-price").text("$" + cartTotal);
     }
     
     function validateAllInput() {
@@ -98,7 +116,7 @@
     }
     
     function validateInput(form, value) {
-        if (/*value == null | value == undefined || */isNaN(value) || value === "") {
+        if (isNaN(value) || value === "") {
             addError(form, "Invalid: not a number");
             return false;
         } else if (value < 0) {
@@ -143,6 +161,7 @@
         removeBtn.addClass("hidden");
 
         listItem.find("input").addClass("hidden");
+        listItem.find(".units").addClass("hidden");
         addBtn.removeClass("hidden");
         
         orderList(listItem.closest("ul"));
@@ -154,6 +173,7 @@
         addBtn.addClass("hidden");
 
         listItem.find("input").removeClass("hidden");
+        listItem.find(".units").removeClass("hidden");
         removeBtn.removeClass("hidden");
               
         orderList(listItem.closest("ul"));
