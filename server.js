@@ -304,11 +304,7 @@ app.post("/cart/save", function(request, response) {
 app.post("/cart/add", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.addRecipeToCart(user[0].cartId, request.body).then(function() {
-
-
             response.status(200).json({message: "Product added to Cart"});
-
-
         }, function(errorMessage) {
             response.status(500).json({message: errorMessage});
         });
@@ -341,7 +337,18 @@ app.post("/checkout",function(request,response){
         }
     }
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
-
+        cartData.getCart(user[0].cartId).then(function (cart) {
+            cartData.displayCart(cart).then(function(displayCart) {
+                
+                response.render("pages/checkout_page", { pageTitle: "Checkout page", user:user[0], cart: displayCart, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
+            }).catch(function(error){
+                console.log(error);
+            });
+        }).catch(function(errorMessage){
+            console.log(errorMessage);
+        });
+    }).catch(function(errorMessage){
+        response.redirect("/login");
     });
 
 });

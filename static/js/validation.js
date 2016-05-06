@@ -14,12 +14,16 @@ $(document).ready(function() {
    });
 
 // product page
-
+var servings = $("#servings");
 var quantity = $('input[id^="quantity"]');
 var price = $('input[id^="price"]');
 var total_price = $("#total");
 
 
+$(servings).change(function(){
+   console.log($(quantity).val());
+   $(quantity).val($(servings).val());
+});
 
 var i=0;
 var arr_price = [];
