@@ -87,14 +87,14 @@ MongoClient.connect(fullMongoUrl)
         }
 		
 		
-	/*	exports.updateUser = function(sessionId, firstName, lastName, hobby, petName) {
+		exports.updateUser = function(sessionId, firstName, lastName, country, address,city,state,zip,phone,credit_card_no) {
                if (!sessionId) Promise.reject("You must provide a sessionId");
 			   
-            return usersCollection.updateOne({ currentSessionId: sessionId }, { $set: { "profile.firstName": firstName,"profile.lastName": lastName,"profile.hobby": hobby,"profile.petName": petName  } }).then(function() {
+            return usersCollection.updateOne({ currentSessionId: sessionId }, { $set: { "profile.firstName": firstName,"profile.lastName": lastName,"profile.country": country,"profile.address": address,"profile.city":city,"profile.state":state,"profile.zip":  } }).then(function() {
                 return exports.getUserBySessionId(sessionId);
             });
         }; 
-		*/
+		
 		
 		exports.updateSessionId = function(userId, sessionId) {
 			   if (!userId) Promise.reject("You must provide a userId");

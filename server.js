@@ -348,6 +348,14 @@ app.post("/checkout",function(request,response){
 
 });
 
+app.post("/order",function(request,response){
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
+        
+    }).catch(function(errorMessage){
+        response.redirect("/login");
+    });
+});
+
 // We can now navigate to localhost:3000
 app.listen(3000, function () {
     console.log('Your server is now listening on port 3000! Navigate to http://localhost:3000 to access it');
