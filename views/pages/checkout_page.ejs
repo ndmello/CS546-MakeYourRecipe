@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <strong>Order Total</strong>
-                                    <div class="pull-right"><span>$<%- Number(priceInfo["totalPrice"]) + 3.00 %></span></div>
+                                    <div class="pull-right"><span>$<%- (Number(priceInfo["totalPrice"]) + 3.00).toFixed(2) %></span></div>
                                 </div>
                             </div>
                         </div>
