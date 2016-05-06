@@ -24,9 +24,9 @@ app.use('/assets', express.static('static'));
 
 app.use('/logout',function(request, response, next){
         var sessionID = request.cookies.currentSessionID;
-        
+
         usersData.removeSessionId(sessionID);
-       
+
         var anHourAgo = new Date();
         anHourAgo.setHours(anHourAgo.getHours() -1);
 
@@ -41,16 +41,16 @@ app.use('/logout',function(request, response, next){
 
 
 app.use(function(request, response, next) {
-    
-    
+
+
     if(request.cookies.currentSessionId)
             {
                 usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(result){
-                   
+
 
                     if(result.length == 1)
                     {
-                        
+
                         next();
                     }
                 }).catch(function(error){
@@ -61,15 +61,15 @@ app.use(function(request, response, next) {
                     response.cookie("currentSessionId", "", {expires : anHourAgo});
                     response.clearCookie("currentSessionId");
                     response.redirect("/");
-                    
+
 
                 });
                 return;
-               
+
             }
 
 
-    
+
     next();
 });
 
@@ -77,7 +77,7 @@ app.use(function(request, response, next) {
 
 // Setup your routes here!
 
-app.get("/", function (request, response) { 
+app.get("/", function (request, response) {
     if(request.cookies.currentSessionId){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
@@ -95,7 +95,7 @@ app.get("/", function (request, response) {
     }
 });
 
-app.post("/logout", function (request, response) { 
+app.post("/logout", function (request, response) {
     response.redirect("/");
 });
 
@@ -134,7 +134,7 @@ app.post("/login", function(request, response) {
         var expiresAt = new Date();
             expiresAt.setHours(expiresAt.getHours() + 1);
             response.cookie('currentSessionId', newSessionId, { expires: expiresAt });
-        
+
         response.redirect("/");
     }, function(errorMessage) {
         response.render("pages/index", {error: errorMessage, pageTitle: "Login Error"});
@@ -159,7 +159,7 @@ app.get("/product/category/:category",function (request, response){
                         }
                         response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
                        });
-                
+
             }).catch(function(errorMessage){
                 console.log(errorMessage);
             });
@@ -221,8 +221,8 @@ app.post("/add-product",function (request, response){
         }
     });
 
-  
-    
+
+
 });
 
 
@@ -231,7 +231,7 @@ app.post("/search",function (request, response){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
                 var keyword = request.body.keyword;
-                recipeData.searchDB(keyword).then(function(result) {  
+                recipeData.searchDB(keyword).then(function(result) {
                     for(var i=0; i<result.length; i++)
                     {
                         result[i] = recipeData.totalPrice(result[i]);
@@ -248,7 +248,7 @@ app.post("/search",function (request, response){
     else
     {
         var keyword = request.body.keyword;
-        recipeData.searchDB(keyword).then(function(result) {  
+        recipeData.searchDB(keyword).then(function(result) {
             for(var i=0; i<result.length; i++)
             {
                 result[i] = recipeData.totalPrice(result[i]);
@@ -292,7 +292,7 @@ app.get("/products/:id", function(request,response){
 app.post("/cart/save", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.updateCart(user[0].cartId, request.body.recipes).then(function() {
-            response.status(200).json({message: "everything went okay"});
+            response.status(200).json({message: "Cart saved"});
         }, function(errorMessage) {
             response.status(500).json({message: errorMessage});
         });
@@ -317,7 +317,7 @@ app.get("/cart", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.getCart(user[0].cartId).then(function (cart) {
             cartData.displayCart(cart).then(function(displayCart) {
-                
+
                 response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
             }).catch(function(error){
                 console.log(error);
@@ -331,16 +331,11 @@ app.get("/cart", function(request, response) {
 });
 
 app.post("/checkout",function(request,response){
-    for (var prop in request.body) {
-        if (request.body.hasOwnProperty(prop)) { 
-            console.log(prop + ": " + request.body[prop])
-        }
-    }
+    var priceInfo = JSON.parse(request.body.priceInfo);
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
         cartData.getCart(user[0].cartId).then(function (cart) {
             cartData.displayCart(cart).then(function(displayCart) {
-                
-                response.render("pages/checkout_page", { pageTitle: "Checkout page", user:user[0], cart: displayCart, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
+                response.render("pages/checkout_page", { pageTitle: "Checkout page", user:user[0], cart: displayCart, priceInfo: priceInfo, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
             }).catch(function(error){
                 console.log(error);
             });
