@@ -15,7 +15,7 @@
         <% var price; %>
         <% var quantity; %>
     </header>
-<div class="container wrapper">   
+<div class="container wrapper">
     <div class="page-header">
   <h3>Checkout</h3>
 </div>
@@ -44,12 +44,12 @@
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
                                         <% if (quantity == undefined) {quantity = 0;} %>
-                                        <%- ingredientName %><span>(<%- quantity %>) </span>
+                                        <%- ingredientName %><span>(<%- quantity %>), </span>
                                     <% }); %>
                                     </small></div>
                                 </div>
                                 <div class="col-sm-3 col-xs-3 text-right">
-                                    <h6><span>$</span>25.00</h6>
+                                    <h6>$<%- priceInfo[recipe["recipeName"]] %></h6>
                                 </div>
                             </div>
                             <div class="form-group"><hr /></div>
@@ -57,18 +57,18 @@
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <strong>Subtotal</strong>
-                                    <div class="pull-right"><span>$</span><span>200.00</span></div>
+                                    <div class="pull-right"><span>$<%- priceInfo["totalPrice"] %></span></div>
                                 </div>
                                 <div class="col-xs-12">
                                     <small>Shipping</small>
-                                    <div class="pull-right"><span>-</span></div>
+                                    <div class="pull-right"><span>$3.00</span></div>
                                 </div>
                             </div>
                             <div class="form-group"><hr /></div>
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <strong>Order Total</strong>
-                                    <div class="pull-right"><span>$</span><span>150.00</span></div>
+                                    <div class="pull-right"><span>$<%- Number(priceInfo["totalPrice"]) + 3.00 %></span></div>
                                 </div>
                             </div>
                         </div>
@@ -220,11 +220,11 @@
                     </div>
                     <!--CREDIT CART PAYMENT END-->
                 </div>
-                
+
                 </form>
             </div>
             <div class="row cart-footer">
-        
+
             </div>
     </div>
 <% include ../partials/scripts %>
