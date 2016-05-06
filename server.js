@@ -157,7 +157,7 @@ app.get("/product/category/:category",function (request, response){
                         {
                             result[i] = recipeData.totalPrice(result[i]);
                         }
-                        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
+                        response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
                        });
                 
             }).catch(function(errorMessage){
@@ -175,7 +175,7 @@ app.get("/product/category/:category",function (request, response){
                     {
                         result[i] = recipeData.totalPrice(result[i]);
                     }
-                    response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"})
+                    response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"})
             });
     }
 
