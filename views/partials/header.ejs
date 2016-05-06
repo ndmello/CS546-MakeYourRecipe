@@ -17,6 +17,9 @@
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cuisine <span class="caret"></span></a>
 
 			          <ul class="dropdown-menu">
+					  <% if(locals.loginFlag) {%>
+					  <li><a href="http://localhost:3000/product/category/Favorites">Favorites</a></li>
+					  <%}%>
 			            <li><a href="http://localhost:3000/product/category/Indian">Indian</a></li>
 			            <li><a href="http://localhost:3000/product/category/Mexican">Mexican</a></li>
 			            <li><a href="http://localhost:3000/product/category/American">American</a></li>
