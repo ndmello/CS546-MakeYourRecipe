@@ -76,7 +76,7 @@ MongoClient.connect(fullMongoUrl)
                 cartId: cartGuid,
                 encryptedPassword: bcrypt.hashSync(passwd),
                 currentSessionId: Guid.create().toString(),
-				profile:{ name: '', address: '', phone: '', credit_card_no: '', favorites: '' }}).then(function(newDoc) {
+				profile:{ firstname: '',lastname:'',country:'', address: '', city:'',state:'', zip: '', phone:'', credit_card_no: '', favorites: [] }}).then(function(newDoc) {
                 return newDoc.insertedId;
             }).then(function(newId) {
                 return exports.getUser(newId);
