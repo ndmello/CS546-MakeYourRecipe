@@ -81,7 +81,7 @@ app.get("/", function (request, response) {
     if(request.cookies.currentSessionId){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
-                response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length});
+                response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, pageTitle: "Home", cartCount: cart.recipes.length});
             }).catch(function(errorMessage){
                 console.log(errorMessage);
             });
@@ -91,27 +91,22 @@ app.get("/", function (request, response) {
     }
     else
     {
-        response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId});
+        response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, pageTitle: "Home"});
     }
-
-
-    
 });
 
 app.post("/logout", function (request, response) { 
-
     response.redirect("/");
 });
 
 app.get("/login",function (request, response){
-    response.render("pages/index", {loginFlag: request.cookies.currentSessionId});
-    
+    response.render("pages/index", {loginFlag: request.cookies.currentSessionId, pageTitle: "Login"});
 });
 
 
 
 app.get("/register", function (request, response) {
-    response.render("pages/register", {loginFlag: request.cookies.currentSessionId});
+    response.render("pages/register", {loginFlag: request.cookies.currentSessionId, pageTitle: "Register"});
     
 });
 
@@ -125,7 +120,9 @@ app.post("/createUser", function(request, response) {
             response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
             response.redirect("/");
         }else {
-            response.render("pages/register", {error: "User already exists. Try Logging in."});
+
+            response.render("pages/index", {error: "User already exists. Try Logging in.", pageTitle: "Registration Error"});
+
         }
     }, function(errorMessage) {
         response.status(500).json({ error: errorMessage });
@@ -145,7 +142,7 @@ app.post("/login", function(request, response) {
         
         response.redirect("/");
     }, function(errorMessage) {
-        response.render("pages/index", {error: errorMessage});
+        response.render("pages/index", {error: errorMessage, pageTitle: "Login Error"});
     });
     }
 });
@@ -155,6 +152,7 @@ app.post("/login", function(request, response) {
 
 app.get("/product/category/:category",function (request, response){
     var category = request.params.category;
+
     if(request.cookies.currentSessionId){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
@@ -164,7 +162,7 @@ app.get("/product/category/:category",function (request, response){
                         {
                             result[i] = recipeData.totalPrice(result[i]);
                         }
-                        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length})
+                        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
                        });
                 
             }).catch(function(errorMessage){
@@ -182,16 +180,17 @@ app.get("/product/category/:category",function (request, response){
                     {
                         result[i] = recipeData.totalPrice(result[i]);
                     }
-                    response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId})
+                    response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"})
             });
     }
+
 
 });
 
 
 
 app.get("/add-product",function (request, response){
-    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId});
+    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId, pageTitle: "Add Product"});
 });
 
 app.post("/add-product",function (request, response){
@@ -242,7 +241,7 @@ app.post("/search",function (request, response){
                     {
                         result[i] = recipeData.totalPrice(result[i]);
                     }
-                    response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length})
+                    response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, pageTitle: "Search Results", cartCount: cart.recipes.length})
                 });
             }).catch(function(errorMessage){
                 console.log(errorMessage);
@@ -259,24 +258,20 @@ app.post("/search",function (request, response){
             {
                 result[i] = recipeData.totalPrice(result[i]);
             }
-            response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId})
+            response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, pageTitle: "Search Results"})
         });
     }
-
-
-
-
-    
 });
 
 
 app.get("/products/:id", function(request,response){
 
+
     if(request.cookies.currentSessionId){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
                 recipeData.getRecipe(request.params.id).then(function(recipe){
-                response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length});
+                response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, pageTitle: "Recipe", cartCount: cart.recipes.length});
                     },function(errorMessage) {
                         response.status(500).json({ error: errorMessage });
                 });
@@ -290,18 +285,18 @@ app.get("/products/:id", function(request,response){
     else
     {
         recipeData.getRecipe(request.params.id).then(function(recipe){
-            response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId});
+            response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, pageTitle: "Recipe"});
             },function(errorMessage) {
                 response.status(500).json({ error: errorMessage });
             });
     }
 
-    
+
 });
 
 app.post("/cart/save", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
-        cartData.updateCart(user["cartId"], request.body.recipes).then(function() {
+        cartData.updateCart(user[0].cartId, request.body.recipes).then(function() {
             response.status(200).json({message: "everything went okay"});
         }, function(errorMessage) {
             response.status(500).json({message: errorMessage});
@@ -315,8 +310,9 @@ app.post("/cart/add", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.addRecipeToCart(user[0].cartId, request.body).then(function() {
 
+
             response.status(200).json({message: "Product added to Cart"});
-            response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart, loginFlag: request.cookies.currentSessionId });
+
 
         }, function(errorMessage) {
             response.status(500).json({message: errorMessage});
@@ -329,7 +325,6 @@ app.post("/cart/add", function(request, response) {
 app.get("/cart", function(request, response) {
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         cartData.getCart(user[0].cartId).then(function (cart) {
-            
             cartData.displayCart(cart).then(function(displayCart) {
                 
                 response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
