@@ -2,71 +2,71 @@
     updateCartPrice();
     orderAllLists();
     hideNoQuantity();
-    
+
     $("input").on("change paste keyup", function() {
         updateCartPrice();
     });
-    
+
     $(".btn-remove-ingredient").on("click", function() {
         removeIngredient($(this).closest("li"), $(this).closest("li").find(".btn-add-ingredient"), $(this));
     });
-    
+
     $(".btn-add-ingredient").on("click", function () {
         addIngredient($(this).closest("li"), $(this), $(this).closest("li").find(".btn-remove-ingredient"));
     });
-    
+
     $(".btn-remove-recipe").on("click", function () {
         var data = $(this).closest("td");
         data.find("h3").addClass("removed");
         data.find("ul").addClass("removed");
-        
+
         $(this).addClass("hidden");
         data.find(".btn-add-recipe").removeClass("hidden");
-        
+
         data.find("ul").addClass("hidden");
         updateCartPrice();
         orderAllLists();
     });
-    
+
     $(".btn-add-recipe").on("click", function () {
         var data = $(this).closest("td");
         data.find("h3").removeClass("removed");
         data.find("ul").removeClass("removed");
-        
+
         $(this).addClass("hidden");
         data.find(".btn-remove-recipe").removeClass("hidden");
-        
+
         data.find("ul").removeClass("hidden");
         updateCartPrice();
         orderAllLists();
     });
-    
+
     $("#btn-save-cart").on("click", function() {
         saveCart();
     });
-    
+
     $("#btn-checkout").on("click", function() {
         saveCart();
         var priceInfo = {};
         $("tr").each(function() {
             if ($(this).find(".name-header").text() != "") {
-                priceInfo[$(this).find(".name-header").text()] = $(this).find(".recipe-price").text();
+                priceInfo[$(this).find(".name-header").text()] = $(this).find(".recipe-price").text().replace(/\$/g, "");
             }
         });
-        priceInfo["totalPrice"] = $("#cart-price").text();
-        
-        $.ajax({
-            url: "/checkout",
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(priceInfo)
-        });
+        priceInfo["totalPrice"] = $("#cart-price").text().replace(/\$/g, "");
+        if (priceInfo["totalPrice"] == 0) {
+            addError($("#checkout-row"), "Add something to your cart before checking out");
+        } else {
+            var form = $("<form action='/checkout' method='POST'>" + "<input type='text' name='priceInfo' value='" + JSON.stringify(priceInfo) + "' /></form>");
+            $("body").append(form);
+            form.submit();
+        }
     });
-        
+
     function updateCartPrice() {
         validateAllInput();
         var cartTotal = 0;
-        
+
         $("tbody > tr").each(function () {
             var recipeTotal = 0.0;
             var ingredientList = $(this).find("ul");
@@ -75,7 +75,7 @@
                 ingredientList.find("li").each(function () {
                     var count = $(this).hasClass("removed") ? 0 : $(this).find("input").val();
                     var price = $(this).find(".price").text();
-                    
+
                     if (validateInput($(this), count)) {
                         removeError($(this));
                         recipeTotal += count * price;
@@ -90,7 +90,7 @@
         cartTotal = parseFloat(cartTotal).toFixed(2);
         $("#cart-price").text("$" + cartTotal);
     }
-    
+
     function validateAllInput() {
         var errors = false;
         $("li").each(function () {
@@ -99,7 +99,7 @@
                 errors = true;
             }
         });
-        
+
         var save = $("#checkout-row");
         if (errors) {
             addError(save, "Please fix errors in cart before proceeding");
@@ -114,7 +114,7 @@
         }
         return !errors;
     }
-    
+
     function validateInput(form, value) {
         if (isNaN(value) || value === "") {
             addError(form, "Invalid: not a number");
@@ -123,22 +123,22 @@
             addError(form, "Invalid: quantity below zero");
             return false;
         }
-        
+
         return true;
     }
-    
+
     function addError(element, error) {
         element.addClass("has-error");
         var help = element.find($(".help-block"));
         help.text(error);
         help.removeClass("hidden");
     }
-    
+
     function removeError(element) {
         element.find($(".help-block")).addClass("hidden");
         element.removeClass("has-error");
     }
-    
+
     function orderAllLists() {
         $("ul").each(function () {
             if ($(this).hasClass("removed")) {
@@ -147,7 +147,7 @@
             }
         });
     }
-    
+
     function orderList(list) {
         list.find("li").each(function () {
             if ($(this).hasClass("removed")) {
@@ -155,7 +155,7 @@
             }
         });
     }
-        
+
     function removeIngredient (listItem, addBtn, removeBtn) {
         listItem.addClass("removed");
         removeBtn.addClass("hidden");
@@ -163,11 +163,11 @@
         listItem.find("input").addClass("hidden");
         listItem.find(".units").addClass("hidden");
         addBtn.removeClass("hidden");
-        
+
         orderList(listItem.closest("ul"));
         updateCartPrice();
     }
-    
+
     function addIngredient (listItem, addBtn, removeBtn) {
         listItem.removeClass("removed");
         addBtn.addClass("hidden");
@@ -175,11 +175,11 @@
         listItem.find("input").removeClass("hidden");
         listItem.find(".units").removeClass("hidden");
         removeBtn.removeClass("hidden");
-              
+
         orderList(listItem.closest("ul"));
         updateCartPrice();
     }
-    
+
     function hideNoQuantity() {
         $("li").each(function() {
             if ($(this).find("input").val() == 0) {
@@ -187,23 +187,23 @@
             }
         });
     }
-    
+
     function getCart() {
-        
+
         var cartId = $("main").attr("id");
         var recipes = [];
-        
+
         $("ul").each(function () {
             if (!$(this).hasClass("removed")) {
                 var recipe = {};
                 var empty = true;
                 recipe["recipeId"] = $(this).attr("id");
-                
+
                 $(this).find("li").each(function () {
                     var input = $(this).find("input");
                     var ingredientId = input.attr("id");
                     var quantity = $(this).hasClass("removed") ? 0 : input.val();
-                    
+
                     if (quantity > 0) {
                         recipe[ingredientId] = quantity;
                         empty = false;
@@ -219,7 +219,7 @@
             "recipes": recipes
         };
     }
-    
+
     function saveCart() {
         $.ajax({
             url: "/cart/save",
