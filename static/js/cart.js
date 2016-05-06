@@ -44,6 +44,24 @@
     $("#btn-save-cart").on("click", function() {
         saveCart();
     });
+    
+    $("#btn-checkout").on("click", function() {
+        saveCart();
+        var priceInfo = {};
+        $("tr").each(function() {
+            if ($(this).find(".name-header").text() != "") {
+                priceInfo[$(this).find(".name-header").text()] = $(this).find(".recipe-price").text();
+            }
+        });
+        priceInfo["totalPrice"] = $("#cart-price").text();
+        
+        $.ajax({
+            url: "/checkout",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(priceInfo)
+        });
+    });
         
     function updateCartPrice() {
         validateAllInput();
