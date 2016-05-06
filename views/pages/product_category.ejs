@@ -16,6 +16,9 @@
 
 				<div class="col-md-3">
 					<div class="list-group" id="product-category-list">
+					 <% if(locals.loginFlag) {%>
+					<a href="http://localhost:3000/product/category/Favorites" class="list-group-item">Favorites</a>
+					<%}%>
 						<a href="http://localhost:3000/product/category/Indian" class="list-group-item">Indian</a>
 						<a href="http://localhost:3000/product/category/Mexican" class="list-group-item">Mexican</a>
 						<a href="http://localhost:3000/product/category/American" class="list-group-item">American</a>
@@ -39,9 +42,7 @@
 									<p><%= product.description %></p>
 								</div>
 							</a>
-							<a href=#><i class="fa fa-heart" id="favicon" aria-hidden="true"></i></a>
-
-
+							
 						</div>
 						<%})%>
 						<%}else{%>

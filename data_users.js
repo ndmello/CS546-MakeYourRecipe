@@ -90,7 +90,7 @@ MongoClient.connect(fullMongoUrl)
 		exports.updateUser = function(sessionId, firstName, lastName, country, address,city,state,zip,phone,credit_card_no) {
                if (!sessionId) Promise.reject("You must provide a sessionId");
 			   
-            return usersCollection.updateOne({ currentSessionId: sessionId }, { $set: { "profile.firstName": firstName,"profile.lastName": lastName,"profile.country": country,"profile.address": address,"profile.city":city,"profile.state":state,"profile.zip":  } }).then(function() {
+            return usersCollection.updateOne({ currentSessionId: sessionId }, { $set: { "profile.firstName": firstName,"profile.lastName": lastName,"profile.country": country,"profile.address": address,"profile.city":city,"profile.state":state,"profile.zip": zip } }).then(function() {
                 return exports.getUserBySessionId(sessionId);
             });
         }; 
@@ -113,6 +113,36 @@ MongoClient.connect(fullMongoUrl)
             });
         }; 
 		
+		 // Getting the user favorites
+        exports.getUserFavorites = function(id) {
+            if (!id) return Promise.reject("You must provide an ID");
+
+            // by calling .toArray() on the function, we convert the Mongo Cursor to a promise where you can 
+            // easily iterate like a normal array
+            return usersCollection.find({ _id: id }).limit(1).toArray().then(function(user) {
+                if (user.length === 0) throw "Could not find any favorites for the user with id " + id;
+				console.log("Inside getUserFavorites");
+				
+                return usersCollection.find({"user.profile.favorites": {"$exists": false}}).toArray().then(function(result) {
+					console.log("user.profile.favorites:::["+result+"]");
+					});
+            });
+        };
+		
+		//Add to favorites in user profile
+		  exports.addRecipeToFavorites = function(id, recipeId) {
+            return usersCollection.update({ _id: id }, { $push: { "profile.favorites": recipeId }}).then(function() {
+                    return Promise.resolve("Successfully added to favorites");
+                });
+        };
+		
+		//Remove favorites from user profile 
+		exports.removeRecipeFromFavorites = function(id, recipeId) {
+            return usersCollection.update({ _id: id }, { $pull: { "profile.favorites": recipeId }}).then(function() {
+                    return Promise.resolve("Successfully added to favorites");
+                });
+        };
+	
 		
 
         exports.validateUser = function(username, password){
