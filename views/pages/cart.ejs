@@ -38,7 +38,7 @@
                                 <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-remove-recipe btn-cart">remove recipe</button>
                                 <button type="button" class="col-sm-offset-1 col-sm-6 btn btn-info btn-add-recipe btn-cart hidden">add recipe</button>
                             </div>
-                            <ul id="<%- recipeId %>">
+                            <ul class="cart-list" id="<%- recipeId %>">
                                 <div class="row">
                                     <% recipe["listOfIngredients"].forEach(function(ingredient) { %>
                                         <% ingredientName = ingredient["ingredientName"]; %>

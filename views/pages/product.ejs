@@ -45,6 +45,15 @@
                                     <%=r.min_q%> <%= r.name %></li>
                                     <% }); %>
                                     <button class="btn btn-info fa fa-shopping-cart button hide-print" data-toggle="modal" data-target="#myModal"> Buy Ingredients</button>
+                                    <%if(!locals.favorite){%>
+                                          <button type="button" data-rid="<%= resultData._id %>" class="btn btn-success fav-margin" id="add-fav"><i class="fa fa-heart" id="favicon" aria-hidden="true"></i> Add to Favourites</button>
+ 
+                                          <button type="button" data-rid="<%= resultData._id %>" class="btn btn-danger fav-margin hidden" id="remove-fav">Remove from Favourites</button>
+                                     <%}else{%>
+                                         <button type="button" data-rid="<%= resultData._id %>" class="btn btn-success fav-margin hidden" id="add-fav"><i class="fa fa-heart" id="favicon" aria-hidden="true"></i> Add to Favourites</button>
+ 
+                                         <button type="button" data-rid="<%= resultData._id %>" class="btn btn-danger fav-margin" id="remove-fav">Remove from Favourites</button>
+                                    <% }%>
                                 </ul>
                         </div>
                     </div>
