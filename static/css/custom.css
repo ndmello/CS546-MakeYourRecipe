@@ -635,3 +635,19 @@ html {
 	background-color: #1CA347;
 	border-color: #1CA347;
 }
+
+
+.category-title{
+  text-align: center;
+   font-size: 3.1em;
+   font-family: 'Alegreya Sans', sans-serif;
+     font-weight: 400;
+ }
+ 
+ .fav-margin{
+   margin-top: 10px;
+ }
+ 
+ #favicon{
+   color: red;
+ }

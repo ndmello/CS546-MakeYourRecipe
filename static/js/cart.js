@@ -141,12 +141,19 @@
 
     function orderAllLists() {
         $("ul").each(function () {
-            if ($(this).hasClass("removed")) {
-                orderList($(this));
-                $(this).closest("tbody").append($(this).closest("tr"));
-            }
-        });
-    }
+        var countUl=0;
+        var countRemoved=0;
+        $("ul.cart-list").each(function () {
+            countUl++;
+              if ($(this).hasClass("removed")) {
+                countRemoved++;
+                  orderList($(this));
+                  $(this).closest("tbody").append($(this).closest("tr"));
+              }
+          });
+        console.log(countUl-countRemoved);
+        $('.show-badge').attr('data-count', countUl-countRemoved);
+     
 
     function orderList(list) {
         list.find("li").each(function () {

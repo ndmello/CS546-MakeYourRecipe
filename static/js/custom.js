@@ -47,4 +47,41 @@ $(document).ready(function() {
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
     	e.preventDefault(); $(this).parent('div').remove(); x--;
     })
+
+    $("#add-fav").click(function(event){
+     	var recipeID = $(this).data("rid");
+     	$(this).addClass("hidden");
+     	$("#remove-fav").removeClass("hidden");
+ 
+     	 var addConfig = {
+             method: "POST",
+             url: "/add/favorite",
+             contentType: 'application/json',
+             data: JSON.stringify(recipeID)
+         }
+ 
+         $.ajax(addConfig).then(function(responseMsg){
+             console.log(responseMsg);
+          });
+ 
+ 
+     });	
+ 
+     $("#remove-fav").click(function(event){
+     	var recipeID = $(this).data("rid");
+     	$(this).addClass("hidden");
+     	$("#add-fav").removeClass("hidden");
+ 
+     	var removeConfig = {
+             method: "POST",
+             url: "/remove/favorite",
+             contentType: 'application/json',
+             data: JSON.stringify(recipeID)
+         }
+ 
+         $.ajax(removeConfig).then(function(responseMsg){
+             console.log(responseMsg);
+          });
+     });	
+  });
 });
