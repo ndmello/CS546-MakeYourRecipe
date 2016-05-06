@@ -128,6 +128,7 @@ MongoClient.connect(fullMongoUrl)
             return {
                 "recipeId": recipe["_id"],
                 "recipeName": recipe["name"],
+                "recipeURL": recipe["image_url"],
                 "listOfIngredients": ingredients
             };
         }

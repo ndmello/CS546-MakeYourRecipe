@@ -15,17 +15,17 @@
         <% var price; %>
         <% var quantity; %>
     </header>
-<div class="container wrapper">
+<div class="container">
     <div class="page-header">
   <h3>Checkout</h3>
 </div>
             <div class="row">
-                <form class="form-horizontal" method="post" action="">
+                <form class="form-horizontal" method="post" action="/order">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
                     <!--REVIEW ORDER-->
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            Review Order <div class="pull-right"><small><a class="afix-1" href="#">Edit Cart</a></small></div>
+                            Review Order <div class="pull-right"><small><a class="afix-1" href="http://localhost:3000/cart">Edit Cart</a></small></div>
                         </div>
                         <div class="panel-body">
                             <% var recipes = cart["recipes"]; %>
@@ -33,7 +33,7 @@
                             <% recipeId = recipe["recipeId"] %>
                             <div class="form-group">
                                 <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="http://localhost:3000/assets/images/<%- recipe["recipeImage"]%>" />
+                                    <img class="img-responsive" src="http://localhost:3000/assets/images/<%- recipe["recipeURL"]%>" />
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
                                     <div class="col-xs-12"><strong><%- recipe["recipeName"] %></strong></div>
@@ -88,51 +88,51 @@
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Country:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="country" value="<%=user.profile.country%>" />
+                                    <input type="text" class="form-control" name="country" value="<%=user.profile.country%>" placeholder="Enter Country"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-xs-12">
                                     <strong>First Name:</strong>
-                                    <input type="text" name="first_name" class="form-control" value="" />
+                                    <input type="text" name="first_name" class="form-control" <%if(user.profile.firstname!== undefined){%> value="<%=user.profile.firstname%>"<%}else{%>value=""<%}%> placeholder="Enter First Name" />
                                 </div>
                                 <div class="span1"></div>
                                 <div class="col-md-6 col-xs-12">
                                     <strong>Last Name:</strong>
-                                    <input type="text" name="last_name" class="form-control" value="" />
+                                    <input type="text" name="last_name" class="form-control" <%if(user.profile.lastname!== undefined){%> value="<%=user.profile.lastname%>"<%}else{%>value=""<%}%> placeholder="Enter Last Name"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Address:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="address" class="form-control" value="" />
+                                    <input type="text" name="address" class="form-control" <%if(user.profile.address!== undefined){%> value="<%=user.profile.address%>"<%}else{%>value=""<%}%> placeholder="Enter Address"  />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>City:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="city" class="form-control" value="" />
+                                    <input type="text" name="city" class="form-control" <%if(user.profile.city!== undefined){%> value="<%=user.profile.city%>"<%}else{%>value=""<%}%> placeholder="Enter City"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>State:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="state" class="form-control" value="" />
+                                    <input type="text" name="state" class="form-control" <%if(user.profile.state!== undefined){%> value="<%=user.profile.state%>"<%}else{%>value=""<%}%> placeholder="Enter state"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="zip_code" class="form-control" value="" />
+                                    <input type="text" name="zip_code" class="form-control" <%if(user.profile.zip!== undefined){%> value="<%=user.profile.zip%>"<%}else{%>value=""<%}%> placeholder="Enter Zip code"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Phone Number:</strong></div>
-                                <div class="col-md-12"><input type="text" name="phone_number" class="form-control" value="" /></div>
+                                <div class="col-md-12"><input type="text" name="phone_number" class="form-control" <%if(user.profile.phone!== undefined){%> value="<%=user.profile.phone%>"<%}else{%>value=""<%}%> placeholder="Enter Phone Number"/></div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Email Address:</strong></div>
-                                <div class="col-md-12"><input type="text" name="email_address" class="form-control" value="" /></div>
+                                <div class="col-md-12"><input type="text" name="email_address" class="form-control" value="<%=user.username%>"placeholder="Enter Email Address"/></div>
                             </div>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Credit Card Number:</strong></div>
-                                <div class="col-md-12"><input type="text" class="form-control" name="car_number" value="" /></div>
+                                <div class="col-md-12"><input type="text" class="form-control" name="car_number" value="<%=user.profile.credit_card_no%>" /></div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Card CVV:</strong></div>
@@ -184,7 +184,6 @@
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <select class="form-control" name="">
                                         <option value="">Year</option>
-                                        <option value="2015">2015</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
                                         <option value="2018">2018</option>

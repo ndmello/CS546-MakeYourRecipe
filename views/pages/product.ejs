@@ -89,9 +89,11 @@
                                 </div>
                                 <% }); %>
                                 <div class="modal-footer">
+                                    <div class="pull-left alert alert-danger hidden" id="errorAlert"></div>
+                                    <div class="pull-right">
                                     <span class="li">Total: $</span>
                                         <input class="numericField li total" type="text" id="total" value="" disabled><br>
-                                        <button type="Submit" id="button-buy" class="btn btn-danger li" data-dismiss="modal">BUY NOW</button>
+                                        <button type="button" id="button-buy" class="btn btn-danger li">BUY NOW</button></div>
                                     <!-- Total:
                                      <button type="Submit" class="btn btn-danger" id="button-buy" data-dismiss="modal">BUY NOW</button> -->
 
@@ -107,7 +109,6 @@
         <% include ../partials/footer %>
     </footer>
     <% include ../partials/scripts %>
-    <script src="/assets/js/add_product.js"></script>
 </body>
 
 </html>
