@@ -339,7 +339,12 @@ app.get("/cart", function(request, response) {
     });
 });
 
-app.get("/checkout",function(request,response){
+app.post("/checkout",function(request,response){
+    for (var prop in request.body) {
+        if (request.body.hasOwnProperty(prop)) { 
+            console.log(prop + ": " + request.body[prop])
+        }
+    }
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
 
     });
