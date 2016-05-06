@@ -54,9 +54,13 @@
             }
         });
         priceInfo["totalPrice"] = $("#cart-price").text().replace(/\$/g, "");
-        var form = $("<form action='/checkout' method='POST'>" + "<input type='text' name='priceInfo' value='" + JSON.stringify(priceInfo) + "' /></form>");
-        $("body").append(form);
-        form.submit();
+        if (priceInfo["totalPrice"] == 0) {
+            addError($("#checkout-row"), "Add something to your cart before checking out");
+        } else {
+            var form = $("<form action='/checkout' method='POST'>" + "<input type='text' name='priceInfo' value='" + JSON.stringify(priceInfo) + "' /></form>");
+            $("body").append(form);
+            form.submit();
+        }
     });
 
     function updateCartPrice() {
