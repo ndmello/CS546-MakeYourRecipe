@@ -46,11 +46,11 @@
                                         <% price = ingredient["price"]; %>
                                         <% quantity = ingredient["quantity"]; %>
                                         <% if (quantity == undefined) {quantity = 0;} %>
-                                        <% units = ingredient["minQuantity"].substr(ingredient["minQuantity"].indexOf(" ")+1); %>
-                                        <% console.log(units); %>
+                                        <% units = ingredient["minQuantity"]; %>
+                                        
                                         <li class="col-sm-12 row form-inline cart-li">
-                                            <label class="col-sm-3 top-padding" for="<%- ingredientId %>"><%- ingredientName %></label>
-                                            <span class="col-sm-3"><input class="form-control cart-input" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /><span class="units">&nbsp;&nbsp;&nbsp;<%- units %></span></span>
+                                            <label class="col-sm-3 top-padding" for="<%- ingredientId %>"><%- ingredientName %> (<span class="units"><%- units %></span>)</label>
+                                            <span class="col-sm-3"><input class="form-control cart-input" type="number" min="0" step="1" maxlength="3" value="<%- quantity %>" id="<%- ingredientId %>" /></span>
                                             <span class="col-sm-3 top-padding">x $<span class="price"><%- parseFloat(price).toFixed(2); %></span></span>
                                             <button type="button" class="col-sm-3 btn btn-info btn-remove-ingredient btn-cart">remove</button>
                                             <button type="button" class="col-sm-3 btn btn-info btn-add-ingredient hidden btn-cart">add</button>
