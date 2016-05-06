@@ -84,7 +84,7 @@ body.homepage{
 }
 
 .search-result:hover{
-    border-color: 1px solid #ecf0f1;
+    border: 1px solid #ecf0f1;
 }
 
 .form-control {
@@ -327,10 +327,14 @@ ul.no-bullet{
 
 .numericField{
     width: 40px;
+<<<<<<< Updated upstream
     border :none!important;
     background-color: white;
   }
 
+=======
+}
+>>>>>>> Stashed changes
 
 
 .removed {
@@ -368,8 +372,6 @@ label {
 }
 
 .cart-body {
-    color: #fff;
-    background-color: #333;
     padding-bottom: 150px;
 }
 
@@ -404,4 +406,88 @@ label {
       padding-top: 48px;
     padding-bottom: 48px;
 }
+
+.search-bar-center{
+  margin-top: 18%;
+  padding-right: 20%;
+  padding-left: 20%;
+}
+
+.show-badge[data-count]:after{
+ 
+        position: absolute;
+    height: 30%;
+    content: attr(data-count);
+    line-height: 17px;
+    text-align: center;
+    font-size: 46%;
+    border-radius: 11px;
+    background-color: #e86a15;
+    top: -13px;
+    display: block;
+    right: -21%;
+    padding: 0 4px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.fa-stack
+{
+  line-height: 0.5em !important;
+  width: 1em !important;
+}
+/*Login Modal Styles*/
+.login-title{
+  text-align: center;
+  color: #3b598a;
+}
+.login-modal-close-btn:hover{
+          color: #3b598a;
+    opacity: 1;
+}
+.login-modal-dialog{
+  /*padding: 30px 30px 10px;*/
+  width: 404px;
+    margin: 60px auto;
+   background-color:  #f8f8f8;
+   border-radius: 6px;
+    
+  font-family: inherit;
+}
+
+.login-modal-content{
+  padding-top: 10px;
+}
+
+.form-login{
+  padding: 10px;
+}
+
+.form-login > input{
+  margin-top: 10px
+}
+.login-button{
+  background-color: #3b598a;
+  color: #fff;
+ 
+    
+    line-height: 22px;
+}
+.login-button:hover{
+  color: #fff;
+}
+.login-footer-styler{
+      text-align: center;
+  color: #3b598a;
+}
+
+.signup-loginin{
+  text-decoration: none;
+  color: #3b598a;
+  font-size: 12px;
+}
+.signup-loginin:hover{
+  text-decoration: none;
+  color: #e86a15;
+}
+/*Login Style End*/
 

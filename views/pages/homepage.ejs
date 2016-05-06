@@ -9,20 +9,22 @@
     <header class="header-other">
         <% include ../partials/header %>
     </header>
-    <div class="container" style="margin-top: 18%; padding: 0 20% 0 20%;">
+    <div class="container search-bar-center">
         <main>
             <div class="row">
                 <form role="search" method="POST" action="/search">
                     <div class="input-group">
                         <input type="text" name="keyword" id="search-box"class="form-control" placeholder="Search Recipes or Ingredients"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-lg search-btn-homepage" id="search-btn" type="submit">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                        
-                                </button>
-                            </span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-lg search-btn-homepage" id="search-btn" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+
+                            </button>
+                        </span>
                     </div>
                 </form>
+
+                
             </div>
         </main>
     </div>

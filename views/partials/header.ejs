@@ -22,9 +22,16 @@
 			            <li><a href="http://localhost:3000/product/category/American">American</a></li>
 			          </ul>
 			        </li>
-					<li id="cart"><a href="/cart">Cart</a></li>
-			        <li id="about"><a href="http://localhost:3000/about">About</a></li>
-			           <li id="contact"><a href="http://localhost:3000/contact">Contact</a></li>
+					<li id="cart"><a href="/cart">
+					<%if(locals.cartCount) {%>
+					<span class="fa fa-shopping-cart fa-stack fa-2x show-badge" data-count="<%= cartCount%>">
+					</span>
+					<%}else{%>
+					<span class="fa fa-shopping-cart fa-stack fa-2x" data-count="">
+					</span>
+					<%}%>
+					</a></li>
+			        
 					<% if(locals.loginFlag) {%>
 					<li id="logout"><a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Log Out</a></li>
 					
