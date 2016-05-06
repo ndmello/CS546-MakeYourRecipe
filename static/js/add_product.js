@@ -7,7 +7,7 @@
             recipe[$(this).data("guid")] = $(this).find(".input-quantity").val();
         });
         
-        console.log(recipe);
+
        
         var recipeConfig = {
             method: "POST",
@@ -17,6 +17,9 @@
         }
 
         $.ajax(recipeConfig).then(function(responseMsg){
+            if(responseMsg.message==="Product added to Cart"){
+                window.location.href="http://localhost:3000/cart";
+            }
          });
     });
 })(window.jQuery);
