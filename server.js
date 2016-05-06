@@ -177,6 +177,7 @@ app.get("/product/category/:category",function (request, response){
                         }
                         response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
                        });
+				}
 
             }).catch(function(errorMessage){
                 console.log(errorMessage);
