@@ -1,10 +1,12 @@
 (function($) {
+    var totalInput = $("#total");
+    var totalValue =Number(totalInput.val());
+    var errorMessage = $("#errorAlert");
     
 //on click of buy button 
     $("#button-buy").on("click", function() {
-        var totalInput = $("#total");
-        var totalValue =Number(totalInput.val());
-        var errorMessage = $("#errorAlert");
+        totalValue =Number(totalInput.val());
+        
 
         if(totalValue !== 0){
             var recipe = {};
