@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<% include ../partials/head %>
+
+</head>
+
+<body class="home">
+
+	<header>
+		<% include ../partials/header %>
+	</header>
+
+	<div class="container">
+
+		<main>
+			<br/>
+			<br/>
+			<section>
+
+				<div class="row" style="padding-top:100px">
+					<div class="col-md-4 col-md-offset-4">
+						<form action="/login" method="post" class="form-login">
+							<input type="email" class="form-control" placeholder="Email" id="login_email" name="login_email" required>
+							<input type="password" class="form-control" placeholder="Password" id="login_passwd" name="login_passwd" required>
+							<div>
+								<a class="pull-right" style="margin-bottom:10px" href="/Account/ForgotPassword">Forgot password?</a>
+							</div>
+							<button class="btn btn-md btn-primary btn-block" type="submit">Login</button>
+						</form>
+						<div class="text-center">
+							<span>Don't have an account?<a href="/register"> Sign up</a></span>
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="alert alert-danger hidden" id="error-message-login"> </div>
+
+				<% if(locals.error) {  %>
+				<div class="alert alert-danger" role="alert" id="login_error"> <%= error %> </div>
+				<% } %>
+
+			</section>
+		</main>
+		<br/>
+
+
+	</div>
+	<footer>
+        <% include ../partials/footer %>
+    </footer>
+	<% include ../partials/scripts.ejs %>
+
+</body>
+
+</html>
