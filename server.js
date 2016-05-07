@@ -348,9 +348,18 @@ app.post("/checkout",function(request,response){
 
 });
 
-app.post("/order",function(request,response){
+app.post("/order", function (request,response){
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
-        
+          console.log("REached");
+        usersData.updateUser(request.cookies.currentSessionId, request.body.first_name, request.body.last_name, request.body.country, request.body.address, request.body.city, request.body.state, 
+            request.body.zip_code,request.body.phone_number,request.body.car_number).then(function(result){
+                if(result==true)
+                    console.log("User profile updated");
+            }).catch(function(error){
+                console.log(error);
+            });
+            placeorder();
+
     }).catch(function(errorMessage){
         response.redirect("/login");
     });
