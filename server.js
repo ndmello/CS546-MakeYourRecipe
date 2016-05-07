@@ -32,6 +32,9 @@ app.use('/logout',function(request, response, next){
 
         response.cookie("currentSessionId", "", {expires : anHourAgo});
         response.clearCookie("currentSessionId");
+		
+		response.cookie("isAdmin", "", {expires : anHourAgo});
+        response.clearCookie("isAdmin");
         next();
 });
 
