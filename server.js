@@ -32,6 +32,9 @@ app.use('/logout',function(request, response, next){
 
         response.cookie("currentSessionId", "", {expires : anHourAgo});
         response.clearCookie("currentSessionId");
+		
+		response.cookie("isAdmin", "", {expires : anHourAgo});
+        response.clearCookie("isAdmin");
         next();
 });
 
@@ -220,7 +223,7 @@ app.post("/add-product",function (request, response){
     var ing_arr = request.body.i_name;
     var min_q = request.body.min_q;
     var price = request.body.price;
-    var unit = request.body.unit;
+   
     var ingredientArray = [];
     for(var i=0; i<ing_arr.length; i++)
     {
@@ -229,7 +232,6 @@ app.post("/add-product",function (request, response){
                     name: ing_arr[i],
                     min_q: min_q[i],
                     price: price[i],
-                    unit: unit[i]
                 }
 
         ingredientArray.push(newIngredient);
