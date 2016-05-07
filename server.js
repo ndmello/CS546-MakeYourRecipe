@@ -81,7 +81,7 @@ app.get("/", function (request, response) {
     if(request.cookies.currentSessionId){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
-                response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, pageTitle: "Home", cartCount: cart.recipes.length});
+                response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Home", cartCount: cart.recipes.length});
             }).catch(function(errorMessage){
                 console.log(errorMessage);
             });
@@ -109,10 +109,15 @@ app.get("/login",function (request, response){
 app.post("/createUser", function(request, response) {
     usersData.createUser(request.body.register_email, request.body.register_passwd).then(function(user) {
         console.log(user);
+		
         if(user != "User already exists") {
             var expiresAt = new Date();
             expiresAt.setHours(expiresAt.getHours() + 1);
             response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
+			
+			if(request.body.register_email == 'admin@makemyrecipe.com'){
+				response.cookie('isAdmin', 'true', { expires: expiresAt });
+			}
             response.redirect("/");
         }else {
 
@@ -152,6 +157,13 @@ app.get("/product/category/:category",function (request, response){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
                 var category = request.params.category;
+				if(category == 'Favorites'){
+					usersData.getUserFavorites(user[0]._id).then(function(fave){
+						console.log("favrecipe::"+fave);
+                        response.render("pages/product_category", {resultData : fave, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length});
+					});
+						
+                       }else {
                     recipeData.getCategory(category).then(function(result){
                         for(var i=0; i<result.length; i++)
                         {
@@ -159,6 +171,7 @@ app.get("/product/category/:category",function (request, response){
                         }
                         response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
                        });
+				}
 
             }).catch(function(errorMessage){
                 console.log(errorMessage);
@@ -348,7 +361,33 @@ app.post("/checkout",function(request,response){
 
 });
 
-app.post("/order", function (request,response){
+
+app.post("/add/favorite", function(request, response) {
+	console.log("recipe ID ::"+request.body.recipeID + " body"+request.body);
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        usersData.addRecipeToFavorites(user[0]._id, request.body.recipeID).then(function() {
+            response.status(200).json({message: "Favorites added to the user"});
+        }, function(errorMessage) {
+            response.status(500).json({message: errorMessage});
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+});
+
+app.post("/remove/favorite", function(request, response) {
+    usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
+        usersData.removeRecipeFromFavorites(user[0]._id, request.body.recipeID).then(function() {
+            response.status(200).json({message: "Favorite removed from user"});
+        }, function(errorMessage) {
+            response.status(500).json({message: errorMessage});
+        });
+    }, function (errorMessage) {
+        response.redirect("/login");
+    });
+});
+
+app.post("/order",function(request,response){
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
           console.log("REached");
         usersData.updateUser(request.cookies.currentSessionId, request.body.first_name, request.body.last_name, request.body.country, request.body.address, request.body.city, request.body.state, 
