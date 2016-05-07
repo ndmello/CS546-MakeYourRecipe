@@ -120,7 +120,6 @@ app.get("/login",function (request, response){
 // Create a user
 app.post("/createUser", function(request, response) {
     usersData.createUser(request.body.register_email, request.body.register_passwd).then(function(user) {
-        console.log(user);
 		
         if(user != "User already exists") {
             var expiresAt = new Date();
@@ -171,16 +170,20 @@ app.get("/product/category/:category",function (request, response){
                 var category = request.params.category;
 				if(category == 'Favorites'){
 					usersData.getUserFavorites(user[0]._id).then(function(fave){
-                        var favorites = [];
-                        for (var f = 0; f < fave.length; f++) {
-                            (function(f) {
-                                recipeData.getRecipe(fave[f]).then(function(rec) {
-                                    favorites.push(rec);
-                                    if (f == fave.length-1) {
-                                        response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
-                                    }
-                                });
-                            })(f);
+                        if (fave.length == 0) {
+                            response.render("pages/product_category", {resultData : [], loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
+                        } else {
+                            var favorites = [];
+                            for (var f = 0; f < fave.length; f++) {
+                                (function(f) {
+                                    recipeData.getRecipe(fave[f]).then(function(rec) {
+                                        favorites.push(rec);
+                                        if (f == fave.length-1) {
+                                            response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
+                                        }
+                                    });
+                                })(f);
+                            }
                         }
 					});
 						
@@ -383,7 +386,7 @@ app.post("/checkout",function(request,response){
 
 
 app.post("/add/favorite", function(request, response) {
-	console.log("recipe ID ::"+request.body.recipeID + " body"+request.body);
+	//console.log("recipe ID ::"+request.body.recipeID + " body"+request.body);
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         usersData.addRecipeToFavorites(user[0]._id, request.body.recipeID).then(function() {
             response.status(200).json({message: "Favorites added to the user"});
@@ -409,7 +412,7 @@ app.post("/remove/favorite", function(request, response) {
 
 app.post("/order",function(request,response){
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
-          console.log("REached");
+          //console.log("REached");
         usersData.updateUser(request.cookies.currentSessionId, request.body.first_name, request.body.last_name, request.body.country, request.body.address, request.body.city, request.body.state, 
             request.body.zip_code,request.body.phone_number,request.body.car_number).then(function(result){
                 if(result==true)
