@@ -13,6 +13,12 @@
 
 		<main>
 			<div class="jumbotron">
+			
+			<div class="alert alert-danger hidden" id="error-message"> </div>
+				<% if(locals.error) {  %>
+				<div class="alert alert-danger col-sm-2" role="alert" id="login_error"> <%= error %> </div>
+				<% } %>
+				
 				<form class="form-horizontal" method="POST" id="add-product-form" action="/add-product">
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Recipe Name</label>
@@ -60,7 +66,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Cuisine</label>
 						<label class="radio-inline">
-							<input type="radio" name="cuisine" id="inlineRadio1" value="Indian"> Indian
+							<input type="radio" name="cuisine" id="inlineRadio1" value="Indian" required> Indian
 						</label>
 						<label class="radio-inline">
 							<input type="radio" name="cuisine" id="inlineRadio2" value="Mexican"> Mexican
@@ -81,20 +87,17 @@
 						<div class="input_fields_wrap">
 							<label class="col-sm-2 control-label">Ingredient Name</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="i_name[]"/>
+								<input type="text" class="form-control" id="ingredient_name" name="i_name[]"/>
 							</div>
 							<label class="col-sm-2 control-label">Minimum Quantity</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="min_q[]"/>
+								<input type="text" class="form-control" id="min_quantity" name="min_q[]"/>
 							</div>
 							<label class="col-sm-2 control-label">Price</label>
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="price[]"/>
+								<input type="text" class="form-control" id="price" name="price[]"/>
 							</div>
-							<label class="col-sm-2 control-label">Unit</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control" name="unit[]"/>
-							</div>  
+							
 							<a class="add_field_button col-sm-12" style="float:right">Add More Fields</a>
 
 						</div>
@@ -104,7 +107,9 @@
 			</div>
 		</main>
 	</div>
-
+	<footer>
+        <% include ../partials/footer %>
+    </footer>
 	<% include ../partials/scripts %>
 </body>
 
