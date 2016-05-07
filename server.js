@@ -171,16 +171,20 @@ app.get("/product/category/:category",function (request, response){
                 var category = request.params.category;
 				if(category == 'Favorites'){
 					usersData.getUserFavorites(user[0]._id).then(function(fave){
-                        var favorites = [];
-                        for (var f = 0; f < fave.length; f++) {
-                            (function(f) {
-                                recipeData.getRecipe(fave[f]).then(function(rec) {
-                                    favorites.push(rec);
-                                    if (f == fave.length-1) {
-                                        response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
-                                    }
-                                });
-                            })(f);
+                        if (fave.length == 0) {
+                            response.render("pages/product_category", {resultData : [], loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
+                        } else {
+                            var favorites = [];
+                            for (var f = 0; f < fave.length; f++) {
+                                (function(f) {
+                                    recipeData.getRecipe(fave[f]).then(function(rec) {
+                                        favorites.push(rec);
+                                        if (f == fave.length-1) {
+                                            response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
+                                        }
+                                    });
+                                })(f);
+                            }
                         }
 					});
 						
