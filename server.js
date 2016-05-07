@@ -171,11 +171,20 @@ app.get("/product/category/:category",function (request, response){
                 var category = request.params.category;
 				if(category == 'Favorites'){
 					usersData.getUserFavorites(user[0]._id).then(function(fave){
-						console.log("favrecipe::"+fave);
-                        response.render("pages/product_category", {resultData : fave, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
+                        var favorites = [];
+                        for (var f = 0; f < fave.length; f++) {
+                            (function(f) {
+                                recipeData.getRecipe(fave[f]).then(function(rec) {
+                                    favorites.push(rec);
+                                    if (f == fave.length-1) {
+                                        response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
+                                    }
+                                });
+                            })(f);
+                        }
 					});
 						
-                       }else {
+                } else {
                     recipeData.getCategory(category).then(function(result){
                         for(var i=0; i<result.length; i++)
                         {
