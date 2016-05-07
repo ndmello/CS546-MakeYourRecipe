@@ -159,18 +159,28 @@ app.get("/product/category/:category",function (request, response){
                 var category = request.params.category;
 				if(category == 'Favorites'){
 					usersData.getUserFavorites(user[0]._id).then(function(fave){
-						console.log("favrecipe::"+fave);
-                        response.render("pages/product_category", {resultData : fave, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length});
+                        var favorites = [];
+                        console.log("array length: " + fave.length);
+                        for (var f = 0; f < fave.length; f++) {
+                            (function(f) {
+                                recipeData.getRecipe(fave[x]).then(function(rec) {
+                                    favorites.push(rec);
+                                    if (f == fave.length-1) {
+                                        response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length});
+                                    }
+                                });
+                            })(f);
+                        }
 					});
 						
-                       }else {
+                } else {
                     recipeData.getCategory(category).then(function(result){
                         for(var i=0; i<result.length; i++)
                         {
                             result[i] = recipeData.totalPrice(result[i]);
                         }
                         response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
-                       });
+                    });
 				}
 
             }).catch(function(errorMessage){
@@ -183,13 +193,13 @@ app.get("/product/category/:category",function (request, response){
     else
     {
         var category = request.params.category;
-            recipeData.getCategory(category).then(function(result){
-                for(var i=0; i<result.length; i++)
-                    {
-                        result[i] = recipeData.totalPrice(result[i]);
-                    }
-                    response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"})
-            });
+        recipeData.getCategory(category).then(function(result){
+            for(var i=0; i<result.length; i++)
+            {
+                result[i] = recipeData.totalPrice(result[i]);
+            }
+            response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"});
+        });
     }
 
 
