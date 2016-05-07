@@ -116,18 +116,35 @@ MongoClient.connect(fullMongoUrl)
 		 // Getting the user favorites
         exports.getUserFavorites = function(id) {
             if (!id) return Promise.reject("You must provide an ID");
-
+			console.log("Id::"+id);
             // by calling .toArray() on the function, we convert the Mongo Cursor to a promise where you can 
             // easily iterate like a normal array
             return usersCollection.find({ _id: id }).limit(1).toArray().then(function(user) {
                 if (user.length === 0) throw "Could not find any favorites for the user with id " + id;
-				console.log("Inside getUserFavorites");
 				
-                return usersCollection.find({"user.profile.favorites": {"$exists": false}}).toArray().then(function(result) {
-					console.log("user.profile.favorites:::["+result+"]");
-					});
+					
+					console.log("user.profile.favorites:::["+user[0]+"]");
+					 return user[0].profile.favorites;
+					
+					
             });
         };
+		
+		/* var favIds = user[0].profile.favorites;
+					var recipeID = favIds.split(',');
+					console.log("recipeID::"+ recipeID , typeof recipeID);
+					console.log("user profile::"+ favIds);
+					var favrecipe = [];
+					 for(var i=0; i<favIds.length; i++)
+                        {
+						recipeData.getRecipe(favIds).then(function(result){
+							for(var i=0; i<result.length; i++)
+							{
+								result[i] = recipeData.totalPrice(result[i]);
+							}
+							favrecipe.push(result);
+						});
+						} */
 		
 		//Add to favorites in user profile
 		  exports.addRecipeToFavorites = function(id, recipeId) {

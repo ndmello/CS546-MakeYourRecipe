@@ -46,7 +46,7 @@ $(document).ready(function() {
     
     $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
     	e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
+    });
 
     $("#add-fav").click(function(event){
      	var recipeID = $(this).data("rid");
@@ -57,7 +57,7 @@ $(document).ready(function() {
              method: "POST",
              url: "/add/favorite",
              contentType: 'application/json',
-             data: JSON.stringify(recipeID)
+             data: JSON.stringify({recipeID:recipeID})
          }
  
          $.ajax(addConfig).then(function(responseMsg){
@@ -76,7 +76,7 @@ $(document).ready(function() {
              method: "POST",
              url: "/remove/favorite",
              contentType: 'application/json',
-             data: JSON.stringify(recipeID)
+             data: JSON.stringify({recipeID:recipeID})
          }
  
          $.ajax(removeConfig).then(function(responseMsg){

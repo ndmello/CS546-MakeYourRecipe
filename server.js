@@ -158,18 +158,12 @@ app.get("/product/category/:category",function (request, response){
             cartData.getCart(user[0].cartId).then(function (cart) {
                 var category = request.params.category;
 				if(category == 'Favorites'){
-					var id = user[0]._id; 
-					console.log("userId::"+id);
-					usersData.getUserFavorites(id).then(function(result){
-                        for(var i=0; i<result.length; i++)
-                        {
-                            result[i] = recipeData.totalPrice(result[i]);
-                        }
-                        response.render("pages/product_category", {resultData : result, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
-                       });
-					
-					
-				}else {
+					usersData.getUserFavorites(user[0]._id).then(function(fave){
+						console.log("favrecipe::"+fave);
+                        response.render("pages/product_category", {resultData : fave, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length});
+					});
+						
+                       }else {
                     recipeData.getCategory(category).then(function(result){
                         for(var i=0; i<result.length; i++)
                         {
@@ -369,6 +363,7 @@ app.post("/checkout",function(request,response){
 
 
 app.post("/add/favorite", function(request, response) {
+	console.log("recipe ID ::"+request.body.recipeID + " body"+request.body);
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         usersData.addRecipeToFavorites(user[0]._id, request.body.recipeID).then(function() {
             response.status(200).json({message: "Favorites added to the user"});
