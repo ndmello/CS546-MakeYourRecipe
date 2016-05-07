@@ -152,7 +152,6 @@
                   $(this).closest("tbody").append($(this).closest("tr"));
               }
         });
-     
         $('.show-badge').attr('data-count', countUl-countRemoved);
       }
 
