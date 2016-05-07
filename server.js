@@ -416,7 +416,7 @@ app.post("/order",function(request,response){
         usersData.updateUser(request.cookies.currentSessionId, request.body.first_name, request.body.last_name, request.body.country, request.body.address, request.body.city, request.body.state, 
             request.body.zip_code,request.body.phone_number,request.body.car_number).then(function(result){
                 if(result==true)
-                    //console.log("User profile updated");
+                    console.log("User profile updated");
             }).catch(function(error){
                 console.log(error);
             });
