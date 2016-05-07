@@ -12,7 +12,7 @@ $(document).ready(function() {
    	}
    });
 
-//
+//product page
    var servings = $("#servings");
     var quantity = $('input[id^="quantity"]');
     var price = $('input[id^="price"]');
@@ -63,5 +63,6 @@ $(document).ready(function() {
         }
 
     });
+
 
 });

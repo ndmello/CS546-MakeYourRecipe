@@ -18,6 +18,7 @@
 <div class="container">
     <div class="page-header">
   <h3>Checkout</h3>
+  <div class="alert alert-danger hidden" id="errorAlert"></div>
 </div>
             <div class="row">
                 <form class="form-horizontal" method="POST" action="/order">
@@ -88,51 +89,51 @@
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Country:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="country" value="<%=user.profile.country%>" placeholder="Enter Country"/>
+                                    <input type="text" class="form-control" name="country" id="country" value="<%=user.profile.country%>" placeholder="Enter Country" required/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-xs-12">
                                     <strong>First Name:</strong>
-                                    <input type="text" name="first_name" class="form-control" <%if(user.profile.firstname!== undefined){%> value="<%=user.profile.firstname%>"<%}else{%>value=""<%}%> placeholder="Enter First Name" />
+                                    <input type="text" name="first_name" id="first_name" class="form-control" <%if(user.profile.firstname!== undefined){%> value="<%=user.profile.firstname%>"<%}else{%>value=""<%}%> placeholder="Enter First Name" required/>
                                 </div>
                                 <div class="span1"></div>
                                 <div class="col-md-6 col-xs-12">
                                     <strong>Last Name:</strong>
-                                    <input type="text" name="last_name" class="form-control" <%if(user.profile.lastname!== undefined){%> value="<%=user.profile.lastname%>"<%}else{%>value=""<%}%> placeholder="Enter Last Name"/>
+                                    <input type="text" name="last_name" id="last_name" class="form-control" <%if(user.profile.lastname!== undefined){%> value="<%=user.profile.lastname%>"<%}else{%>value=""<%}%> placeholder="Enter Last Name" required/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Address:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="address" class="form-control" <%if(user.profile.address!== undefined){%> value="<%=user.profile.address%>"<%}else{%>value=""<%}%> placeholder="Enter Address"  />
+                                    <input type="text" name="address" id="address" class="form-control" <%if(user.profile.address!== undefined){%> value="<%=user.profile.address%>"<%}else{%>value=""<%}%> placeholder="Enter Address" required />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>City:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="city" class="form-control" <%if(user.profile.city!== undefined){%> value="<%=user.profile.city%>"<%}else{%>value=""<%}%> placeholder="Enter City"/>
+                                    <input type="text" name="city" id="city" class="form-control" <%if(user.profile.city!== undefined){%> value="<%=user.profile.city%>"<%}else{%>value=""<%}%> placeholder="Enter City" required/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>State:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="state" class="form-control" <%if(user.profile.state!== undefined){%> value="<%=user.profile.state%>"<%}else{%>value=""<%}%> placeholder="Enter state"/>
+                                    <input type="text" name="state" id="state" class="form-control" <%if(user.profile.state!== undefined){%> value="<%=user.profile.state%>"<%}else{%>value=""<%}%> placeholder="Enter state" required/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
                                 <div class="col-md-12">
-                                    <input type="text" name="zip_code" class="form-control" <%if(user.profile.zip!== undefined){%> value="<%=user.profile.zip%>"<%}else{%>value=""<%}%> placeholder="Enter Zip code"/>
+                                    <input type="text" name="zip_code" pattern="(\d{5}([\-]\d{4})?)" id="zip_code" class="form-control" <%if(user.profile.zip!== undefined){%> value="<%=user.profile.zip%>"<%}else{%>value=""<%}%> placeholder="Enter Zip code"required/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Phone Number:</strong></div>
-                                <div class="col-md-12"><input type="text" name="phone_number" class="form-control" <%if(user.profile.phone!== undefined){%> value="<%=user.profile.phone%>"<%}else{%>value=""<%}%> placeholder="Enter Phone Number"/></div>
+                                <div class="col-md-12"><input required pattern="\d{3}[\-]\d{3}[\-]\d{4}" name="phone_number" id="phone" class="form-control" <%if(user.profile.phone!== undefined){%> value="<%=user.profile.phone%>"<%}else{%>value=""<%}%> placeholder="Enter Phone Number - eg-123-456-7890"/></div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Email Address:</strong></div>
-                                <div class="col-md-12"><input type="text" name="email_address" class="form-control" value="<%=user.username%>"placeholder="Enter Email Address"/></div>
+                                <div class="col-md-12"><input type="email" name="email_address" id="email" class="form-control" value="<%=user.username%>"placeholder="Enter Email Address" required/></div>
                             </div>
                         </div>
                     </div>
@@ -144,7 +145,7 @@
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Card Type:</strong></div>
                                 <div class="col-md-12">
-                                    <select id="CreditCardType" name="CreditCardType" class="form-control">
+                                    <select id="CreditCardType" name="CreditCardType" id="CreditCardType" class="form-control" required>
                                         <option value="5">Visa</option>
                                         <option value="6">MasterCard</option>
                                         <option value="7">American Express</option>
@@ -154,18 +155,18 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Credit Card Number:</strong></div>
-                                <div class="col-md-12"><input type="text" class="form-control" name="car_number" value="<%=user.profile.credit_card_no%>" /></div>
+                                <div class="col-md-12"><input type="text" pattern="[0-9]{16}" class="form-control" name="car_number" id="card_no" value="<%=user.profile.credit_card_no%>" placeholder="eg. 3400000000000000"required/></div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Card CVV:</strong></div>
-                                <div class="col-md-12"><input type="text" class="form-control" name="car_code" value="" /></div>
+                                <div class="col-md-12"><input type="text" pattern="[0-9]{3}" class="form-control" name="car_code" id="card_code" value="" placeholder="eg.123" required/></div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <strong>Expiration Date</strong>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" name="">
+                                    <select class="form-control" name="" id="exp_month" required>
                                         <option value="">Month</option>
                                         <option value="01">01</option>
                                         <option value="02">02</option>
@@ -182,7 +183,7 @@
                                 </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" name="">
+                                    <select class="form-control" name="" id="exp_year" required>
                                         <option value="">Year</option>
                                         <option value="2016">2016</option>
                                         <option value="2017">2017</option>
@@ -212,7 +213,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="submit" class="btn btn-primary btn-submit-fix">Place Order</button>
+                                    <button type="submit" class="btn btn-primary btn-submit-fix" id="placeorder">Place Order</button>
                                 </div>
                             </div>
                         </div>

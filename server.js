@@ -32,13 +32,23 @@ app.use('/logout',function(request, response, next){
 
         response.cookie("currentSessionId", "", {expires : anHourAgo});
         response.clearCookie("currentSessionId");
+		
+		response.cookie("isAdmin", "", {expires : anHourAgo});
+        response.clearCookie("isAdmin");
         next();
 });
 
-// var cookie;
-// var loginFlag = false;
 
-
+app.use('/add-product',function(request, response, next){
+        if(request.cookies.isAdmin){
+            next();
+        }
+        else
+        {
+            response.redirect("/");
+        }
+    
+});
 
 app.use(function(request, response, next) {
 
@@ -60,6 +70,8 @@ app.use(function(request, response, next) {
 
                     response.cookie("currentSessionId", "", {expires : anHourAgo});
                     response.clearCookie("currentSessionId");
+					response.cookie("isAdmin", "", {expires : anHourAgo});
+					response.clearCookie("isAdmin");
                     response.redirect("/");
 
 
@@ -160,13 +172,12 @@ app.get("/product/category/:category",function (request, response){
 				if(category == 'Favorites'){
 					usersData.getUserFavorites(user[0]._id).then(function(fave){
                         var favorites = [];
-                        console.log("array length: " + fave.length);
                         for (var f = 0; f < fave.length; f++) {
                             (function(f) {
-                                recipeData.getRecipe(fave[x]).then(function(rec) {
+                                recipeData.getRecipe(fave[f]).then(function(rec) {
                                     favorites.push(rec);
                                     if (f == fave.length-1) {
-                                        response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length});
+                                        response.render("pages/product_category", {resultData : favorites, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length});
                                     }
                                 });
                             })(f);
@@ -179,8 +190,8 @@ app.get("/product/category/:category",function (request, response){
                         {
                             result[i] = recipeData.totalPrice(result[i]);
                         }
-                        response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories", cartCount: cart.recipes.length})
-                    });
+                        response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories", cartCount: cart.recipes.length})
+                       });
 				}
 
             }).catch(function(errorMessage){
@@ -193,13 +204,13 @@ app.get("/product/category/:category",function (request, response){
     else
     {
         var category = request.params.category;
-        recipeData.getCategory(category).then(function(result){
-            for(var i=0; i<result.length; i++)
-            {
-                result[i] = recipeData.totalPrice(result[i]);
-            }
-            response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, pageTitle: "Categories"});
-        });
+            recipeData.getCategory(category).then(function(result){
+                for(var i=0; i<result.length; i++)
+                    {
+                        result[i] = recipeData.totalPrice(result[i]);
+                    }
+                    response.render("pages/product_category", {resultData : result, category: category, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Categories"})
+            });
     }
 
 
@@ -208,7 +219,7 @@ app.get("/product/category/:category",function (request, response){
 
 
 app.get("/add-product",function (request, response){
-    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId, pageTitle: "Add Product"});
+    response.render("pages/add-product", {loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Add Product"});
 });
 
 app.post("/add-product",function (request, response){
@@ -223,7 +234,7 @@ app.post("/add-product",function (request, response){
     var ing_arr = request.body.i_name;
     var min_q = request.body.min_q;
     var price = request.body.price;
-    var unit = request.body.unit;
+   
     var ingredientArray = [];
     for(var i=0; i<ing_arr.length; i++)
     {
@@ -232,7 +243,6 @@ app.post("/add-product",function (request, response){
                     name: ing_arr[i],
                     min_q: min_q[i],
                     price: price[i],
-                    unit: unit[i]
                 }
 
         ingredientArray.push(newIngredient);
@@ -240,7 +250,7 @@ app.post("/add-product",function (request, response){
 
     recipeData.addProduct(recipe_name, description, image_url, prep_time, cook_time, servings, cuisine, ingredientArray, procedure).then(function(result){
         if(result == true){
-            response.send("ok");
+            response.render("pages/add-product",{success: "Successfully Added the Recipe", pageTitle: "Add Product"});
         }
     });
 
@@ -259,7 +269,7 @@ app.post("/search",function (request, response){
                     {
                         result[i] = recipeData.totalPrice(result[i]);
                     }
-                    response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, pageTitle: "Search Results", cartCount: cart.recipes.length})
+                    response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Search Results", cartCount: cart.recipes.length})
                 });
             }).catch(function(errorMessage){
                 console.log(errorMessage);
@@ -276,7 +286,7 @@ app.post("/search",function (request, response){
             {
                 result[i] = recipeData.totalPrice(result[i]);
             }
-            response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, pageTitle: "Search Results"})
+            response.render("pages/search_results",{resultData : result, keyword : keyword, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Search Results"})
         });
     }
 });
@@ -289,7 +299,7 @@ app.get("/products/:id", function(request,response){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
                 recipeData.getRecipe(request.params.id).then(function(recipe){
-                response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, pageTitle: "Recipe", cartCount: cart.recipes.length});
+                response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Recipe", cartCount: cart.recipes.length});
                     },function(errorMessage) {
                         response.status(500).json({ error: errorMessage });
                 });
@@ -303,7 +313,7 @@ app.get("/products/:id", function(request,response){
     else
     {
         recipeData.getRecipe(request.params.id).then(function(recipe){
-            response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, pageTitle: "Recipe"});
+            response.render("pages/product",{resultData: recipe, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Recipe"});
             },function(errorMessage) {
                 response.status(500).json({ error: errorMessage });
             });
@@ -341,7 +351,7 @@ app.get("/cart", function(request, response) {
         cartData.getCart(user[0].cartId).then(function (cart) {
             cartData.displayCart(cart).then(function(displayCart) {
 
-                response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
+                response.render("pages/cart", { pageTitle: "Shopping Cart", cart: displayCart, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, cartCount: cart.recipes.length });
             }).catch(function(error){
                 console.log(error);
             });
@@ -358,7 +368,7 @@ app.post("/checkout",function(request,response){
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
         cartData.getCart(user[0].cartId).then(function (cart) {
             cartData.displayCart(cart).then(function(displayCart) {
-                response.render("pages/checkout_page", { pageTitle: "Checkout page", user:user[0], cart: displayCart, priceInfo: priceInfo, loginFlag: request.cookies.currentSessionId, cartCount: cart.recipes.length });
+                response.render("pages/checkout_page", { pageTitle: "Checkout page", user:user[0], cart: displayCart, priceInfo: priceInfo, loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, cartCount: cart.recipes.length });
             }).catch(function(error){
                 console.log(error);
             });
@@ -399,7 +409,16 @@ app.post("/remove/favorite", function(request, response) {
 
 app.post("/order",function(request,response){
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
-        
+          console.log("REached");
+        usersData.updateUser(request.cookies.currentSessionId, request.body.first_name, request.body.last_name, request.body.country, request.body.address, request.body.city, request.body.state, 
+            request.body.zip_code,request.body.phone_number,request.body.car_number).then(function(result){
+                if(result==true)
+                    console.log("User profile updated");
+            }).catch(function(error){
+                console.log(error);
+            });
+            placeorder();
+
     }).catch(function(errorMessage){
         response.redirect("/login");
     });
