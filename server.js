@@ -120,7 +120,6 @@ app.get("/login",function (request, response){
 // Create a user
 app.post("/createUser", function(request, response) {
     usersData.createUser(request.body.register_email, request.body.register_passwd).then(function(user) {
-        console.log(user);
 		
         if(user != "User already exists") {
             var expiresAt = new Date();
@@ -387,7 +386,7 @@ app.post("/checkout",function(request,response){
 
 
 app.post("/add/favorite", function(request, response) {
-	console.log("recipe ID ::"+request.body.recipeID + " body"+request.body);
+	//console.log("recipe ID ::"+request.body.recipeID + " body"+request.body);
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
         usersData.addRecipeToFavorites(user[0]._id, request.body.recipeID).then(function() {
             response.status(200).json({message: "Favorites added to the user"});
@@ -413,11 +412,11 @@ app.post("/remove/favorite", function(request, response) {
 
 app.post("/order",function(request,response){
     usersData.getUserBySessionId(request.cookies.currentSessionId).then(function(user){
-          console.log("REached");
+          //console.log("REached");
         usersData.updateUser(request.cookies.currentSessionId, request.body.first_name, request.body.last_name, request.body.country, request.body.address, request.body.city, request.body.state, 
             request.body.zip_code,request.body.phone_number,request.body.car_number).then(function(result){
                 if(result==true)
-                    console.log("User profile updated");
+                    //console.log("User profile updated");
             }).catch(function(error){
                 console.log(error);
             });
