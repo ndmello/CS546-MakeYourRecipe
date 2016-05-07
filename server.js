@@ -81,7 +81,7 @@ app.get("/", function (request, response) {
     if(request.cookies.currentSessionId){
         usersData.getUserBySessionId(request.cookies.currentSessionId).then(function (user) {
             cartData.getCart(user[0].cartId).then(function (cart) {
-                response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, pageTitle: "Home", cartCount: cart.recipes.length});
+                response.render("pages/homepage", {loginFlag: request.cookies.currentSessionId, adminFlag: request.cookies.isAdmin, pageTitle: "Home", cartCount: cart.recipes.length});
             }).catch(function(errorMessage){
                 console.log(errorMessage);
             });
@@ -115,8 +115,8 @@ app.post("/createUser", function(request, response) {
             expiresAt.setHours(expiresAt.getHours() + 1);
             response.cookie('currentSessionId', user.currentSessionId, { expires: expiresAt });
 			
-			if(request.body.register_email == 'makemyrecipe.com'){
-				response.cookie('isAdmin', 'true');
+			if(request.body.register_email == 'admin@makemyrecipe.com'){
+				response.cookie('isAdmin', 'true', { expires: expiresAt });
 			}
             response.redirect("/");
         }else {
