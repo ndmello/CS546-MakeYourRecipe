@@ -70,6 +70,8 @@ app.use(function(request, response, next) {
 
                     response.cookie("currentSessionId", "", {expires : anHourAgo});
                     response.clearCookie("currentSessionId");
+					response.cookie("isAdmin", "", {expires : anHourAgo});
+					response.clearCookie("isAdmin");
                     response.redirect("/");
 
 
